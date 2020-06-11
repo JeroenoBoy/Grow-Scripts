@@ -1,0 +1,181 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on join:
+    if {homes::%player's uuid%::*} is not set:
+        add "" to {homes::%player's uuid%::*}
+
+on command: 
+    if command is "homes":
+        if arguments are set:
+            make player execute "home %arguments%"
+            cancel event
+        else:
+            make player execute "home"            
+            cancel event
+
+command /home [<string>]:
+    aliases: /homes, /myownlittlewarp, /whatdoesthiscommanddo
+    trigger:
+        homeGUI(player)
+
+command /sethome [<string>]:
+    trigger:
+        if arg-1 is set:
+            set {_homes} to (size of {homes::%player's uuid%::*}) - 1
+            
+            if isAlphanumeric(arg-1) is false:
+                send "&cSorry! You are not allowed to use special characters." to player
+                stop
+
+            if length of arg-1 is greater than 16:
+                send "&cSorry! Home names cannot be longer than &c&l16 characters&c." to player
+                stop
+
+            # 14 Homes.
+            if player has permission "core.homes.veteran":
+                if {_homes} is less than 14:
+                    createHome(player, player's location, uncolored arg-1)                        
+                else:
+                    send "&cYou already have the maximum amount of homes allowed set." to player
+
+            # 10 Homes.
+            else if player has permission "core.homes.farmer":
+                if {_homes} is less than 10:
+                    createHome(player, player's location, uncolored arg-1)
+                else:
+                    send "&cYou already have your rank maximum of &c&l10 homes&r &cset." to player
+
+            # 8 Homes.
+            else if player has permission "core.homes.agriculturist":
+                if {_homes} is less than 8:
+                    createHome(player, player's location, uncolored arg-1)
+                else:
+                    send "&cYou already have your rank maximum of &c&l8 homes&r &cset." to player
+
+            # 6 Homes.
+            else if player has permission "core.homes.tiller":
+                if {_homes} is less than 6:
+                    createHome(player, player's location, uncolored arg-1)
+                else:
+                    send "&cYou already have your rank maximum of &c&l6 homes&r &cset." to player
+
+            # 4 Homes.
+            else if player has permission "core.homes.rookie":
+                if {_homes} is less than 4:
+                    createHome(player, player's location, uncolored arg-1)
+                else:
+                    send "&cYou already have your rank maximum of &c&l4 homes&r &cset." to player
+
+            # 2 Homes.
+            else:
+                if {_homes} is less than 2:
+                    createHome(player, player's location, uncolored arg-1)
+                else:
+                    send "&cYou already have your rank maximum of &c&l2 homes&r &cset." to player
+        else:
+            send "&cUsage: /sethome <name>."
+            
+function createHome(p: Player, loc: Location, home: String):
+    set {_u} to {_p}'s uuid
+    
+    loop {homes::%{_u}%::*}:
+        if loop-index is {_home}:
+            send "&cSorry! You already have a home called &c&l%{_home}%&r &cset." to {_p}
+            stop
+    set {_homes} to (size of {homes::%{_u}%::*}) - 1
+    if {_homes} is greater than or equal to 14:
+        send "&cYou are not allowed to have over &c&l14 homes&c." to {_p}
+        stop
+    set {homes::%{_u}%::%{_home}%} to {_loc}
+    send "&eYou have set the home &6%{_home}%&e." to {_p}                
+
+command /delhome [<string>]:
+    aliases: /deletehome, /removehome
+    trigger:
+        if arg-1 is set:
+            if isAlphanumeric(arg-1) is false:
+                send "&cSorry! You are not allowed to use special characters." to player
+                stop
+
+            if length of arg-1 is greater than 16:
+                send "&cSorry! Home names cannot be longer than &c&l16 characters&c." to player
+                stop
+
+            if {homes::%player's uuid%::%arg-1%} is set:
+                delete {homes::%player's uuid%::%arg-1%}
+                send "&eYou have deleted the home &6%uncolored arg-1%&e." 
+            else:
+                send "&cSorry! The home &c&l%uncolored arg-1% &cdoesn't exist."
+        else:
+            send "&cUsage: /delhome <name>."                
+
+function homeGUI(p: player):
+    set {_u} to uuid of {_p}
+    set {_homes} to (size of {homes::%{_u}%::*}) - 1
+    open virtual chest inventory with 4 rows named "Homes (%{_homes}%)" to {_p}
+    loop 4*9 times:
+        if (loop-number - 1) is not 10 or 11 or 12 or 13 or 14 or 15 or 16 or 19 or 20 or 21 or 22 or 23 or 24 or 25:
+            format gui slot (loop-number - 1) of {_p} with light gray stained glass pane named "" to do nothing
+        else:
+            format gui slot (loop-number - 1) of {_p} with barrier named "&cNot Set" with lore "&7You have not set a home||&7in this slot yet." to do nothing      
+
+    if {_homes} is not 0:
+
+        set {_int} to 9
+        loop {homes::%{_u}%::*}:
+            if loop-value is not "":
+                add 1 to {_int}
+                if {_int} is 9 or 17 or 18:
+                    add 1 to {_int}
+                format gui slot {_int} of {_p} with sign_item named "&e%loop-index%" with lore "&fLocation: &a%loop-value%||&r||&7Click to teleport." to run function teleportHome({_p}, loop-value, loop-index)                         
+                    
+# function to teleport a player to their home w/ a 5 sec timer.
+function teleportHome(p: Player, loc: Location, home: String):
+    close {_p}'s inventory
+    set {_ploc} to {_p}'s location
+    send "&ePlease wait &f5 seconds &ebefore teleporting to &6%{_home}%&e." to {_p}
+    set {_time} to 5 seconds
+    set {_cancelled} to false
+    loop 5 times:
+        wait 1 second
+        if distance between {_p}'s location and {_ploc} > 0.65:
+            set {_cancelled} to true
+            send "&cYour teleportation reuest has been cancelled." to {_p}
+            stop
+        else:
+            if {_cancelled} is false:
+                remove 1 second from {_time}            
+                if {_time} is 0 seconds:
+                    send "&eYou are teleporting &fnow&e." to {_p}
+                else:    
+                    send "&eYou will be teleporting in &f%{_time}%&e." to {_p}
+    if {_cancelled} is false:
+        if {_time} is less than or equal to 0 seconds:
+            teleport {_p} to {_loc}
+            send "&eYou have been teleported to &6%{_home}%&e." to {_p}
+
+function isAlphanumeric(text: String) :: boolean:
+    set {_text} to regex replace all pattern "[a-z,A-Z,0-9]" with "" in {_text}
+    if {_text} is "":
+        return true
+    return false        

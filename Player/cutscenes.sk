@@ -1,0 +1,173 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+options:
+	prefix: &6&lCutScenes
+
+
+command /cutscenes [<string>] [<string>] [<string>]:
+	permission: cutscenes
+	aliases: /cs
+	trigger:
+		if arg 1 is set:
+			if arg 1 is "create":
+				if arg 2 is set:
+					if {Cutscenes::names::*} contains arg-2:
+						message "{@prefix} &aThis cutscene already exists."
+						stop
+					
+					else:
+						add arg 2 to {Cutscenes::names::*}
+						message "{@prefix} &aCreated the cutscene &d%arg-2%."
+						stop
+				
+				else:
+					message "{@prefix} &aPlease enter a valid name that doesnt exist yet."
+					stop
+			
+			if arg 1 is "edit":
+				if arg 2 is set:
+					if {Cutscenes::names::*} contains arg-2:
+						set {_val} to sendEditor(player, arg-2)
+
+						if {_val} is false:
+							send "&2&l&m=============&6Cutscenes&2&l&m============="
+							send "&aSomething went wrong!"
+							send "&aERROR: Could not load editing gui"
+							send "&aPlease contact staff!"
+							send "&2&l&m=============&6Cutscenes&2&l&m============="
+						stop
+					
+					else:
+						message "{@prefix} &aThis cutscene doesn't exist."
+
+				else:
+					message "{@prefix} &aPlease enter a valid cutscene name to edit."
+					stop
+			
+			if arg 1 is "list":
+				send "&2&l&m=============&6Cutscenes&2&l&m============="
+				loop {cutscenes::names::*}:
+					send "&b%loop-index%. &a%loop-value%"
+				send "&2&l&m=============&6Cutscenes&2&l&m============="
+
+			if arg 1 is "frames":
+				if arg 2 is "add":
+					if size of {cutscenes::frames::%arg-3%::*} < 44:
+						add player's location to {cutscenes::frames::%arg-3%::*}
+						message "{@prefix} &aAdded your location to the cutscene list."
+						stop
+					
+					else:
+						message "{@prefix} &aYou can't add more locations to this cutscene."
+						stop
+				
+				if arg 2 is "clear":
+					clear {Cutscenes::frames::%arg-3%::*}
+					message "{@prefix} &aCleared all cutscene locations."
+					stop
+				
+				if arg 2 is "list":
+					set {_val} to openFrames(player, arg-3)
+					if {_val} is false:
+						send "&2&l&m=============&6Cutscenes&2&l&m============="
+						send "&aSomething went wrong!"
+						send "&aERROR: The cutscene does not exist!"
+						send "&aPlease contact staff!"
+						send "&2&l&m=============&6Cutscenes&2&l&m============="
+				
+
+		else:
+			send "&2&l&m=============&6Cutscenes&2&l&m============="
+			send "&aBy supercrafter100"
+			send "&c"
+			send "&a/cutscenes create <name>"
+			send "&a/cutscenes edit <name>"
+			send "&a/cutscenes delete <name>"
+			send "&a/cutscenes start <name>"
+			send "&a/cutscenes list"
+			send "&c"
+			send "&2&l&m=============&6Cutscenes&2&l&m============="
+
+
+function sendEditor(p: player, scene: string) :: object:
+
+	#Checking if the menu exists
+	if {cutscenes::names::*} contains {_scene}:
+
+		#opening the main gui
+		open virtual chest with 3 rows named "&aCutScene editor" to {_p}
+
+		FillInventory({_p}, light gray stained glass pane)
+		format gui slot 10 of {_p} with glowing paper named "&aAdd frames" with lore "&7Click this to open the frame editor" to close then run function openFrameEditor({_p}, {_scene})
+		format gui slot 13 of {_p} with glowing light green dye named "&aStart cutscene" with lore "&7Click to view the cutscene" to close then run function startScene({_p}, {_scene})
+		format gui slot 16 of {_p} with glowing redstone block named "&cDelete cutscene" with lore "&7Click to delete this cutscene ||&7This cannot be undone!" to close then run function deleteScene({_p}, {_scene})
+		format gui slot 22 of {_p} with barrier named "&cGo back" with lore "&7Click to close the menu" to close
+		return true
+
+	else:
+		return false
+
+
+function openFrameEditor(p: player, scene: string):
+
+	#Sending a clickable text that they can click to add a scene to the list. Later we are going to make an editor for the scenes
+
+	send "&2&l&m=============&6Cutscenes&2&l&m=============" to {_p} # tooltip zoorgt ervoor dat het meer op een knop lijkt
+	send "&r" to {_p}
+	send "<cmd:/cutscenes frames add %{_scene}%><ttp:&7Click to add>&3[CLICK] &aTo add a new frame to the scene" to {_p}
+	send "<cmd:/cutscenes frames clear %{_scene}%><ttp:&7Click to clear>&3[CLICK] &aTo clear all frames from the scene" to {_p}
+	send "<cmd:/cutscenes frames list %{_scene}%><ttp:&7Click to open the frame arrangements>&3[CLICK] &aTo open the frame editor" to {_p}
+	send "&r" to {_p}
+	send "&2&l&m=============&6Cutscenes&2&l&m=============" to {_p}
+
+function startScene(p: player, scene: string):
+
+function deleteScene(p: player, scene: string):
+
+
+#================= [ FRAME EDITOR ]=====================
+function openFrames(p: player, scene: string) :: object:
+
+	open virtual chest with 5 rows named "&bFrame editor" to {_p}
+
+	set {_slot} to 0
+	loop {Cutscenes::frames::%{_scene}%::*}:
+		set slot {_slot} of {_p}'s current inventory to paper named "&b%loop-index%. &a%loop-value%" with lore "&7You can move these to your desire"
+		add 1 to {_slot}
+	
+
+
+#==========[ API ]============
+
+function FillInventory(p: player, i: item):
+	set {_S} to rows of {_P}'s current inventory 
+	loop {_S}*9 times:
+		format gui slot (loop-number - 1) of {_p} with {_i} named "&r" to do nothing
+
+
+
+# command /test:
+# 	trigger:
+# 		loop 180 times:
+# 			wait 1 tick
+# 			teleport player to location at 0, 80, 50*sin(loop-value-90) in world of player

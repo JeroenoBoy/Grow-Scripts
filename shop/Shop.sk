@@ -1,0 +1,617 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+options:
+	ver: 1.0
+	sellwand: 1 blaze rod named "&8[&a&lSell&2&lWand&8]"
+
+
+
+on join:
+	set {-last_sell::%player's uuid%} to now
+
+
+
+	if {firstjoin::%player%} is set:
+		delete {firstjoin::%player%}
+		set {firstjoin::%player's uuid%} to false
+
+
+	else if {firstjoin::%player's uuid%} is not set:
+		clear player's inventory
+
+		set {firstjoin::%player's uuid%} to false
+		give player 1 wooden hoe named "&6Crook &7(Tier 1)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f1"
+		give player 1 wooden hoe
+		give player 1 water bucket
+		give player 10 steak
+		give player 16 seeds
+
+		execute player command "spawn"
+
+		set {_perms::*} to permissions of player
+		loop {_perms::*}:
+			if loop-value contains "core.tags.":
+				set {_1} to 1
+			else:
+				remove loop-value from player's permissions
+
+		if {isVeteran::%player's uuid%} is true:
+			add "core.tags.Season1" to player's permission
+			give player 1 of dead_bush named "&6Veteran Bush" with lore "&7This is awarded to &6%player% &7for||&7being a &fVeteran &7of &a&lGr&2&low&7!||&7Thank you for your support."
+			set {isVeteran::%player's uuid%} to false
+			add player to {veteranList::*}
+
+		if player's group = "Veteran" or "Farmer" or "Agriculturist" or "Tiller" or "Rookie":
+			set group of player to "Newbie"
+
+	if {payments::%player's uuid%} isn't set:
+		set {payments::%player's uuid%} to true
+
+
+command /pay [<player>] [<string>]:
+	trigger:
+		set {_amount} to (a rounded ((arg 2 parsed as a number)*100))/100
+
+		#players
+		if arg-1 is not set:
+			message "&e(&6&l*&e) &7Usage: /pay <player> <money>." to player
+		else if arg-1 isn't a player:
+			message "&4(&c&l*&4) &7Sorry! That player is currently offline."
+
+		#amount
+		else if {_amount} is not set:
+			message "&e(&6&l*&e) &7Usage: /pay <player> <money>"
+		else if {_amount} < 10:
+			message "&4(&c&l*&4) &7Please enter a value above &e$10&c." to player
+		else if player's balance < {_amount}:
+			message "&4(&c&l*&4) &7Sorry! You currently don't have &e$%{_amount}% &7in your balance." to player
+
+		#check payment enabled
+		else if {payments::%player's uuid%} is false:
+			message "&4(&c&l*&4) &7Sorry! You can't currently send payments to this player as you have your payments disabled."
+		else if {payments::%arg-1's uuid%} is false:
+			message "&4(&c&l*&4) &7Sorry! That player currently has their payments disabled."
+
+		
+		else:
+			set {_idR} to arg 1's uuid
+			set {_idS} to player's uuid
+
+			remove {_amount} from player's balance
+			add {_amount} to arg-1's balance
+			send "&2(&a&l*&2) &7You have sent &e$%{_amount}% &7to &a%arg-1%&7." to player
+			send "&2&l(&a&l*&2) &7You have received &e$%{_amount}% &7from &a%player%&7." to arg-1
+			log "(LOG):PAY:RECIEVE:%{_idS}%-%{_idR}%:%{_amount}%" to "transactions.log"
+			log "(MSG):%player% paid %arg 1% $%{_amount}%" to "transactions.log"
+
+command /togglepay [<string>]:
+	aliases: /tpay
+	trigger:
+		if {payments::%player's uuid%} is true:
+			message "&4(&c&l*&4) &7You have disabled players from paying you." to player
+			set {payments::%player's uuid%} to false
+		else:
+			message "&2(&a&l*&2) &7You have enabled players to pay you." to player
+			set {payments::%player's uuid%} to true
+
+
+command /sell [<text>]:
+	trigger:
+		if arg 1 = "hand":
+
+			if difference between {-last_sell::%player's uuid%} and now is less than 3 seconds:
+				message "&4(&c&l*&4) &7Please wait 3 seconds."
+				play sound "entity.villager.hurt" with volume 1 at player for player
+				stop
+			set {-last_sell::%player's uuid%} to now
+
+			set {_item} to 1 of player's tool
+			set {_id} to item_getID({_item})
+			set {_uuid} to player's uuid
+			set {_amount} to 0
+			if {_id} is set:
+				if {ShopItem::item::%{_id}%::sellable} is true:
+					set {_amount} to number of {_item} in player's inventory
+
+					if type of player's helmet = type of {_item}:
+						remove amount of item player's helmet from {_amount}
+
+					add sell({_amount}*{ShopItem::item::%{_id}%::sell}) to player's balance
+					remove {_amount} of {_item} from player's inventory
+					
+					log "(LOG):SELL_HAND:%{_uuid}%:%{_id}%:%{_amount}%:%{_amount}*{ShopItem::item::%{_id}%::sell}%" to "transactions.log"
+					log "(MSG):%player% sold (HAND) %{_amount}% of %{_id}% for %{_amount}*{ShopItem::item::%{_id}%::sell}% (booster: %sell(1)%)" to "transactions.log"
+
+				else:
+					message "&4(&c&l*&4) &7This item can't be sold."
+					stop
+
+				message "&2(&a&l*&2) &7Sold &e%{_amount}% &7items worth &e$%easyRead(sell({_amount}*{ShopItem::item::%{_id}%::sell}))%&7."
+			else:
+				message "&4(&c&l*&4) &7This item is renamed or can't be sold."
+
+		else:
+			message "&e(&6&l*&e) &7Usage: &6/sell <hand>."
+
+
+# command /pay [<text>] [<text>]:
+# 	trigger:
+# 		if arg 1 is set:
+# 			set {_player2} to arg 1 parsed as a offline player
+# 			set {_int} to a rounded arg 2 parsed as a number
+# 			if {_player2} is not online:
+# 				message "&4(&c&l*&4) &7This player isn't online."
+# 			else if {_int} is not set:
+# 				message "&4(&c&l*&4) &7This number is invalid!"
+# 			else if {_int} is less than 10:
+# 				message "&4(&c&l*&4) &7You need to pay a minimum of &e$10"
+# 			else if {_int} > player's balance:
+# 				message "&4(&c&l*&4) &7You dont have that amount in your bank!"
+# 			else:
+# 				message "&2(&a&l*&2) &7You paid &a%{_player2}% &e$%easyRead(a rounded {_int})%"
+# 				message "&2(&a&l*&2) &a%player% &7Paid you &e$%easyRead(a rounded {_int})%" to {_player2}
+# 				remove {_int} from player's balance
+# 				add {_int} to {_player2}'s balance
+# 		else:
+# 			message "&e(&6&l*&e) &7Usage: /pay <player> <amount>"
+
+command /shop [<text>] [<text>] [<text>] [<text>] [<text>]:
+	trigger:
+		if executor has permission "Shop.Admin":
+			if arg 1 is "admin":
+
+				if arg 2 = "sellwand":
+					set {_player2} to arg 3 parsed as a offline player
+					set {_level} to arg 4 parsed as a number
+					if {_player2} is not online:
+						message "&4(&c&l*&4) &7This player isn't online."
+					else if {_level} is not set:
+						message "&4(&c&l*&4) &7Level is invalid."
+					else if {_level} is less than 1:
+						message "&4(&c&l*&4) &7Level can't be less than &e1&7."
+					else if {_level} is more than 5:
+						message "&4(&c&l*&4) &7Level can't be less than &e5&7."
+					else:
+						give {_player2} {@sellwand} with lore "&8&m                        ||&7Right click chests||&7to sell thier items||&8> &fLevel: &e%{_level}%||&8> &fDurability: &e%60000+10000*({_level}-1)^3%||&8&m                        " with hidden enchantments
+
+				else:
+					message " &7&8---------------- &7< &a&lGrow &7> &8----------------"
+					message " &7&eCommand: /shop admin"
+					message " &7"
+					message " &7&8> &fAddItem &cDEPRECATED &6<catagory> <price> <Sellable: true/false>"
+					message " &7    &7Adds the item you hold to the shop"
+					message " &7&8> &fsellwand &6<player> <level>"
+					message " &7    &7Give a player the mighty sell wand"
+					message " &7"
+					message " &7&7Version: &e{@ver}"
+					message " &7&8---------------- &7< &a&lGrow &7> &8----------------"
+
+
+				stop
+		openShop(player)
+
+
+function openShop(P: player, S: string = "mm", cat: string = "null", id: string = 1):
+	close {_P}'s inventory
+	wait 1 tick
+	set {grow::opengui::%{_P}%} to {_S}
+
+	if {_S} = "MM":
+		open virtual chest inventory with size 6 named "&8Shop" to {_P}
+		updateInventory({_P})
+
+	else if {_S} = "cat":
+		if checkCatagory({_cat}):
+			set {grow::openCatagory::%{_P}%} to {_cat}
+			open virtual chest inventory with size 6 named "&8Shop > %{_cat}%" to {_P}
+			updateInventory({_P})
+		else:
+			broadcast "&4&lERROR: &f&l%{_cat}% &cisn't a valid catagory"
+
+	else if {_S} = "buy":
+		if checkCatagory({_cat}):
+			set {grow::openCatagory::%{_P}%} to {_cat}
+			set {grow::openItem::%{_P}%} to {_id}
+			open virtual chest inventory with size 6 named "&8Shop > %{_cat}% > %ReitemName({ShopItem::item::%{_id}%::name})%" to {_P}
+			updateInventory({_P})
+		else:
+			broadcast "&4&lERROR: &f&l%{_cat}% &cisn't a valid catagory"
+
+	else if {_S} = "sell":
+		open virtual chest inventory with size 6 named "&8Shop > Sell" to {_P}
+		updateInventory({_P})
+
+
+
+
+function updateInventory(P: player, page: number = 1):
+	set {_uuid} to uuid of {_P}
+
+	if {grow::opengui::%{_P}%} = "MM":
+		fillinventory({_P})
+		format gui slot 10 of {_P} with grass block named "&e&lBlocks" with lore "&8&m                        ||&7Click to buy||&7Blocks||&8&m                        " to run function openShop({_P}, "cat", "Blocks")
+		format gui slot 20 of {_P} with redstone dust named "&e&lRedstone" with lore "&8&m                        ||&7Click to buy||&7Redstone||&8&m                        " to run function openShop({_P}, "cat", "Redstone")
+		format gui slot 12 of {_P} with diamond named "&e&lMinerals" with lore "&8&m                        ||&7Click to buy||&7Minerals||&8&m                        " to run function openShop({_P}, "cat", "Minerals")
+		format gui slot 22 of {_P} with spawner named "&e&lSpawners" with lore "&8&m                        ||&7Click to buy||&7Spawners||&8&m                        " to run function openSpawners({_p})
+		format gui slot 14 of {_P} with seeds named "&e&lCrops" with lore "&8&m                        ||&7Click to buy||&7Crops||&8&m                        " to run function openShop({_P}, "cat", "Crops")
+		format gui slot 24 of {_P} with bucket named "&e&lMisc" with lore "&8&m                        ||&7Click to buy||&7Misc items||&8&m                        " to run function openShop({_P}, "cat", "Misc")
+		format gui slot 16 of {_P} with ender_pearl named "&e&lSpecial" with lore "&8&m                        ||&7Click to buy||&7Special items||&8&m                        " to run function openSpecial({_P})
+
+		format gui slot 40 of {_P} with 1 hopper named "&e&lSell all" with lore "&8&m                        ||&7Click to open the||&7sell all menu||&8&m                        " to run function openShop({_P}, "Sell")
+
+
+
+	else if {grow::opengui::%{_P}%} = "cat":
+		fillinventory({_P})
+		play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openShop({_P})
+		set {_cat} to {grow::openCatagory::%{_P}%}
+		set {grow::openPage::%{_P}%} to {_page}
+		shop_loadCat({_cat}, {_page}, {_p})
+
+
+	else if {grow::opengui::%{_P}%} = "buy":
+		fillinventory({_P})
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the catagory||&8&m                        " to run:
+			openShop(player, "cat", {grow::openCatagory::%{_P}%})
+		set {_id} to {grow::openItem::%{_P}%}
+		set {_item} to {ShopItem::item::%{_id}%::item}
+		set {_buy} to buy({ShopItem::item::%{_id}%::buy})
+		set {_sell} to sell({ShopItem::item::%{_id}%::sell})
+		set {_name} to {ShopItem::item::%{_id}%::name}
+
+
+		if {ShopItem::item::%{_id}%::sellable} is true:
+			format gui slot 13 of {_P} with 1 of {_item} named "&e&l%ReitemName({_name})%" with lore "&8&m                        ||&8> &fBuy: &e$%easyRead({_buy})%||&8> &fSell: &e$%easyRead({_sell})%||&8&m                        "
+
+			format gui slot 19 of {_P} with 64 red apple named "&cSell" with lore "&8&m                        ||&7Click to sell x64||&8> &fWorth: &e$%easyRead({_sell}*64)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function sellItem({_P}, {_id}, 64)
+			format gui slot 20 of {_P} with 16 red apple named "&cSell" with lore "&8&m                        ||&7Click to sell x16||&8> &fWorth: &e$%easyRead({_sell}*16)%||&8> &fBalance: &e%{_P}'s money%||&8&m                        ||" to run function sellItem({_P}, {_id}, 16)
+			format gui slot 21 of {_P} with 1 red apple named "&cSell" with lore "&8&m                        ||&7Click to sell x1||&8> &fWorth: &e$%easyRead({_sell}*1)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||"  to run function sellItem({_P}, {_id}, 1)
+
+			format gui slot 23 of {_P} with 1 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x1||&8> &fPrice: &e$%easyRead({_buy}*1)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function buyItem({_P}, {_id}, 1)
+			format gui slot 24 of {_P} with 16 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x16||&8> &fPrice: &e$%easyRead({_buy}*16)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function buyItem({_P}, {_id}, 16)
+			format gui slot 25 of {_P} with 64 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x64||&8> &fPrice: &e$%easyRead({_buy}*64)%||&8> &fBalance: &e%{_P}'s money%||&8&m                        ||" to run function buyItem({_P}, {_id}, 64)
+
+
+		else:
+			format gui slot 13 of {_P} with {_item} named "&e&l%ReitemName({_name})%" with lore "&8&m                        ||&8> &fBuy: &e$%easyRead({_buy})%||&8&m                        "
+
+			format gui slot 20 of {_P} with 1 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x1||&8> &fPrice: &e$%easyRead({_buy}*1)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function buyItem({_P}, {_id}, 1)
+			format gui slot 21 of {_P} with 5 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x5||&8> &fPrice: &e$%easyRead({_buy}*5)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function buyItem({_P}, {_id}, 5)
+			format gui slot 23 of {_P} with 16 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x16||&8> &fPrice: &e$%easyRead({_buy}*16)%||&8> &fBalance: &e%{_P}'s money%||&8&m                        ||" to run function buyItem({_P}, {_id}, 16)
+			format gui slot 24 of {_P} with 64 enchanted golden apple named "&aBuy" with lore "&8&m                        ||&7Click to buy x64||&8> &fPrice: &e$%easyRead({_buy}*64)%||&8> &fBalance: &e%{_P}'s balance%||&8&m                        ||" to run function buyItem({_P}, {_id}, 64)
+
+
+	else if {grow::opengui::%{_P}%} = "sell":
+		play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+		loop 9 times:
+			format gui slot loop-value -1 of {_P} with gray stained glass pane named " &a "
+		loop 9 times:
+			format gui slot loop-value +44 of {_P} with gray stained glass pane named " &a "
+
+		loop 4 times:
+			format gui slot loop-value*9 of {_P} with gray stained glass pane named " &a "
+			format gui slot loop-value*9+8 of {_P} with gray stained glass pane named " &a "
+
+		format gui slot 49 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openShop({_P})
+		format gui slot 50 of {_P} with 1 hopper named "&e&lSell all" with lore "&8&m                        ||&7Click to sell||&8&m                        " to run:
+
+			if difference between {-last_sell::%{_uuid}%} and now is less than 3 seconds:
+				message "&4(&c&l*&4) &7Please wait 3 seconds." to {_P}
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+				stop
+
+			play sound "block.note.harp" with volume 1 at {_P} for {_P}
+			set {-last_sell::%{_uuid}%} to now
+			set {_value} to 0
+			set {_sold} to 0
+			set {_invalid} to 0
+
+			loop all items in {_P}'s current inventory:
+				set {_item} to loop-value
+				set {_id} to item_getID(1 of {_item})
+				if {_id} is set:
+					if {ShopItem::item::%{_id}%::sellable} is true:
+						set {_amount} to amount of item {_item}
+						remove loop-value from clicked inventory
+						add {_amount}*(sell({ShopItem::item::%{_id}%::sell})) to {_P}'s balance
+						add {_amount}*(sell({ShopItem::item::%{_id}%::sell})) to {_value}
+						add {_amount} to {_sold}
+
+						log "(LOG):SELL_ALL:%{_uuid}%:%{_id}%:%{_amount}%:%{_amount}*{ShopItem::item::%{_id}%::sell}%" to "transactions.log"
+						log "(MSG):%{_p}% sold (SHOP_SELL_ALL) %{_amount}% of %{_id}% for %{_amount}*{ShopItem::item::%{_id}%::sell}% (booster: %sell(1)%)" to "transactions.log"
+
+					delete {_item}
+					delete {_id}
+				else:
+					add 1 to {_invalid}
+
+			updateInventory({_P})
+			message "&2(&a&l*&2) &7Sold &a%easyRead({_sold})% &7items for &e$%easyRead(a rounded {_value})%&7."
+
+
+#buy({_P}, {_price}*64, 64 of {_item})
+function buyItem(p: player, id: string, amount: integer):
+	set {_item} to {_amount} of {ShopItem::item::%{_id}%::item}
+	set {_price} to buy({ShopItem::item::%{_id}%::buy})
+	set {_uuid} to {_P}'s uuid
+	if {_P}'s inventory can hold {_amount} of {_item}:
+		if {_P}'s balance >= {_price}*{_amount}:
+
+			log "(LOG):SHOP_BUY_ITEM:%{_uuid}%:%{_id}%:%{_amount}%:%{_amount}*{ShopItem::item::%{_id}%::sell}%" to "transactions.log"
+			log "(MSG):%{_P}% bought (SHOP_BUY_ITEM) %{_amount}% of %{_id}% for %{_amount}*{ShopItem::item::%{_id}%::sell}% (booster: %buy(1)%)" to "transactions.log"
+
+			play sound "block.note.harp" with volume 1 at {_P} for {_P}
+			give {_P} {_amount} of {_item}
+			remove {_price}*{_amount} from {_P}'s balance
+			updateInventory({_P})
+		else:
+			play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+			send "&4(&c&l*&4) &7You need &e$%{_price}*{_amount}% &7to purchase this item." to {_P}
+	else:
+		play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+		message "&4(&c&l*&4) &7Your inventory is too full!" to {_P}
+
+
+function sellItem(p: player, id: string, amount: integer):
+	set {_uuid} to {_P}'s uuid
+	if {ShopItem::item::%{_id}%::sellable} is true:
+		set {_item} to {_amount} of {ShopItem::item::%{_id}%::item}
+		set {_price} to sell({ShopItem::item::%{_id}%::sell})
+		if amount of {_item} in {_P}'s inventory >= {_amount}:
+
+			log "(LOG):SHOP_SELL_ITEM:%{_uuid}%:%{_id}%:%{_amount}%:%{_amount}*{ShopItem::item::%{_id}%::sell}%" to "transactions.log"
+			log "(MSG):%{_P}% sold (SHOP_SELL_ITEM) %{_amount}% of %{_id}% for %{_amount}*{ShopItem::item::%{_id}%::sell}% (booster: %sell(1)%)" to "transactions.log"
+
+			play sound "block.note.harp" with volume 1 at {_P} for {_P}
+			remove {_amount} of {_item} from {_P}'s inventory
+			add {_price}*{_amount} to {_P}'s balance
+			updateInventory({_P})
+		else:
+			play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+			send "&4(&c&l*&4) &7You don't have enough to sell." to {_P}
+	else:
+		message "&4(&c&l*&4) &7This item can't be sold." to {_P}
+
+
+
+on inventory click:
+	if clicked inventory's name != "container.inventory":
+		if {grow::opengui::%player%} = "MM":
+			cancel event
+
+		else if {grow::opengui::%player%} = "cat":
+			cancel event
+
+		else if {grow::opengui::%player%} = "buy":
+			cancel event
+
+
+on unload:
+	loop all players:
+		if {grow::opengui::%loop-player%} = "sell":
+			loop all items in loop-player's current inventory:
+				name of loop-item != " &a "
+				name of loop-item != "&c&lGo Back"
+				name of loop-item != "&e&lSell all"
+				give loop-player-1 loop-item
+		close loop-player's inventory
+	delete {grow::openCatagory::*}
+	delete {grow::openPage::*}
+	delete {grow::opengui::*}
+	delete {grow::openItem::*}
+
+
+on disconnect:
+	if {grow::opengui::%player%} = "sell":
+		loop all items in player's current inventory:
+			give player loop-value
+	delete {grow::openCatagory::%{_P}%}
+	delete {grow::opengui::%player%}
+	delete {grow::openPage::%player%}
+	delete {grow::openItem::%player%}
+
+
+on inventory close:
+	if {grow::opengui::%player%} = "sell":
+		loop all items in player's current inventory:
+			name of loop-item != " &a "
+			name of loop-item != "&c&lGo Back"
+			name of loop-item != "&e&lSell all"
+			if player can hold loop-item:
+				give player loop-value
+			else:
+				drop loop-item at player
+	if {grow::opengui::%player%} != "buy":
+		delete {grow::openCatagory::%player%}
+	if {grow::opengui::%player%} = "MM":
+		delete {grow::openPage::%player%}
+	delete {grow::opengui::%player%}
+	delete {grow::openItem::%player%}
+
+
+
+function checkCatagory(c: string) :: boolean:
+	loop {ShopCatagories::*}:
+		if loop-value = {_c}:
+			return true
+	return false
+
+
+function ReitemName(item: string) :: string:
+	if {_item} is a spawner:
+		return name of {_item}
+
+	set {_la} to {_item}
+	replace all "_" in {_la} with " "
+	set {_name::*} to {_la} split at " "
+	loop {_name::*}:
+		set {_t::*} to loop-value split at ""
+		set {_i} to 0
+		loop {_t::*}:
+			if {_i} = 0:
+				add loop-value-2 in upper case to {_m::*}
+			else:
+				add loop-value-2 in lower case to {_m::*}
+			add 1 to {_i}
+
+		add join {_m::*} to {_result::*}
+		delete {_m::*}
+	return join {_result::*} using " "
+
+
+function easyRead(n: number) :: string:
+	set {_n} to "%{_n}%"
+	if {_n} contains ".":
+		set {_c} to true
+	else:
+		set {_c} to false
+	set {_l::*} to {_n} split at ""
+	set {_lt} to amount of {_l::*}
+	set {_d} to -1
+	set {_r} to {_l::%{_lt}%}
+	loop {_lt}-1 times:
+		set {_i} to {_lt} - loop-value
+		if {_c} = false:
+			if {_d} + loop-value = 3:
+				set {_r} to ",%{_r}%"
+				set {_d} to loop-value*-1
+		else:
+			if {_l::%{_i}%} is ".":
+				set {_d} to (loop-value*-1)-1
+				set {_c} to false
+		set {_r} to "%{_l::%{_i}%}%%{_r}%"
+	return {_r}
+	
+
+on right click:
+	if name of player's tool = "&8[&a&lSell&2&lWand&8]":
+		cancel event
+
+		clicked block = chest or trapped chest
+		player's tool = blaze rod
+
+		set {_uuid} to player's uuid
+		set {_a} to line 5 of player's tool's lore
+		set {_level::*} to {_a} split at "&8> &fDurability: &e"
+		set {_level} to {_level::2} parsed as a number
+		set {_amount} to 0
+		set {_sold} to 0
+		set {_value} to 0
+
+		loop all items in clicked block's inventory:
+			set {_item} to 1 of loop-item
+			set {_id} to item_getID({_item})
+
+			item_getSellable({_id}) = true
+
+			if {_id} is set:
+				if {_level} < 0:
+					delete player's tool
+					play sound "item.shield.break" with volume 1 at player for player
+					stop loop
+					set {_bashed} to true
+
+				if {_bashed} != true:
+					if {_level} < {_amount}:
+						set {_amount} to {_level}
+						set {_break} to true
+
+					set {_amount} to amount of item loop-item
+					remove loop-item from clicked block's inventory
+					add {_amount}*(sell({ShopItem::item::%{_id}%::sell})) to player's balance
+					add {_amount}*(sell({ShopItem::item::%{_id}%::sell})) to {_value}
+					add {_amount} to {_sold}
+					remove {_amount} from {_level}
+
+					log "(LOG):SELLWAND_SELL:%{_uuid}%:%{_id}%:%{_amount}%:%{_amount}*{ShopItem::item::%{_id}%::sell}%" to "transactions.log"
+					log "(MSG):%{_P}% sold (SELLWAND_SELL) %{_amount}% of %{_id}% for %{_amount}*{ShopItem::item::%{_id}%::sell}% (booster: %sell(1)%)" to "transactions.log"
+
+					if {_break} is true:
+						delete player's tool
+						play sound "item.shield.break" with volume 1 at player for player
+						stop loop
+			else:
+				add 1 to {_invalid}
+			delete {_item}
+			delete {_id}
+
+		if {_sold} > 0:
+			message "&2(&a&l*&2) &7Sold &a%easyRead({_sold})% &7items worth &e$%easyRead(a rounded {_value})%&7."
+			if {_break} != true:
+				play sound "entity.player.levelup" with volume 1 at player for player
+				set line 5 of player's tool's lore to "&8> &fDurability: &e%{_level}%"
+
+		else:
+			message "&2(&a&l*&2) &7There is nothing you can sell in this chest."
+			play sound "entity.villager.hurt" with volume 1 at player for player
+
+
+
+function shop_loadCat(cat: string, page: number, p: player):
+
+	if size of {ShopCatagory::%{_cat}%::*} > 21:
+		format gui slot 39 of {_P} with 1 arrow named "&3&lPrevious page" with lore "&8&m                        ||&7Click to go to||&7the previous page||&8> &fCurrent: &e%{_page}%||&8&m                        " to run:
+			if {grow::openPage::%{_P}%} > 1:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				updateInventory({_P}, {grow::openPage::%{_P}%}-1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+		format gui slot 41 of {_P} with 1 arrow named "&3&lNext page" with lore "&8&m                        ||&7Click to go to||&7the next page||&8> &fCurrent: &e%{_page}%||&8&m                        " to run:
+			if size of {ShopCatagory::%{_cat}%::*} > {grow::openPage::%{_P}%}*21:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				updateInventory({_P}, {grow::openPage::%{_P}%}+1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+	set {_multiplier} to ({_page}-1)*21
+	set {_add} to 9
+	set {_i} to 0
+	loop {ShopCatagory::%{_cat}%::*}:
+		{ShopItem::item::%loop-value%::name} is set
+		add 1 to {_i}
+		if {_i} > {_multiplier}:
+			if {_i} < {_multiplier} + 22:
+				add 1 to {_add}
+				if {_add} = 17 or 26:
+					add 2 to {_add}
+				
+				set {_item} to {ShopItem::item::%loop-value%::item}
+				set {_name} to ReitemName({ShopItem::item::%loop-value%::name})
+
+				if {ShopItem::item::%loop-value%::sellable} is true:
+					set {_lore} to "&8&m                        ||&7Click to buy||&8> &fBuy: &e$%easyRead(buy({ShopItem::item::%loop-value%::buy}))%||&8> &fSell: &e$%easyRead(sell({ShopItem::item::%loop-value%::sell}))%||&8&m                        "
+				else:
+					set {_lore} to "&8&m                        ||&7Click to buy||&8> &fBuy: &e$%easyRead(sell({ShopItem::item::%loop-value%::buy}))%||&8&m                        "
+
+				set {_id} to loop-value
+				format gui slot {_add} of {_P} with {_item} named "&e&l%{_name}%" with lore {_lore} to run:
+					play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+					openShop(player, "buy", {_cat}, {_id})
+			else:
+				stop

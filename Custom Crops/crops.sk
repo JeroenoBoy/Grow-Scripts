@@ -1,0 +1,135 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+# Loads in all shop items.
+on load:
+	set {-ccrops::prefix} to "&2&l* &aCrop: &f"
+
+	addShopItem("ctm-daisy", "Daisy Seeds", getFlowerSeed("daisy")) #cheap
+	addShopItem("ctm-red_flower", "Poppy Seeds", getFlowerSeed("red_flower")) #cheap
+	addShopItem("ctm-dandelion", "Dandelion Seeds", getFlowerSeed("dandelion")) #cheap
+	addShopItem("ctm-blue_orchid", "Blue Orchid Seeds", getFlowerSeed("blue_orchid")) #mid
+	addShopItem("ctm-allium", "Allium Seeds", getFlowerSeed("allium")) #mid
+	addShopItem("ctm-red_tulip", "Red Tulip Seeds", getFlowerSeed("red_tulip")) #expensive
+	addShopItem("ctm-orange_tulip", "Orange Tulip Seeds", getFlowerSeed("orange_tulip")) #expensive
+	addShopItem("ctm-white_tulip", "White Tulip Seeds", getFlowerSeed("white_tulip")) #expensive
+	addShopItem("ctm-pink_tulip", "Pink Tulip Seeds", getFlowerSeed("pink_tulip")) #expensive
+
+	# test shit
+	addShopItem("ctm-blueberry", "Blueberry", getBerry("blueberry"))
+	addShopItem("ctm-taco", "Taco", getBerry("taco"))
+	addShopItem("ctm-eggplant", "Eggplant", getBerry("eggplant"))
+	addShopItem("ctm-grape", "Grape", getBerry("grape"))
+	addShopItem("ctm-lemon", "Lemon", getBerry("lemon"))
+	addShopItem("ctm-raspberry", "Raspberry", getBerry("raspberry"))
+
+	addShopItem("ctm-blueberry-bush", "Blueberry Bush", getBush("blueberry"))
+	addShopItem("ctm-taco-bush", "Taco Bush", getBush("taco"))
+	addShopItem("ctm-grapes-plant", "Grapes Plant", getBush("grape"))
+	addShopItem("ctm-eggplant-seed", "Eggplant Seed", getBush("eggplant"))
+	addShopItem("ctm-lemon-seed", "Lemon Seed", getBush("lemon"))
+	addShopItem("ctm-raspberry-seed", "Raspberry Seed", getBush("raspberry"))
+
+
+on block grow:
+	if event-block is a flower:
+		cancel event
+
+#==============================================#		
+#		Functions
+#==============================================#
+
+# Get the seeds of flowers
+#@params:
+# seed: string, the seed that should be given.
+# 
+function getFlowerSeed(seed: string) :: item:
+	if {_seed} = "daisy":
+		return wheat seeds named "&fDaisy Seed" with lore "&f&oPlant your very own Daisy||||%{-ccrops::prefix}%&fDaisy"
+	else if {_seed} = "red_flower":
+		return wheat seeds named "&fPoppy Seed" with lore "&f&oA nice red flower||||%{-ccrops::prefix}%&fPoppy"
+	else if {_seed} = "dandelion":
+		return wheat seeds named "&fDandelion Seed" with lore "&f&oMake a wish||||%{-ccrops::prefix}%&fDandelion"
+	else if {_seed} = "blue_orchid":
+		return wheat seeds named "&fBlue Orchid Seed" with lore "&f&oThe Beutiful blue flower||||%{-ccrops::prefix}%&fBlue Orchid"
+	else if {_seed} = "allium":
+		return wheat seeds named "&fAllium Seed" with lore "&f&oA purple flower for patience||||%{-ccrops::prefix}%&fAllium"
+	else if {_seed} = "azure_bluet":
+		return wheat seeds named "&fAzure Bluet Seed" with lore "&f&oPlant your very own Daisy||||%{-ccrops::prefix}%&fAzure Bluet"
+
+	else if {_seed} = "red_tulip":
+		return wheat seeds named "&fRed Tulip Seed" with lore "&f&oThe flower of Love||||%{-ccrops::prefix}%&fRed Tulip"
+	else if {_seed} = "orange_tulip":
+		return wheat seeds named "&fOrange Tulip Seed" with lore "&f&oA reminder of The Netherlands||||%{-ccrops::prefix}%&fOrange Tulip"
+	else if {_seed} = "white_tulip":
+		return wheat seeds named "&fWhite Tulip Seed" with lore "&f&oA tulip that symnolizes||&f&oyour Purity||||%{-ccrops::prefix}%&fWhite Tulip"
+	else if {_seed} = "pink_tulip":
+		return wheat seeds named "&fPink Tulip Seed" with lore "&f&oA beutiful Pink Tulip||||%{-ccrops::prefix}%&fPink Tulip"
+
+
+#@params:
+# bush: string, get the type of bush.
+#
+
+function getBush(bush: String) :: item:
+	if {_bush} is "blueberry":
+		return oak_sapling named "&9Blueberry Bush" with lore " &f&oWe need some pancakes  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fBlueberries"
+	else if {_bush} is "taco":
+		return oak_sapling named "&6Taco Plant" with lore " &f&oFree tacos forever  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fTacos"
+	else if {_bush} is "eggplant":
+		return oak_sapling named "&5Eggplant Seed" with lore " &f&oThe only plant you need  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fEggplants"
+	else if {_bush} is "grape":
+		return oak_sapling named "&5Grapes Plant" with lore " &f&oCheap and reliable  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fGrapes"
+	else if {_bush} is "lemon":
+		return oak_sapling named "&eLemon Seed" with lore " &f&oEasy Lemonade  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fLemons"
+	else if {_bush} is "raspberry":
+		return oak_sapling named "&dRaspberry Seed" with lore " &f&oA good berry  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fRaspberries"
+	else:
+		return dirt named "&c&lPARSING ERROR" with lore "&7You got this item because there was||&7an error giving you a sapling!||&7Please report this to staff -||&r||&7Give ID: &f%{_bush}%&7.||&r||&8Type: ERROR"
+
+#
+#@params:
+# t: string, type of berry.
+# a: integer, amount.
+#
+function getBerry(t: String) :: item:		
+	set {_item} to 397:3
+
+	if {_t} is "blueberry":	
+		add "{display:{Name:""§9Blueberry"", Lore:["" §f§oGoes great with pancakes!  ""]},SkullOwner:{Id:""4632330f-1c18-41a9-8a7c-82cae3b8c08f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWIxODcwNGFhMGM5MmFiN2YzMDY1YjNlMzg0OTZkZDFjZDQyZjkzYjExODNhM2ZiNGYyNmI0ZThkOTk5YWUifX19""}]}}}" to nbt of {_item}	
+	
+	else if {_t} is "taco":
+		add "{display:{Name:""&6Taco"", Lore:["" §f§oIt's taco time.  ""]},SkullOwner:{Id:""78b5f41e-199c-478c-92de-91d9fbb1fd80"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODJjNTE3OGFkYzRmZmNmNjRkNGM2OGY3NTQ5YTc1MWFjMDJhMzE3NTQwYmMyZmU2NWQxN2YwMWY5NjgyZGRmMSJ9fX0=""}]}}}" to nbt of {_item}
+
+	else if {_t} is "eggplant":
+		add "{display:{Name:""&5Eggplant"", Lore:["" §f§oEggplant or Aubergine?  ""]},SkullOwner:{Id:""02a167fa-92c1-0220-ca0f-7298cd38fe4c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgyNTUzNmE0NGYxODYxNjMzNDg0NzUzODM1ZTU4NzNlZDU2NjdlYzViNjBlZjQxNzU3YTE2YTc2OGFhNzYifX19""}]}}}" to nbt of {_item}
+
+	else if {_t} is "grape":
+		add "{display:{Name:""&5Grape"", Lore:["" §f§oBest in bunches!  ""]},SkullOwner:{Id:""c665ce53-a512-4eeb-96cf-7057c816a3ea"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTVhMjYzZDY1NTE2N2YwMDA4NTFhMDVhMTgzMTcyNmU3ZGI5ZTFmZjgzZDg3YzQyMzkzMmIzZTMxNzY5YWE4OSJ9fX0=""}]}}}" to nbt of {_item}
+
+	else if {_t} is "lemon":
+		add "{display:{Name:""&eLemon"", Lore:["" §f§oSourness is the greatest!  ""]},SkullOwner:{Id:""ac0dae67-1332-9a6e-15b7-63201dd4e885"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM3OGI1ODJkMTljY2M1NWIwMjNlYjgyZWRhMjcxYmFjNDc0NGZhMjAwNmNmNWUxOTAyNDZlMmI0ZDVkIn19fQ==""}]}}}" to nbt of {_item}
+	
+	else if {_t} is "raspberry":
+		add "{display:{Name:""&dRaspberry"", Lore:["" &f&oMmm... berry.  ""]},SkullOwner:{Id:""1508fef4-f03b-483c-9c61-94efbeae203c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjEyZWYxYjQ4NmU5N2U0Y2IxMjRhYTc2MjlhY2ViOTFlZGM1MWQ2MzMzOGM5MWEwMTI4ODU0OTNjNWQ5YyJ9fX0=""}]}}}" to nbt of {_item}
+		
+	return {_item}

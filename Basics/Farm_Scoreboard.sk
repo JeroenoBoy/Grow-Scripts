@@ -1,0 +1,106 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on join:
+    set {_u} to player's uuid
+    resetBoard(player)
+
+
+function resetBoard(p: Player):
+    set {_u} to {_p}'s uuid
+    set {_split::*} to split "%{_p}'s balance%" by "$"
+    set {_balance} to {_split::2}
+
+    set {_tps} to tps from last 1m
+    if {_tps} > 20:
+        set {_coloredtps} to colored "&a*20"
+    else if {_tps} > 17:
+        set {_coloredtps} to colored "&a%{_tps}%"
+    else if {_tps} > 14:
+        set {_coloredtps} to colored "&e%{_tps}%"
+    else:
+        set {_coloredtps} to colored "&c%{_tps}%"
+
+    set {_rc} to getRankColor({_p})
+
+    delete stylish scoreboard "board-%{_u}%"
+    create new stylish scoreboard "board-%{_u}%"
+    set title of stylish scoreboard "board-%{_u}%" to "&a&lGr&2&low"
+    # create new id based score "board-%{_u}%-spacer1" with text "&f&9&8" slot 9 for stylish scoreboard "board-%{_u}%"        
+    create new id based score "board-%{_u}%-player" with text "&f&l┍━ &a%{_p}%" slot 11 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-balance" with text "&f&l⏐ &fBalance: &2$&a%{_balance}%" slot 10 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-rank" with text "&f&l⏐ &fRank: &f%{_rc}%%{_p}'s group%" slot 9 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-farm" with text "&f&l⏐ &fSquad: &a%{player::squad::%{_u}%}%" slot 7 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-votes" with text "&f&l⏐ &fVotes: &a%{votes::%{_u}%}%" slot 6 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-server" with text "&f&l┝━ &aServer" slot 5 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-servervotes" with text "&f&l⏐ &fServer Votes: &a%{votes::server}%" slot 4 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-tps" with text "&f&l⏐ &fTPS: &f%{_coloredtps}%" slot 3 for stylish scoreboard "board-%{_u}%"
+    create new id based score "board-%{_u}%-players" with text "&f&l⏐ &fPlayers: &a%amount of players%" slot 2 for stylish scoreboard "board-%{_u}%"
+
+    
+    
+	if difference between {boosters::bost::active} and now < {boosters::time}:
+        create new id based score "board-%{_u}%-booster" with text "&f&l┝━ &aBooster" slot 5 for stylish scoreboard "board-%{_u}%"
+	
+    	set {_unix} to unix timestamp of now
+		set {_time} to ({boosters::bost::unix}-{_unix})/(60*60)*100
+
+		if {boosters::bost::buy} != 1:
+            create new id based score "board-%{_u}%-Type" with text "&f&l⏐ &fType: &ax%{votes::buy}% Buy Booster" slot 4 for stylish scoreboard "board-%{_u}%"
+        else
+            create new id based score "board-%{_u}%-Type" with text "&f&l⏐ &fType: &ax%{votes::sell}% Sell Booster" slot 4 for stylish scoreboard "board-%{_u}%"
+
+        create new id based score "board-%{_u}%-Progress" with text "&f&l⏐ &fProgress: &f&8[%api_bar({_time}, 100, 10)%&8]" slot 3 for stylish scoreboard "board-%{_u}%"
+
+    create new id based score "board-%{_u}%-end" with text "&f&l┕━" slot 1 for stylish scoreboard "board-%{_u}%"
+    set stylish scoreboard of {_p} to "board-%{_u}%"
+
+on join:
+    resetBoard(player) 
+
+every 5 seconds:
+    loop all players:
+        if loop-player has permission "core.tablist.newbie":
+            set {rank::color::%loop-player%} to colored "&7"
+        if loop-player has permission "core.tablist.rookie":
+            set {rank::color::%loop-player%} to colored "&a"        
+        if loop-player has permission "core.tablist.tiller":
+            set {rank::color::%loop-player%} to colored "&2"
+        if loop-player has permission "core.tablist.agriculturist":
+            set {rank::color::%loop-player%} to colored "&c"
+        if loop-player has permission "core.tablist.farmer":
+            set {rank::color::%loop-player%} to colored "&e"
+        if loop-player has permission "core.tablist.veteran":
+            set {rank::color::%loop-player%} to colored "&6"
+
+        # Staff ranks.
+        if loop-player has permission "core.tablist.helper":
+            set {rank::color::%loop-player%} to colored "&d"
+        if loop-player has permission "core.tablist.mod":     
+            set {rank::color::%loop-player%} to colored "&3" 
+        if loop-player has permission "core.tablist.admin":
+            set {rank::color::%loop-player%} to colored "&c" 
+        if loop-player has permission "core.tablist.developer":       
+            set {rank::color::%loop-player%} to colored "&b"   
+        if loop-player has permission "core.tablist.owner":       
+            set {rank::color::%loop-player%} to colored "&4"       
+        resetBoard(loop-player)            

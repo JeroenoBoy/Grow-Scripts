@@ -1,0 +1,284 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on join:
+    # Rankcolor manager.
+    if player has permission "core.tablist.newbie":
+        set {rank::color::%player%} to colored "&7"
+    if player has permission "core.tablist.rookie":
+        set {rank::color::%player%} to colored "&a"        
+    if player has permission "core.tablist.tiller":
+        set {rank::color::%player%} to colored "&2"
+    if player has permission "core.tablist.agriculturist":
+        set {rank::color::%player%} to colored "&c"
+    if player has permission "core.tablist.farmer":
+        set {rank::color::%player%} to colored "&e"
+    if player has permission "core.tablist.veteran":
+        set {rank::color::%player%} to colored "&6"
+ 
+    # Staff ranks.
+    if player has permission "core.tablist.helper":
+        set {rank::color::%player%} to colored "&d"
+    if player has permission "core.tablist.mod":     
+        set {rank::color::%player%} to colored "&3" 
+    if player has permission "core.tablist.admin":
+        set {rank::color::%player%} to colored "&c" 
+    if player has permission "core.tablist.developer":       
+        set {rank::color::%player%} to colored "&b"   
+    if player has permission "core.tablist.owner":       
+        set {rank::color::%player%} to colored "&4" 
+
+    if player has played before:
+        set join message to "&aWelcome back, &f%{rank::color::%player%}%%player%&a."
+    else:
+        set join message to "&aWelcome, &f%{rank::color::%player%}%%player% &ato &a&lGr&2&low&a."
+    # loop all players:
+        # set tab header to "&r%nl%&a&lGr&2&low%nl%&8» &fgrow.playerservers.com &8«%nl%&r" and footer to "&r%nl%&aDiscord &8» &fhttps://discord.gg/X56Uwna%nl%&r%nl%&7&o(( &f&n%amount of players%&r &7&ocurrently connected. ))%nl%&r" for loop-player          
+
+on quit:
+    set quit message to "&aGoodbye, &f%{rank::color::%player%}%%player%&a."    
+    # wait 1 second
+    # loop all players:
+        # set tab header to "&r%nl%&a&lGr&2&low%nl%&8» &fgrow.playerservers.com &8«%nl%&r" and footer to "&r%nl%&aDiscord &8» &fhttps://discord.gg/X56Uwna%nl%&r%nl%&7&o(( &f&n%amount of players%&r &7&ocurrently connected. ))%nl%&r" for loop-player
+
+on chat:
+    if player has permission "core.colorchat":
+        if {player::squad::%player's uuid%} is not "None":
+            if {squad::tag::%{player::squad::%player's uuid%}%} is not "None":
+                if {tag::selected::%player's uuid%} is not "None":
+                    set message format to "%{squad::tag_color::%{player::squad::%player's uuid%}%}%[%{squad::tag::%{player::squad::%player's uuid%}%}%] %player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%colored message%"
+                else:
+                    set message format to "%{squad::tag_color::%{player::squad::%player's uuid%}%}%[%{squad::tag::%{player::squad::%player's uuid%}%}%] %player's prefix%%player%&7: &f%colored message%"
+            else:
+                if {tag::selected::%player's uuid%} is not "None":
+                    set message format to "%player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%colored message%"
+                else:
+                    set message format to "%player's prefix%%player%&7: &f%colored message%"
+        else:            
+            if {tag::selected::%player's uuid%} is not "None":
+                set message format to "%player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%colored message%"
+            else:
+                set message format to "%player's prefix%%player%&7: &f%colored message%"                
+    else:
+        if {player::squad::%player's uuid%} is not "None":
+            if {squad::tag::%{player::squad::%player's uuid%}%} is not "None":
+                if {tag::selected::%player's uuid%} is not "None":
+                    set message format to "%{squad::tag_color::%{player::squad::%player's uuid%}%}%[%{squad::tag::%{player::squad::%player's uuid%}%}%] %player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%message%"
+                else:
+                    set message format to "%{squad::tag_color::%{player::squad::%player's uuid%}%}%[%{squad::tag::%{player::squad::%player's uuid%}%}%] %player's prefix%%player%&7: &f%message%"
+            else:
+                if {tag::selected::%player's uuid%} is not "None":
+                    set message format to "%player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%message%"
+                else:
+                    set message format to "%player's prefix%%player%&7: &f%message%"
+        else:
+            if {tag::selected::%player's uuid%} is not "None":
+                set message format to "%player's prefix%%player% %{tag::selected::%player's uuid%}%&7: &f%message%"
+            else:
+                set message format to "%player's prefix%%player%&7: &f%message%"
+
+
+# playtimes
+on join:
+    while player is online:
+        wait 1 seconds
+        add 1 seconds to {playtime::%player's uuid%}    
+
+command /playtime [<offline player>] [<string>]:
+    trigger:
+        if executor has permission "core.playtime":
+            if arg-1 is set:
+                if {playtime::%arg-1's uuid%} is set:
+                    send "&f%arg-1% &eplaytime: &6%{playtime::%arg-1's uuid%}%&e."        
+                else:
+                    send "&cThat player has never joined before!"                    
+            else:
+                send "&f%player% &eplaytime: &6%{playtime::%player's uuid%}%&e." 
+        else:
+            send "&cYou are lacking the required permissions to execute this command."                                       
+
+on portal enter:
+    player is online
+    message "%player%, %entity%" to "Jeroeno_Boy" parsed as a player
+    make console execute "spawn %player%"
+    send "&4&l(!) &cThe nether is disabled on the server, you were automatically teleported back to spawn to prevent players from trapping you in their plots in a nether portal." to player
+
+on weather change:
+    cancel event    
+
+# on rightclick:
+#     broadcast "%event-entity%"    
+
+on block place:
+    if event-block is a dead_bush:
+        if name of player's tool is "&6Veteran Bush":
+            if lore of player's tool contains "&7This is awarded to":
+                cancel event
+
+on item damage:
+    if event-item is a hoe:
+        repair player's tool                
+
+on command:
+    if command contains "auctionhouse" or "ah" or "auction":
+        send "&cThis command is temporarily disabled."
+        cancel event        
+
+on world change:
+    if event-world is "world":
+        if player doesn't have permission "core.staff":
+            make console execute "mvtp %player% S2"
+        else:
+            send "&cYou would've been brought back to the 'S2' world." to player                    
+
+command /bughunter [<player>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is set:
+                if arg-1 is an player:
+                    give arg-1 glowing tnt named "&dBug Hunter &7(%arg-1%)" with lore "&7This was awarded to &d%arg-1% &7for||&7finding a gamebreaking bug or exploit.||&r||&7Awarded At: &f%now%&7."            
+                    make console execute "lp user %arg-1% permission set core.tags.bughunter"
+                    send "" to arg-1
+                    send "&7Thank you for reporting a gamebreaking bug or exploit!" to arg-1
+                    send "&7You have been rewarded with the &dBug Hunter &7tag and &dBug Hunter &7item!" to arg-1
+                    send "" to arg-1
+                    send "&f%arg-1% &ehas been rewarded with a bug hunter."
+                else:
+                    send "&c(&4&l*&c) &7Please enter a valid player."
+            else:
+                send "&e(&6&l*&e) &7Usage: &6/bughunter <player>."
+        else:
+            send "&c(&4&l*&c) &7You are lacking the required permissions to execute this command."                    
+#
+command /creativethinker [<player>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is set:
+                if arg-1 is an player:
+                    give arg-1 glowing painting named "&bCreative Thinker &7(%arg-1%)" with lore "&7This was awarded to &b%arg-1% &7for||&7helping the &a&lGr&2&low&r &7team by||&7sending us such a great suggestion.||&r||&7Awarded at: &f%now%&7."
+                    make console execute "lp user %arg-1% permission set core.tags.thinker true"
+                    send "" to arg-1
+                    send "&7Thank you for making such a great suggestion!" to arg-1
+                    send "&7You hav ebeen rewarded with the &bThinker &7tag and the &bCreative Thinker &7item!" to arg-1
+                    send "" to arg-1
+                    send "&f%arg-1% &ehas been rewarded with a creative thinker."
+                else:
+                    send "&cPlease enter a valid player."
+            else:
+                send "&cUsage: /creativethinker <player>."                    
+        else:
+            send "&cYou are lacking the requried permissions to execute this command."
+
+on block place:
+    if event-block is a tnt:
+        if name of player's tool contains "&dBug Hunter":
+            if lore of player's tool contains "&7This was awarded to":
+                cancel event        
+
+on right click:
+    if player's tool is a painting:
+        if name of player's tool contains "&bCreative Thinker":
+            if lore of player's tool contains "&7This was awarded to":
+                cancel event
+
+on load:
+    if {-activepoll} is not set:
+        set {-activepoll} to false
+
+command /poll [<string>]:
+    trigger:
+        if {-activepoll} is true:
+            if {-hasvoted::%player's uuid%} is not set:
+                pollGUI(player)
+            else;
+                send "&cYou have already voted on this poll."
+        else:
+            send "&cSorry! There is currently no poll active."                
+
+function pollGUI(p: Player):
+    open virtual hopper inventory with 1 rows named "Poll" to {_p}
+    format gui slot 0 of {_p} with 159:9 named "&aYes!" with lore "&7Votes &aYes &7for this poll." to run function votePoll({_p}, true)
+    format gui slot 2 of {_p} with paper named "&eQuestion" with lore "&7The poll question is:||&r||&f%{-poll::question}%&7."
+    format gui slot 4 of {_p} with 159:14 named "&cNo!" with lore "&7Votes &cNo &7for this poll." to run function votePoll({_p}, false)
+
+function votePoll(p: Player, t: Boolean):
+    set {_u} to {_p}'s uuid
+    close {_p}'s inventory
+
+    if {_t} is true:
+        add 1 to {-poll::votes::yes}
+        send "&eYou have voted &aYes &eon this poll!" to {_p}
+    else:
+        add 1 to {-poll::votes::no}
+        send "&eYou have voted &cNo &eon this poll!" to {_p}
+    set {-hasvoted::%{_u}%} to true                
+
+command /createpoll [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is set:
+                if {-activepoll} is false:
+                    set {-poll::votes::no} to 0
+                    set {-poll::votes::yes} to 0
+                    delete {-hasvoted::*}
+                    set {-poll::question} to arg-1
+                    loop all players:
+                        send "&eA poll has been created for the following question:" to loop-player
+                        send "&f%arg-1%" to loop-player
+                        send "" to loop-player
+                        send "&eUse &6/poll &eto vote &a&lYES &eor &c&lNO&e! &eYou only have &f30 seconds&e." to loop-player
+                    set {-activepoll} to true
+                    wait 30 seconds                        
+                    loop all players:
+                        send "&eThe results for &f""%arg-1%""&r &ehave came in!" to loop-player
+                        send "&a%{-poll::votes::yes}% &a&l✔ &eand &c%{-poll::votes::no}% &c&l✗&e!" to loop-player
+                    set {-activepoll} to false
+                else:
+                    send "&cSorry! There is already a poll active."
+            else:
+                send "&cUsage: /createpoll <poll>."                        
+        else:
+            send "&cYou are lacking the required permissions to execute this command."
+
+command /checkfly [<player>] [<string>]:
+    trigger:
+        if executor has permission "core.staff":
+            if arg-1 is set:
+                if arg-1 is an player:
+                    if arg-1 has permission "essentials.fly":
+                        set {_canFly} to colored "&aTrue"
+                    else:
+                        set {_canFly} to colored "&cFalse"                        
+                    if arg-1's flight mode is true:
+                        set {_isFlying} to colored "&aTrue"
+                    else:
+                        set {_isFlying} to colored "&cFalse"                        
+
+                    send "%{rank::color::%arg-1%}%%arg-1% &efly:"
+                    send "&eAllowed Flight: %{_canFly}%&e."                                                
+                    send "&eIs Flying: %{_isFlying}%&e."
+                else:
+                    send "&cPlease enter a valid player."
+            else:
+                send "&cUsage: /checkfly <player>."
+        else:
+            send "&cYou are lacking the requried permissions to execute this command."                    

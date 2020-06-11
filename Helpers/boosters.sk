@@ -1,0 +1,161 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+options:
+	pass: cb8h9qba8903i27938UPU
+
+
+on load:
+	set {boosters::time} to 1 hour
+	if {boosters::time} is not set:
+		set {boosters::bost::active} to now
+		remove 120 minutes from {boosters::bost::active}
+		set {boosters::bost::buy} to 1
+		set {boosters::bost::sell} to 1
+
+
+command /boosters:
+	trigger:
+		boostOpen(player)
+
+
+every 1 second:
+	if difference between {boosters::bost::active} and now > {boosters::time}:
+		set {boosters::bost::buy} to 1
+		set {boosters::bost::sell} to 1
+		
+
+command /addBooster [<string>] [<offline player>] [<string>]:
+	trigger:
+		if arg 3 = "{@pass}":
+			add 1 to {boosters::pls::%arg-2's uuid%}
+			add 1 to {boosters::pl::%arg-2's uuid%::%arg 1%}
+			message "&2(&a&l*&2) &7Enjoy your booster!"
+			loop all players:
+				loop-player has permission "core.staff"
+				message "&e(&6&l*&e) &a%player% &7gave &a%arg-2% &7a &e%arg 1% &7booster." to loop-player
+		else:
+			message "&4(&c&l*&4) &7You can't use this "
+
+
+#GUI
+#The gui to vieuw a player's boosters
+#
+#@Params:
+#p: the player himself
+#
+#@optional:
+#page: page number
+
+function buy(n: number) :: number:
+	return {_n}*{boosters::bost::buy}
+function sell(n: number) :: number:
+	return {_n}*{boosters::bost::sell}
+
+function boostOpen(p: player, page: number = 1):
+	set {_uuid} to uuid of {_p}
+	if {boosters::pls::%{_uuid}%} is not set:
+		set {_boost} to 0
+	else if {boosters::pls::%{_uuid}%} = 0:
+		set {_boost} to 0
+	else:
+		set {_boost} to {boosters::pls::%{_uuid}%}
+
+
+	open virtual chest inventory with size 6 named "&8           [ &e&lBoosters &8]" to {_p}
+
+	fillinventory({_P})
+	play sound "note.block.harp" with volume 1 at {_P} for {_P}
+	format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+		play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+		close player's inventory
+		
+
+	if {_boost} > 21:
+		format gui slot 39 of {_P} with 1 arrow named "&3&lPrevious page" with lore "&8&m                        ||&7Click to go to||&7the previous page||&8> &fCurrent: &e%{_page}%||&8&m                        " to run:
+			if {_page} > 1:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				boostOpen({_p}, {_page}-1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+		format gui slot 41 of {_P} with 1 arrow named "&3&lNext page" with lore "&8&m                        ||&7Click to go to||&7the next page||&8> &fCurrent: &e%{_page}%||&8&m                        " to run:
+			if {_boost} > {_page}*21:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				boostOpen({_p}, {_page}+1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+
+
+	set {_multiplier} to ({_page}-1)*21
+	set {_add} to 9
+	set {_i} to 0
+
+	if {_boost} > 0:
+		loop {boosters::pls::%{_uuid}%} times:
+			add 1 to {_i}
+			if {_i} > {_multiplier}:
+				if {_i} < {_multiplier} + 22:
+					add 1 to {_add}
+					if {_add} = 17 or 26:
+						add 2 to {_add}
+				
+					#code
+
+					if {_i}-1 < {boosters::pl::%{_uuid}%::sell}:
+						format gui slot {_add} of {_p} with 1 redstone dust named "&c&lSell &e&lBooster" with lore "&8&m                        ||&7Click to activate||&8> &fSell multiplier: &e1.5&7x||&8&m                        " to run function activateBooster({_p}, "sell")
+					else:
+						format gui slot {_add} of {_p} with 1 glowstone dust named "&a&lBuy &e&lBooster" with lore "&8&m                        ||&7Click to activate||&8> &fBuy multiplier: &e0.75&7x||&8&m                        " to run function activateBooster({_p}, "buy")
+
+					#--code
+				else:
+					stop
+	else:
+		format gui slot 22 of {_p} with 1 barrier named "&c&lNo Boosters" with lore "&8&m                        ||&cYou dont have any boosters||&fYou can buy them at our shop!||&8&m                        "
+	
+
+
+
+
+function activateBooster(p: player, type: string):
+	set {_uuid} to uuid of {_p}
+	if {boosters::pl::%{_uuid}%::%{_type}%} >= 1:
+		if difference between {boosters::bost::active} and now > {boosters::time}:
+			if {_type} = "buy":
+				set {boosters::bost::buy} to 0.75
+			else:
+				set {boosters::bost::sell} to 1.5
+			set {boosters::bost::active} to now
+			set {boosters::bost::unix} to unix timestamp of {boosters::time} from now
+
+			remove 1 from {boosters::pls::%{_uuid}%}
+			remove 1 from {boosters::pl::%{_uuid}%::%{_type}%}
+
+			loop all players:
+				play sound "entity.enderdragon.death" with volume 10000000000 at loop-player for loop-player
+
+			execute console command "/broadcast &7A &e%{_type}% &7booster has been activated by: &a&l%{_p}%&7."
+		else:
+			message "&4(&c&l*&4) &7Sorry, but there is already an active booster." to {_p}
+	else:
+		message "&4(&c&l*&4) &7Sorry, but you don't have any boosters." to {_p}

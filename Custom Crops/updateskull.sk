@@ -1,0 +1,40 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+function updateSkull(blockloc: Location, type: String):
+    add 1 to y-coord of {_blockloc}
+    set block at {_blockloc} to air
+    set block at {_blockloc} to 144:1
+    if {_type} is "blueberry":
+        add "{Owner:{Id:""4632330f-1c18-41a9-8a7c-82cae3b8c08f"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWIxODcwNGFhMGM5MmFiN2YzMDY1YjNlMzg0OTZkZDFjZDQyZjkzYjExODNhM2ZiNGYyNmI0ZThkOTk5YWUifX19""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}
+    else if {_type} is "taco":
+        add "{Owner:{Id:""78b5f41e-199c-478c-92de-91d9fbb1fd80"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODJjNTE3OGFkYzRmZmNmNjRkNGM2OGY3NTQ5YTc1MWFjMDJhMzE3NTQwYmMyZmU2NWQxN2YwMWY5NjgyZGRmMSJ9fX0=""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}
+    else if {_type} is "eggplant":
+        add "{Owner:{Id:""02a167fa-92c1-0220-ca0f-7298cd38fe4c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgyNTUzNmE0NGYxODYxNjMzNDg0NzUzODM1ZTU4NzNlZDU2NjdlYzViNjBlZjQxNzU3YTE2YTc2OGFhNzYifX19""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}
+    else if {_type} is "grape":        
+        add "{Owner:{Id:""c665ce53-a512-4eeb-96cf-7057c816a3ea"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTVhMjYzZDY1NTE2N2YwMDA4NTFhMDVhMTgzMTcyNmU3ZGI5ZTFmZjgzZDg3YzQyMzkzMmIzZTMxNzY5YWE4OSJ9fX0=""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}
+    else if {_type} is "lemon":
+        add "{Owner:{Id:""ac0dae67-1332-9a6e-15b7-63201dd4e885"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM3OGI1ODJkMTljY2M1NWIwMjNlYjgyZWRhMjcxYmFjNDc0NGZhMjAwNmNmNWUxOTAyNDZlMmI0ZDVkIn19fQ==""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}
+    else if {_type} is "raspberry":
+        add "{Owner:{Id:""1508fef4-f03b-483c-9c61-94efbeae203c"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjEyZWYxYjQ4NmU5N2U0Y2IxMjRhYTc2MjlhY2ViOTFlZGM1MWQ2MzMzOGM5MWEwMTI4ODU0OTNjNWQ5YyJ9fX0=""}]}},SkullType:3,Rot:0}" to nbt of block at {_blockloc}        
+    else:
+        stop        

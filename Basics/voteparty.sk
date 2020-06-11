@@ -1,0 +1,94 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+#
+# THIS GOT NEVER USED IN PRODUCTION
+#
+
+on load:
+	set {-voteparty::current::votes} to 0
+	set {-voteparty::current::cooldown} to now
+	remove 69 hours from {-voteparty::current::cooldown}
+
+command /addvote [<player>]:
+	trigger:
+		if executor has permissions "core.admin":
+			arg 1 is set
+			VP_addVote(arg 1)
+		else:
+			message "&4(&c&l&4) &7Invalid permissions!"
+
+function VP_addVote(p: player):
+	add 1 to {-voteparty::current::votes}
+
+	play sound "block.note.hat" with volume 1000000 at all players for all players
+
+	if difference between now and {-voteparty::current::cooldown} < 5 minutes:
+		message "&e(&6&l*&e) &7Thanks for your vote, but currently the " to {_p}
+		message "&e(&6&l*&e) &7 vote party is on a 5 minute cooldown" to {_p}
+		stop
+
+	if {-voteparty::current::votes} = 1:
+		broadcast "&e(&6&l*&e) "
+		broadcast "&e(&6&l*&e) &a%{_P}% &estarted a new &lVoteParty!"
+		broadcast "&e(&6&l*&e) &6&l%10 - {-voteparty::current::votes}% &eMore votes until &lKEYALL!"
+		broadcast "&e(&6&l*&e) &eYou can vote by using &6/evote"
+		broadcast "&e(&6&l*&e) &7Vote within 30 seconds to participate"
+		broadcast "&e(&6&l*&e) &7 and extend in the party"
+		broadcast "&e(&6&l*&e) "
+
+	else if {-voteparty::current::votes} < 10:
+		broadcast "&e(&6&l*&e) &a%{_P}% &7Voted."
+		broadcast "&e(&6&l*&e) &6&l%10 - {-voteparty::current::votes}% &eMore votes until &lKEYALL!"
+		broadcast "&e(&6&l*&e) &eYou can vote by using &6/evote"
+
+	else if {-voteparty::current::votes} = 10:
+		broadcast "&e(&6&l*&e) "
+		broadcast "&e(&6&l*&e) &a%{_P}% &7Voted."
+		broadcast "&e(&6&l*&e) &eAll players have been awarded with a &lKEYALL!"
+		broadcast "&e(&6&l*&e) &eNext reward is @ 20 votes, &l2 KEYALLS!"
+		broadcast "&e(&6&l*&e) &eYou can vote by using &6/evote"
+		broadcast "&e(&6&l*&e) "
+
+	else if {-voteparty::current::votes} < 20:
+		broadcast "&e(&6&l*&e) &a%{_P}% &7Voted."
+		broadcast "&e(&6&l*&e) &6&l%20 - {-voteparty::current::votes}% &eMore votes until a &lDOUBLE KEYALL!"
+		broadcast "&e(&6&l*&e) &eYou can vote by using &6/evote"
+
+	else:
+		broadcast "&e(&6&l*&e) "
+		broadcast "&e(&6&l*&e) &a%{_P}% &7Voted"
+		broadcast "&e(&6&l*&e) &eAll players have been rewarded with &l2 EXTRA KEYS."
+		broadcast "&e(&6&l*&e) &7Voteparty has ended, there is a 5 minute cooldown"
+		broadcast "&e(&6&l*&e) "
+		set {-voteparty::current::votes} to 0
+		set {-voteparty::current::cooldown} to now
+		stop
+
+	set {_votes} to {-voteparty::current::votes}
+	wait 30 seconds
+	{_votes} = {-voteparty::current::votes}
+	set {-voteparty::current::votes} to 0
+	set {-voteparty::current::cooldown} to now
+	broadcast "&e(&6&l*&e) "
+	broadcast "&e(&6&l*&e) &7The vote party has ended"
+	broadcast "&e(&6&l*&e) "
+

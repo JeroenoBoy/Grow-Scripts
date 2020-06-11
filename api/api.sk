@@ -1,0 +1,146 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+#
+#	addShopItem(name, item)
+#	itemExists(name)
+#
+on load:
+	set {_list} to "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@$^&*()"
+	set {-randomNUM::*} to {_list} split at ""
+
+
+function item_getID(item: item) :: string:
+	loop {ShopItem::items::*}:
+		if {ShopItem::item::%loop-value%::item} = {_item}:
+			set {_id} to loop-value
+			return {_id}
+
+function item_getItem(id: string) :: item:
+	return {ShopItem::item::%{_id}%::item}
+
+function item_getName(id: string) :: string:
+	return {ShopItem::item::%{_id}%::name}
+
+function item_getBuyPrice(id: string) :: string:
+	return {ShopItem::item::%{_id}%::buy}
+
+function item_getSellPrice(id: string) :: number:
+	if {ShopItem::item::%{_id}%::sellable}:
+		return {ShopItem::item::%{_id}%::sell}
+	return -1
+
+function item_getSellable(id: string) :: boolean:
+	return {ShopItem::item::%{_id}%::sellable}
+
+function item_getCatagory(id: string) :: string:
+	return {ShopItem::item::%{_id}%::cat}
+
+
+function api_bar(amount: number, total: number, bars: number = 10, begincolor: string = "&a&l", endcolor: string = "&7&l") :: string:
+	set {_end} to rounded up ({_amount}/{_total}*{_bars})+1
+
+	set {_rtr} to {_begincolor}
+
+	loop {_bars} times:
+		if loop-value = {_end}:
+			set {_rtr} to "%{_rtr}%%{_endcolor}%"
+		set {_rtr} to "%{_rtr}%|"
+
+	return {_rtr}
+
+
+function lore_extract(lore: string) :: objects:
+	set {_l::*} to {_lore} split at "||"
+
+	loop {_l::*}:
+		set {_v::*} to uncolored loop-value split at " "
+		{_v::1} contains "*"
+
+		remove {_v::1} from {_v::*}
+		set {_v} to join {_v::*} with " "
+		set {_v::*} to split {_v} at ": "
+		add {_v::2} to {_rtr::*}
+
+	return {_rtr::*}
+
+
+function generateID(num: number) :: string:
+	set {_rtr} to ""
+	loop {_num} times:
+		set {_r} to random integer between 1 and size of {-randomNUM::*}
+		set {_rtr} to "%{_rtr}%%{-randomNUM::%{_r}%}%"
+		broadcast "%{-randomNUM::%{_r}%}%"
+		broadcast "%{_rtr}%"
+
+	return {_rtr}
+
+#=====================
+#Other
+#=====================
+function fillinventory(P: player):
+	set {_S} to rows of {_P}'s current inventory
+	loop {_S}*9 times:
+		format gui slot loop-value -1 of {_P} with light gray stained glass pane named " &a "
+
+
+function fillmachine(P: player):
+	loop 3 times:
+		if loop-value mod 2 = 1:
+			format gui slot (-1+loop-value)*9 of {_p} with 1 blue stained glass pane named " &a "
+			format gui slot (-1+loop-value)*9+8 of {_p} with 1 blue stained glass pane named " &a "
+		
+		format gui slot (-1+loop-value)*9+(loop-value mod 2) of {_p} with 1 blue stained glass pane named " &a "
+		format gui slot (loop-value)*9+(loop-value+1 mod 2)-2 of {_p} with 1 blue stained glass pane named " &a "
+		format gui slot (-1+loop-value)*9+(loop-value mod 2)+1 of {_p} with 1 light blue stained glass pane named " &a "
+		format gui slot (loop-value)*9+(loop-value+1 mod 2)-3 of {_p} with 1 light blue stained glass pane named " &a "
+
+		loop 3+(loop-value+1 mod 2)*2 times:
+			format gui slot (-1+loop-value-1)*9-(loop-value-1+1 mod 2)+loop-value-2+2 of {_p} with 1 gray stained glass pane named " &a "
+			# format gui slot (-2+loop-value)*9+8 of {_p} with 1 blue stained glass pane named " &a "
+
+
+
+function generateID(num: number = 10) :: string:
+	set {_rtr} to ""
+	loop {_number} times:
+		set {_r} to a random integer between 1 and size of {-randomNUM::*}
+		set {_rtr} to "%{_rtr}%%{-randomNUM::%{_r}%}%"
+
+
+#=====================
+#Shop injection
+#=====================
+function addShopItem(id:string, name:string, item:item):
+	set {-injections::%{_id}%::name} to {_name}
+	set {-injections::%{_id}%::item} to {_item}
+
+
+function inject(id: string):
+	set {_injID} to {ShopItem::item::%{_id}%::name}
+
+	{-injections::%{_injID}%::name} is set
+
+	set {ShopItem::item::%{_id}%::match} to true
+	set {ShopItem::item::%{_id}%::name} to {-injections::%{_injID}%::name}
+	set {ShopItem::item::%{_id}%::item} to {-injections::%{_injID}%::item}
+	# give all players 1 of {-injections::%{_name}%::item}

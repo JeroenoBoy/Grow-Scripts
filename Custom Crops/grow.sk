@@ -1,0 +1,425 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+#==============================================#		
+#		Flowers
+#==============================================#
+
+on block place:
+	if player's tool = wheat seeds:
+		if lore of player's tool = "&f&oPlant your very own Daisy||||%{-ccrops::prefix}%&fDaisy":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "Daisy"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oA nice red flower||||%{-ccrops::prefix}%&fPoppy":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "red_flower"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oMake a wish||||%{-ccrops::prefix}%&fDandelion":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "dandelion"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oThe Beutiful blue flower||||%{-ccrops::prefix}%&fBlue Orchid":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "blue_orchid"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oA purple flower for patience||||%{-ccrops::prefix}%&fAllium":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "allium"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oPlant your very own Daisy||||%{-ccrops::prefix}%&fAzure Bluet":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "azure_bluet"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oThe flower of Love||||%{-ccrops::prefix}%&fRed Tulip":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "red_tulip"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oA reminder of The Netherlands||||%{-ccrops::prefix}%&fOrange Tulip":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "orange_tulip"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oA tulip that symnolizes||&f&oyour Purity||||%{-ccrops::prefix}%&fWhite Tulip":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "white_tulip"
+			set block at event-block to melon stem
+		if lore of player's tool = "&f&oA beutiful Pink Tulip||||%{-ccrops::prefix}%&fPink Tulip":
+			set {ccrop::placedCrops::%location of event-block%::crop} to "pink_tulip"
+			set block at event-block to melon stem
+
+
+function plantBreak(loc: location):
+	if {ccrop::placedCrops::%{_loc}%::crop} is set:
+
+		if block at {_loc} is not a melon stem:
+			chance of 80%:
+				drop 1 of getFlowerSeed({ccrop::placedCrops::%{_loc}%::crop}) at {_loc}
+			drop 1 of {ccrop::placedCrops::%{_loc}%::crop} parsed as a item at {_loc}
+		else:
+			drop 1 of getFlowerSeed({ccrop::placedCrops::%{_loc}%::crop}) at {_loc}
+		
+		cancel event # Error message:
+		# A function event cannot be cancelled (grow.sk, line 48: cancel event)
+		set block at {_loc} to air	
+		delete {ccrop::placedCrops::%{_loc}%::crop}
+
+
+on crop grow:
+	{ccrop::placedCrops::%location of event-block%::crop} is set
+	data of event-block = 7	
+	
+	wait 1 tick
+	set {_loc} to location of event-block
+	set block at {_loc} to {ccrop::placedCrops::%location of event-block%::crop} parsed as a item
+
+
+on block break:
+	set {_loc} to location of block above event-block
+	{ccrop::placedCrops::%{_loc}%::crop} is set
+	plantBreak({_loc})
+
+
+#==============================================#
+#		Bushes
+#==============================================#
+
+# Add -
+# Cranberry
+# Raspberries (Done)
+# Strawberries
+# Grapes (Done)
+# Blackberry
+# Lemons (Done)
+
+on join:
+	if {-bushplace::%player's uuid%} is not set:
+		set {-bushplace::%player's uuid%} to now
+
+on load:
+    if {bushes::*} is not set:
+        add "" to {bushes::*}
+
+# Checks if a bush was placed.
+on block place:
+	if event-block is oak_sapling:
+		# Blue Berry Bush.
+		if name of player's tool is "&9Blueberry Bush":
+			if lore of player's tool is " &f&oWe need some pancakes  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fBlueberries":	
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "blueberry")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event
+		else if name of player's tool is "&6Taco Plant":
+			if lore of player's tool is " &f&oFree tacos forever  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fTacos":	
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "taco")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event					
+		else if name of player's tool is "&5Eggplant Seed":
+			if lore of player's tool is " &f&oThe only plant you need  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fEggplants":
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "eggplant")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event
+		else if name of player's tool is "&5Grapes Plant":
+			if lore of player's tool is " &f&oCheap and reliable  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fGrapes":
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "grape")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event	
+		else if name of player's tool is "&eLemon Seed":
+			if lore of player's tool is " &f&oEasy Lemonade  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fLemons":
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "lemon")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event
+		else if name of player's tool is "&dRaspberry Seed":
+			if lore of player's tool is " &f&oA good berry  ||&fPlant this at your plot.||&r||%{-ccrops::prefix}%&fRaspberries":
+				set {_diff} to difference between now and {-bushplace::%player's uuid%}
+				if {_diff} > 0.08 seconds:
+					set {-bushplace::%player's uuid%} to now
+					createBush(event-block's location, "raspberry")
+				else:
+					send "&cPlease wait a moment before placing another bush down." to player
+					cancel event																	
+	else if event-block is floor head or _mob_head_block:
+		cancel event					
+
+# Function to create the bush.
+function createBush(loc: Location, t: String):
+	set block at block above {_loc} to 144:1
+	add 1 to y-coord of {_loc}
+	add "{Owner:{Id:""937fb91e-562d-4ab3-b495-3c8b183c38bb"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFkYzA0OGE3Y2U3OGY3ZGFkNzJhMDdkYTI3ZDg1YzA5MTY4ODFlNTUyMmVlZWQxZTNkYWYyMTdhMzhjMWEifX19""}]}},SkullType:3,Rot:0}" to nbt of block at {_loc}
+	remove 1 from y-coord of {_loc}
+	if {bushes::*} doesn't contain {_loc}:
+		add {_loc} to {bushes::*}	
+	if {_t} is "blueberry":
+		set {bush::data::%{_loc}%} to "blueberry:90:false"
+		
+	else if {_t} is "taco":
+		set {bush::data::%{_loc}%} to "taco:220:false"
+		
+	else if {_t} is "eggplant":
+		set {bush::data::%{_loc}%} to "eggplant:110:false"
+		
+	else if {_t} is "grape":
+		set {bush::data::%{_loc}%} to "grape:70:false"
+		
+	else if {_t} is "lemon":
+		set {bush::data::%{_loc}%} to "lemon:150:false"	
+
+	else if {_t} is "raspberry":
+		set {bush::data::%{_loc}%} to "raspberry:120:false"	
+
+	wait 2 tick
+	set block at {_loc} to undecaying_oak_leaves		
+	wait 4 ticks
+	set block above {_loc} to floor head
+
+
+# Checks if a player clicks on a bush.
+on rightclick:
+	if event-block is a floor head:
+		if block below event-block is undecaying_oak_leaves or decaying_oak_leaves or decaying_undecaying_oak_leaves:
+			set {_block} to block under event-block
+			set {_loc} to {_block}'s location
+			set {_split::*} to {bush::data::%{_loc}%} split by ":"
+
+			if {_split::3} is "false":
+				bushNotGrownError(player, {_split::1})
+				stop
+			else if {_split::3} is "true":
+				if {bushes::*} contains {_loc}:
+					remove {_loc} from {bushes::*}
+				delete {bush::data::%{_loc}%}					
+				dropItem(player, {_split::1})
+				dropSapling(player, {_split::1})
+
+				set event-block to air
+				set block at {_loc} to air
+
+# Sends a bush not grown error.
+function bushNotGrownError(p: Player, t: String):
+	if {_t} is "blueberry":
+		send "&cThis &9Blueberry Bush &chas not fully grown!" to {_p}
+	else if {_t} is "taco":
+		send "&cThis &6Taco Plant &chas not fully grown!" to {_p}
+	else if {_t} is "eggplant":
+		send "&cThis &5Eggplant Seed &chas not fully grown!" to {_p}
+	else if {_t} is "grape":
+		send "&cThis &5Grape Plant &chas not fully grown!" to {_p}
+	else if {_t} is "lemon":
+		send "&cThis &eLemon Seed &chas not fully grown!" to {_p}		
+	else if {_t} is "raspberry":
+		send "&cThis &dRaspberry Seed &chas not fully grown!" to {_p}
+
+# Remove a bush if needed.
+on block break:
+	if event-block is undecaying_oak_leaves or decaying_oak_leaves or decaying_undecaying_oak_leaves:
+		if block above event-block is a floor head:
+			if {bush::data::%event-block's location%} is set:
+				cancel event
+
+				set {_split::*} to {bush::data::%event-block's location%} split by ":"
+
+				remove event-block's location from {bushes::*}
+				delete {bush::data::%event-block's location%}
+
+				set event-block to air
+				wait 2 ticks
+				set block above event-block to air
+
+				if {_split::3} is "true":
+					dropItem(player, {_split::1})
+
+				else:
+					drop 1 of getBush({_split::1}) 2.35 meters above and 2 meters horizontally in front of player
+	else if event-block is floor head:
+		if block under event-block is undecaying_oak_leaves or decaying_oak_leaves or decaying_undecaying_oak_leaves:
+			set {_block} to block under event-block
+			set {_loc} to {_block}'s location
+			if {bush::data::%{_loc}%} is set:
+				cancel event				           
+
+# Bush master clock.
+# every 10 seconds:
+every 5 seconds:
+	loop {bushes::*}:
+		wait 1 ticks
+		if loop-value is not "":
+			processBush(loop-value)								
+
+function processBush(loc: Location):
+	set {_random} to a random integer between 1 and 20*7.5
+	wait "%{_random}% ticks" parsed as timespan
+	set {_split::*} to {bush::data::%{_loc}%} split by ":"
+
+	if {_split::3} is "false":
+		set {_currentTime} to {_split::2} parsed as number
+		remove 10 from {_currentTime}
+
+		# Checks if the bush is fully grown.
+		if {_currentTime} is less than or equal to 0:
+			remove {_loc} from {bushes::*}
+			set {_ready} to "true"
+			updateSkull({_loc}, {_split::1})
+			remove 1 from y-coord of {_loc}
+		else:
+			set {_ready} to "false"	
+
+		set {bush::data::%{_loc}%} to "%{_split::1}%:%{_currentTime}%:%{_ready}%"	
+
+# Drops stuff
+# Drops the needed items.
+function dropItem(p: Player, t: String):
+	wait 3 ticks
+	
+	if {_t} is "blueberry":
+		chance of 16%:
+			drop 4 of getBerry("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop
+		chance of 25%:
+			drop 3 of getBerry("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop	
+		chance of 42%:
+			drop 2 of getBerry("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop							
+		drop 1 of getBerry("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+	else if {_t} is "taco":
+		chance of 10%:
+			drop 3 of getBerry("taco") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop
+		chance of 35%:
+			drop 2 of getBerry("taco") 2.35 meters above and 2 meters horizontally in front of {_p}				
+			stop
+		drop 1 of getBerry("taco") 2.35 meters above and 2 meters horizontally in front of {_p}		
+	else if {_t} is "eggplant":
+		chance of 10%:
+			drop 3 of getBerry("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop
+		chance of 30%:
+			drop 2 of getBerry("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}				
+			stop
+		drop 1 of getBerry("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}						
+	else if {_t} is "grape":
+		chance of 15%:
+			drop 4 of getBerry("grape") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop
+		chance of 28%:
+			drop 3 of getBerry("grape") 2.35 meters above and 2 meters horizontally in front of {_p}
+			stop
+		chance of 35%:
+			drop 2 of getBerry("grape") 2.35 meters above and 2 meters horizontally in front of {_p}			
+			stop
+		drop 1 of getBerry("grape") 2.35 meters above and 2 meters horizontally in front of {_p}		
+	else if {_t} is "lemon":
+		chance of 12%:
+			drop 3 of getBerry("lemon") 2.35 meters above and 2 meters horizontally in front of {_p}	
+			stop
+		chance of 26%:
+			drop 2 of getBerry("lemon") 2.35 meters above and 2 meters horizontally in front of {_p}	
+			stop
+		drop 1 of getBerry("lemon") 2.35 meters above and 2 meters horizontally in front of {_p}	
+	else if {_t} is "raspberry":
+		chance of 15%:
+			drop 4 of getBerry("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}	
+			stop
+		chance of 28%:
+			drop 3 of getBerry("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}	
+			stop			
+		chance of 35%:
+			drop 2 of getBerry("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}	
+			stop	
+		drop 1 of getBerry("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}			
+
+# Drop the needed sapling.
+function dropSapling(p: Player, t: String):
+	wait 4 ticks
+
+	if {_t} is "blueberry":
+		chance of 100%:
+			chance of 3%:
+				drop 3 of getBush("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			chance of 15%:
+				drop 2 of getBush("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			drop 1 of getBush("blueberry") 2.35 meters above and 2 meters horizontally in front of {_p}		
+	else if {_t} is "taco":
+		chance of 100%:
+			chance of 13%:
+				drop 2 of getBush("taco") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			drop 1 of getBush("taco") 2.35 meters above and 2 meters horizontally in front of {_p}		
+	else if {_t} is "eggplant":
+		chance of 100%:
+			chance of 5%:
+				drop 3 of getBush("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			chance of 13%:
+				drop 2 of getBush("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			drop 1 of getBush("eggplant") 2.35 meters above and 2 meters horizontally in front of {_p}	
+	else if {_t} is "grape":
+		chance of 100%:
+			chance of 4%:
+				drop 3 of getBush("grape") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop
+			chance of 15%:
+				drop 2 of getBush("grape") 2.35 meters above and 2 meters horizontally in front of {_p}			
+				stop
+			drop 1 of getBush("grape") 2.35 meters above and 2 meters horizontally in front of {_p}		 
+	else if {_t} is "lemon":
+		chance of 100%:
+			chance of 6%:
+				drop 2 of getBush("lemon") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop		
+			drop 1 of getBush("lemon") 2.35 meters above and 2 meters horizontally in front of {_p}				
+	else if {_t} is "raspberry":
+		chance of 100%:
+			chance of 5%:
+				drop 2 of getBush("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}
+				stop		
+			drop 1 of getBush("raspberry") 2.35 meters above and 2 meters horizontally in front of {_p}	
+
+# Prevent piston bugs.
+on piston extend:
+    loop moved blocks:
+        if loop-value is undecaying_oak_leaves or decaying_oak_leaves or decaying_undecaying_oak_leaves:
+            if {bush::data::%loop-value's location%} is set:
+                cancel event
+        else if loop-value is floor head:
+            if block below loop-value is undecaying_oak_leaves or decaying_oak_leaves or decaying_undecaying_oak_leaves:
+                cancel event             
+
+
+# other shit that i cant be bothered to put elsewhere lol.
+on rightclick:
+	if player is holding a ender_pearl:
+		send "&cEnderpearls have been disabled due to exploit abuse." to player
+		cancel event				

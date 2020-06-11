@@ -1,0 +1,221 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on load:
+    if {squads::*} is not set:
+        add "" to {squads::*}
+    if {squadtags::*} is not set:
+        add "" to {squadtags::*}
+
+on join:
+    if {player::squad::%player's uuid%} is not set:
+        set {player::squad::%player's uuid%} to "None"
+    
+    
+    set {-lastFarmAction::%player's uuid%} to now        
+
+command /squad [<string>] [<string>]:
+    trigger:
+        if difference between {-lastFarmAction::%player's uuid%} and now is less than 0.35 seconds:
+            send "&cPlease wait a moment before using this command again."
+            stop
+        set {_squad} to {player::squad::%player's uuid%}
+
+        # Create farm.
+        if arg-1 is "create":
+            if player has permission "core.tablist.rookie":
+                if {player::squad::%player's uuid%} is "None":
+                    if arg-2 is set:
+                        if isAlphanumeric(arg-2) is true:
+                            if length of arg-2 < 10:
+                                if {squads::*} doesn't contain arg-2:
+                                    if arg-2 is not "None":
+                                        createSquad(player, arg-2)
+                                    else:
+                                        send "&cIllegal name."                                        
+                                else:
+                                    send "&cSorry! There is already a Squad with the name &e%arg-2%&c."                                
+                            else:
+                                send "&cSorry! Your Squad name must be below &e10 characters&c."
+                        else:
+                            send "&cYou are not allowed to use special characters for a Squad name."                            
+                    else:
+                        send "&cUsage: /squad create <name>."
+                else:
+                    send "&cSorry! You are already apart of a Squad."                    
+            else:
+                send "&cSorry! You need to be &aRookie &cor higher to create a Squad!"
+
+        # Delete farm.
+        else if arg-1 is "delete" or "disband":
+            if arg-2 is "confirm":
+                if {_squad} is not "None":
+                    if {squad::leader::%{_squad}%} is player's uuid:
+
+                        if {-pendingDelete::%player's uuid%} is true:
+                            broadcast "%{rank::color::%player%}%%player% &ehas disbanded the Squad &6%{_squad}%&e."
+                            send "&eYou have disbanded the Squad &6%{_squad}%&e."
+
+                            remove {_squad} from {squads::*}
+                            loop {squad::members::%{_squad}%::*}:
+                                set {player::squad::%loop-index%} to "None"
+                            delete {squad::members::%{_squad}%::*}
+                            delete {-pendingDelete::%player's uuid%} 
+                            if {squad::tag::%{_squad}%} is not "None":
+                                remove {squad::tag::%{_squad}%} from {squadtags::*}                               
+                        else:
+                            send "&cThere is no active deletion request."
+                    else:
+                        send "&cSorry! You are not allowed to disband this Squad."
+                else:
+                    send "&cSorry! You are not currently apart of a Squad."
+            else:                                            
+
+                if {_squad} is not "None":
+                    if {squad::leader::%{_squad}%} is player's uuid:
+                        set {-pendingDelete::%player's uuid%} to true
+                        send "&eIf you are completely sure you would like to delete &6%{_squad}% &euse &f/squad %arg-1% confirm&e, this action cannot be undone and anything you may have bought will not be refunded."
+                        wait 10 seconds
+                        if {-pendingDelete::%player's uuid%} is set:
+                            delete {-pendingDelete::%player's uuid%}
+                            send "&eSquad deletion request has been cancelled."
+                        else:
+                            stop                        
+                    else:
+                        send "&cSorry! You are not allowed to disband this Squad."
+                else:
+                    send "&cSorry! You are not currently apart of a Squad."
+        
+        # List all members that are apart of a farm.
+        else if arg-1 is "list" or "info":    
+            if arg-2 is set:
+                if {squads::*} contains arg-2:
+                    send "&eViewing information for &6%arg-2%&e."
+                    listMenu(player, arg-2)
+                else:
+                    send "&cSorry! It looks like &e%arg-2% &cdoesn't exist!"                             
+            else:
+                if {player::squad::%player's uuid%} is not "None":
+                    send "&eViewing information for &6%{player::squad::%player's uuid%}%&e."
+                    listMenu(player, {player::squad::%player's uuid%})                    
+                else:
+                    send "&cUsage: /squad %arg-1% <name>."                         
+
+        # Invite peeps
+        else if arg-1 is "invite":
+            if arg-2 is set:
+                if {player::squad::%player's uuid%} is not "None":
+                    if {player::role::%player's uuid%} is "Leader" or "Officier":
+                        set {_p} to arg-2 parsed as an player
+                        if {_p} is an player:
+                            set {_u} to {_p}'s uuid
+                            if {player::squad::%{_u}%} is "None":
+                                if {-lastSquadInvite::%{_u}%::%{_squad}%} is not set:
+                                    set {-lastSquadInvite::%{_u}%::%{_squad}%} to now
+                                    send "&eSending an invite request to %{rank::color::%{_p}%}%%{_p}% &eto join &6%{_squad}%&e."
+
+                                    loop {squad::members::%{_squad}%::*}:
+                                        if loop-value is online:
+                                            send "%{rank::color::%player%}%%player% &ehas invited %{rank::color::%{_p}%}%%{_p}% &eto join the Squad!" to loop-value
+
+                                    inviteMember({_p}, player, {_squad})
+
+                                else:
+                                    if difference between {-lastSquadInvite::%{_u}%::%{_squad}%} and now is greater than 2 minutes:
+                                        set {-lastSquadInvite::%{_u}%::%{_squad}%} to now
+                                        send "&eSending an invite request to %{rank::color::%{_p}%}%%{_p}% &eto join &6%{_squad}%&e."
+
+                                        loop {squad::members::%{_squad}%::*}:
+                                            if loop-value is online:
+                                                send "%{rank::color::%player%}%%player% &ehas invited %{rank::color::%{_p}%}%%{_p}% &eto join the Squad!" to loop-value
+
+                                        inviteMember({_p}, player, {_squad})                                        
+                                    else:                                                                            
+                                        send "&cSorry! You have already invited &e%{_p}% &cin the last 2 minutes!"
+                            else:
+                                send "&cSorry! &e%{_p}% &cis already apart of another squad."
+                        else:
+                            send "&cSorry! &e%arg-2% &cis not currently online."                            
+                    else:
+                        send "&cSorry! You are not a high enough rank to invite players to the Squad."
+                else:
+                    send "&cSorry! You are not currently apart of a Squad."
+            else:
+                send "&cUsage: /squad invite <player>."       
+
+        # join farmz
+        else if arg-1 is "join":
+            if {player::squad::%player's uuid%} is "None":
+                if arg-2 is set:
+                    joinSquad(player, arg-2)
+                else:
+                    send "&cUsage: /squad join <name>."
+            else:
+                send "&cSorry! You are already apart of a Squad."                
+
+        # leave da fwarm
+        else if arg-1 is "leave":
+            if {player::squad::%player's uuid%} is not "None":
+                if {player::role::%player's uuid%} is not "Leader":
+                    leaveSquad(player, {_squad})
+                else:
+                    send "&cSorry! Since you are the leader of &e%{_squad}% &cyou can't leave."
+                    send "&cInstead use &e/squad setowner &cor &e/squad disband&c."
+            else:
+                send "&cSorry! You are not currently apart of a Squad."                    
+
+        # de chatty chat
+        else if arg-1 is "chat":
+            if {player::squad::%player's uuid%} is not "None":
+                if {-player::chat::%player's uuid%} is not set:
+                    set {-player::chat::%player's uuid%} to true
+                    send "&eYou have &aenabled &eSquad Chat."                
+                else:
+                    delete {-player::chat::%player's uuid%}
+                    send "&EYou have &cdisabled &eSquad Chat."
+            else:
+                send "&cSorry! You are not currently apart of a Squad."                                    
+
+        # tags or some shit
+        else if arg-1 is "tag" or "tags":
+            if {player::squad::%player's uuid%} is not "None":
+                if {player::role::%player's uuid%} is "Leader" or "Officier":
+                    if arg-2 is set:
+                        if arg-2 is not "remove" or "delete":
+                            if isAlphanumeric(arg-2) is true:
+                                if length of arg-2 is less than or equal to 4:
+                                    if {squadtags::*} doesn't contain arg-2:
+                                        setSquadTag(player, {_squad}, arg-2)    
+                                    else:
+                                        send "&cSorry! There is already a Squad with the tag &e%arg-2%&c."    
+                                else:
+                                    send "&cSorry! Your Squad tag must be below &e4 characters&c."
+                            else:                            
+                                send "&cYou are not allowed to use special characters for a Squad name." 
+                        else:
+                            setSquadTag(player, {_squad}, "None")                                   
+                    else:
+                        send "&cUsage: /squad %arg-1% <tag/remove>."                
+                else:
+                    send "&cSorry! You are not a high enough rank to change the tag of the Squad."
+            else:
+                send "&cSorry! You are not currently apart of a Squad."                    

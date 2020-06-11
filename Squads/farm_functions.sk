@@ -1,0 +1,170 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+function createSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	broadcast "%{rank::color::%{_p}%}%%{_p}% &ehas created the squad &6%{_squad}%&e."
+	send "&eCongratulations! You are now the proud owner of &6%{_squad}%&e, use &f/squad help &efor a list of all the commands you can use." to {_p}
+
+	set {player::squad::%{_u}%} to {_squad}
+	set {player::role::%{_u}%} to "Leader"
+	set {player::joined::%{_u}%} to now
+
+	# Sets all values.
+	set {squad::leader::%{_squad}%} to {_u}
+	set {squad::leader_name::%{_squad}%} to {_p}
+
+	set {squad::members::%{_squad}%::%{_u}%} to {_p}
+
+	set {squad::capacity::%{_squad}%} to 5
+	set {squad::current_capacity::%{_squad}%} to 1
+
+	set {squad::tag::%{_squad}%} to "None"
+
+	set {squad::creation::%{_squad}%} to now
+
+	set {squad::balance::%{_squad}%} to 0
+
+	set {squad::description::%{_squad}%} to "A new Squad!"
+
+	add {_squad} to {squads::*}
+
+# list shit
+function listMenu(p: Player, squad: String):
+	open virtual chest inventory with 4 rows named "&8Squad" to {_p}
+	loop 1*9 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+	set {_uwu} to 26
+	loop 1*9 times:
+		add 1 to {_uwu}
+		format gui slot {_uwu} of {_p} with gray stained glass pane named "" to do nothing
+	format gui slot 31 of {_p} with barrier named "&c&lExit" to run function closeMenu({_p})
+	set {_leader} to {squad::leader_name::%{_squad}%}
+	format gui slot 1 of {_p} with {_leader}'s skull named "&eLeader Information" with lore "%{rank::color::%{_leader}%}%%{_leader}% &7created &6%{_squad}% &7at &f%{squad::creation::%{_squad}%}%&7."
+	format gui slot 4 of {_p} with paper named "&6%{_squad}% &eInformation" with lore "&7Slots: &f%{squad::current_capacity::%{_squad}%}%&7/&f%{squad::capacity::%{_squad}%}%&7.||&7Squad Tag: &f%{squad::tag::%{_squad}%}%&7.||&7Creation Date: &f%{squad::creation::%{_squad}%}%&7.||&r||&7Description:||&f%{squad::description::%{_squad}%}%"
+	format gui slot 7 of {_p} with gold ingot named "&eBank" with lore "&6%{_squad}% &7currently has &2$&a%easyRead({squad::balance::%{_squad}%})% &7in it's bank."
+
+	set {_int} to 8
+	loop {squad::members::%{_squad}%::*}:
+		add 1 to {_int}
+		set {_u} to loop-value's uuid
+		if loop-value's balance is set:
+			format gui slot {_int} of {_p} with loop-value's skull named "%loop-value's prefix%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7.||&7Balance: &2$&a%easyRead(loop-value's balance)%&7."
+		else:			
+			format gui slot {_int} of {_p} with loop-value's skull named "%loop-value's prefix%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7."		
+
+# closes menus
+function closeMenu(p: Player):
+	close {_p}'s inventory			
+
+# invites a player to a farm.
+function inviteMember(p: Player, p2: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+
+	send "&6&m----------------------------------------" to {_p}
+	send "&e<ttp:&eClick to join &6%{_squad}%&e.><cmd:/squad join %{_squad}%>You have been invited to join &6%{_squad}%&e!" to {_p}
+	send "&e<ttp:&eClick to join &6%{_squad}%&e.><cmd:/squad join %{_squad}%>Use &6/squad join %{_squad}% &eto accept." to {_p}
+	send "&6&m----------------------------------------" to {_p}
+
+	add {_squad} to {-player::invited_squads::%{_u}%::*} 
+
+	wait 30 seconds
+	if {-player::invited_squads::%{_u}%::*} contains {_squad}:
+		remove {_squad} from {-player::invited_squads::%{_u}%::*}
+		send "&cYour request to join &e%{_squad}% &chas expired." to {_p}
+		send "&cYour request for &e%{_p}% &cto join your squad has expired." to {_p2}		
+
+# join a farm
+function joinSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	if {-player::invited_squads::%{_u}%::*} contains {_squad}:
+		if {squad::current_capacity::%{_squad}%} > {squad::capacity::%{_squad}%}
+		set {player::squad::%{_u}%} to {_squad}
+		set {player::role::%{_u}%} to "Member"
+		set {player::joined::%{_u}%} to now
+
+		remove {_squad} from {-player::invited_squads::%{_u}%::*}
+
+		set {squad::members::%{_squad}%::%{_u}%} to {_p}
+		add 1 to {squad::current_capacity::%{_squad}%}}
+
+		send "&eYou have joined the Squad &6%{_squad}%&e." to {_p}
+		loop {squad::members::%{_squad}%::*}:
+			if loop-value is online:
+				send "%{rank::color::%{_p}%}%%{_p}% &ehas joined the Squad!" to loop-value
+	else:
+		send "&cSorry! It seems you haven't been invited to &e%{_squad}%&c." to {_p}				
+
+# leave da farm
+function leaveSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	send "&eYou have left &6%{_squad}%&e!" to {_p}
+	set {player::squad::%{_u}%} to "None"
+	set {player::role::%{_u}%} to "Member"
+
+	delete {squad::members::%{_squad}%::%{_u}%}
+	remove 1 from {squad::current_capacity::%{_squad}%}
+
+	loop {squad::members::%{_squad}%::*}:
+		if loop-value is online:
+			send "%{rank::color::%{_p}%}%%{_p}% &ehas left the Squad!" to loop-value
+
+# sets some shit
+function setSquadTag(p: Player, squad: String, tag: String):
+    if {_tag} is not "None":
+        if {squad::tag::%{_squad}%} is not "None":
+            remove {_tag} from {squadtags::*}
+        set {squad::tag::%{_squad}%} to {_tag}
+        add {_tag} to {squadtags::*}
+        send "&eYou have set the Squad tag to &6%{_tag}%&e." to {_p}
+
+        loop {squad::members::%{_squad}%::*}:
+            if loop-value is online:
+                send "%{rank::color::%{_p}%}%%{_p}% &ehas set the Squad tag to &6%{_tag}%&e." to loop-value
+    else:
+        if {squad::tag::%{_squad}%} is not "None":
+            remove {_tag} from {squadtags::*}
+        set {squad::tag::%{_squad}%} to "None"
+        send "&eYou have removed your Squad tag." to {_p}
+
+        loop {squad::members::%{_squad}%::*}:
+            if loop-value is online:
+                send "%{rank::color::%{_p}%}%%{_p}% &ehas removed the Squad tag." to loop-value                        
+
+# farmz chat uwu
+on chat:
+	if {-player::chat::%player's uuid%} is set:
+		if {player::squad::%player's uuid%} is not "None":
+			set {_c} to {punishments::mute::counter::%player's uuid%}
+
+			if {punishments::mute::muted::%{_c}%::%player's uuid%} is true:
+				send "&cYou can't use Squad Chat while muted." to player
+				cancel event
+			else:
+				cancel event
+				loop {squad::members::%{player::squad::%player's uuid%}%::*}:
+					if loop-value is online:
+						send "&6[Squad Chat] &7(%{player::role::%player's uuid%}%) %{rank::color::%player%}%%player%: &f%message%" to loop-value

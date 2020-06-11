@@ -1,0 +1,107 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on load:
+	set {-link} to "http://admin.otlg.net:42069/api/"
+	set {-split1} to "/ehakjhh151/"
+	set {-split2} to "/eufi123/"
+	parseData()
+
+
+on command:
+	command contains "shop"
+	wait 10 ticks 
+
+	difference between {shopRead::lastCheck} and now >= 2 seconds
+	text from url "%{-link}%time" != {-time}
+	
+	parseData()
+
+
+function parseData(force: boolean = false):
+	set {shopRead::lastCheck} to now
+
+	set {_data} to text from url "%{-link}%parsedata"
+	set {-time} to text from url "%{-link}%time"
+
+	if {_force} = false:
+		{_data} is not set
+		stop
+	
+	delete {ShopItem::*}
+	delete {ShopCatagory::*}
+	delete {ShopCatagories::*}
+
+	set {_data::*} to {_data} split at {-split1}
+
+	set {_i} to 0
+	loop {_data::*}:
+		add 1 to {_i}
+		if {_i} = 100:
+			wait 1 tick
+			set {_i} to 0
+			
+		set {_content::*} to loop-value split at {-split2}
+		set {_pref} to {_content::1}
+		if {_pref} = "cat":
+			set {_cat} to {_content::2}
+			set {_item} to {_content::3}
+
+			if {ShopCatagory::%{_cat}%::*} contains {_item}:
+				set {_1} to 1
+			else:
+				add {_item} to {ShopCatagory::%{_cat}%::*}
+
+			if {ShopCatagories::*} contains {_cat}:
+				set {_1} to 1
+			else:
+				add {_cat} to {ShopCatagories::*}
+
+		else if {_pref} = "item":
+			set {_id} to {_content::2}
+			set {_var} to {_content::3}
+			set {_type} to {_content::4}
+			set {_val} to {_content::5}
+
+			if {_var} = "name":
+				if {_val} contains "ctm-":
+					add {_id} to {_injections::*}
+
+			if {_type} = "string":
+				set {_val} to {_val} parsed as a string
+			if {_type} = "boolean":
+				set {_val} to {_val} parsed as a boolean
+			if {_type} = "number":
+				set {_val} to {_val} parsed as a number
+
+			if {_var} = "item":
+				set {_val} to {_val} parsed as a item
+
+			set {ShopItem::item::%{_id}%::%{_var}%} to {_val}
+
+			if {ShopItem::items::*} contains {_id}:
+				set {ShopItem::item::%{_id}%::match} to false
+			else:
+				add {_id} to {ShopItem::items::*}
+
+	loop {_injections::*}:
+		inject(loop-value)

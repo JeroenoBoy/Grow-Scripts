@@ -1,0 +1,741 @@
+(1)[2020/03/29 16:57:38]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 761ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 14), (t: difference, c: 11.645535844976928,
+  n: 4.972488775849482, d: 6.673047069127446, t: 45, l: 1.5, p: false)]'
+(2)[2020/03/29 16:57:39]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 761ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 14), (t: instant, a: 21)]'
+(3)[2020/03/29 16:57:39]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 761ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 14), (t: difference, c: 13.226422452490585,
+  n: 4.564326699840692, d: 8.662095752649893, t: 34, l: 1.5, p: false)]'
+(4)[2020/03/29 16:57:39]: '[Spartan Build 310-17220/-2124123065] Rainytime failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 211ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 14), (t: difference, c: 13.391332153010417,
+  n: 6.661083160276581, d: 6.730248992733836, t: 23, l: 1.5, p: false)]'
+(5)[2020/03/29 16:57:54]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 21, r: 0.0)]'
+(6)[2020/03/29 16:57:54]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.79),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 23, r: 0.0)]'
+(7)[2020/03/29 16:57:54]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.79),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 24, r: 0.0)]'
+(8)[2020/03/29 16:57:54]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.80),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 26, r: 0.0)]'
+(9)[2020/03/29 16:57:54]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 5) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.80),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 27, r: 0.0)]'
+(10)[2020/03/29 16:57:55]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 6) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.64),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 47, r: 0.0)]'
+(11)[2020/03/29 16:57:55]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 7) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.60),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 48, r: 0.0)]'
+(12)[2020/03/29 16:57:55]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 8) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.66),
+  (Plib: false), (Async: false), (Online: 16), (t: stable, d: 0.0, a: 48, r: 0.0)]'
+(13)[2020/03/29 16:58:15]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  MorePackets (VL: 4) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 615ms), (TPS:
+  19.89), (Plib: false), (Async: false), (Online: 17), (t: difference, c: 17.792411324391313,
+  n: 4.267781907502047, d: 13.524629416889265, t: 24, l: 1.5, p: false)]'
+(14)[2020/03/29 16:58:16]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 9) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 615ms), (TPS: 19.80),
+  (Plib: false), (Async: false), (Online: 18), (t: stable, d: 0.0, a: 21, r: 0.0)]'
+(15)[2020/03/29 16:58:25]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 662ms), (TPS:
+  19.80), (Plib: false), (Async: false), (Online: 18), (t: undetected movement, ms:
+  348, d: 0.0)]'
+(16)[2020/03/29 16:58:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  ImpossibleActions (VL: 1) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 662ms),
+  (TPS: 19.77), (Plib: false), (Async: false), (Online: 19), (t: cactus)]'
+(17)[2020/03/29 16:58:35]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 10) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 662ms), (TPS: 19.79),
+  (Plib: false), (Async: false), (Online: 19), (t: stable, d: 0.0, a: 45, r: 0.0)]'
+(18)[2020/03/29 16:58:49]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  ImpossibleActions (VL: 1) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 684ms),
+  (TPS: 19.66), (Plib: false), (Async: false), (Online: 21), (t: cactus)]'
+(19)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.71),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 16, r: 0.0)]'
+(20)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.88),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 17, r: 0.0)]'
+(21)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 18, r: 0.0)]'
+(22)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.78),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 18, r: 0.0)]'
+(23)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 5) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 21, r: 0.0)]'
+(24)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 6) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.72),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 23, r: 0.0)]'
+(25)[2020/03/29 16:58:50]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 7) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.67),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 24, r: 0.0)]'
+(26)[2020/03/29 16:58:51]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 8) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 684ms), (TPS: 19.63),
+  (Plib: false), (Async: false), (Online: 22), (t: stable, d: 0.0, a: 26, r: 0.0)]'
+(27)[2020/03/29 16:59:18]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  ImpossibleActions (VL: 2) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 557ms),
+  (TPS: 19.82), (Plib: false), (Async: false), (Online: 21), (t: cactus)]'
+(28)[2020/03/29 16:59:50]: '[Spartan Build 310-17220/-2124123065] IWzllFollowYou failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 118ms), (TPS:
+  8.166), (Plib: false), (Async: false), (Online: 23), (t: ypos, d: 0.45719530043343626,
+  dm: 0.68, dm_s: 0.68)]'
+(29)[2020/03/29 16:59:51]: '[Spartan Build 310-17220/-2124123065] Lnke failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 362ms), (TPS: 12.35),
+  (Plib: false), (Async: false), (Online: 23), (t: normal, reason: air, d: 0.6394800421895757,
+  dm: 0.39, dm_s: 0.48750000000000004, a: 0)]'
+(30)[2020/03/29 16:59:55]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 450ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: undetected movement, ms:
+  361, d: 0.0625)]'
+(31)[2020/03/29 16:59:56]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 347ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: undetected movement, ms:
+  311, d: 0.0)]'
+(32)[2020/03/29 17:00:05]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 2) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 400ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: undetected movement, ms:
+  372, d: 0.0625)]'
+(33)[2020/03/29 17:00:07]: '[Spartan Build 310-17220/-2124123065] Lnke failed Speed
+  (VL: 2) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 302ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: normal, reason: ground, d: 0.3362891105546372,
+  dm: 0.325, dm_s: 0.325, a: 0)]'
+(34)[2020/03/29 17:00:11]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 3) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 400ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: undetected movement, ms:
+  332, d: 0.0625)]'
+(35)[2020/03/29 17:00:13]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 4) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 400ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: undetected movement, ms:
+  293, d: 0.0625)]'
+(36)[2020/03/29 17:00:18]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Lnke failed MorePackets (VL: 0) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping:
+  302ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 23), (t: difference,
+  c: 19.540444358869156, n: 7.843379773548145, d: 11.69706458532101, t: 24, l: 1.5,
+  p: false)]'
+(37)[2020/03/29 17:00:24]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  ImpossibleActions (VL: 1) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 344ms),
+  (TPS: 19.70), (Plib: false), (Async: false), (Online: 23), (t: cactus)]'
+(38)[2020/03/29 17:01:36]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 271ms), (TPS:
+  11.24), (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.5909915136419158,
+  dm: 0.68, dm_s: 0.68)]'
+(39)[2020/03/29 17:02:06]: '[Spartan Build 310-17220/-2124123065] UKF failed MorePackets
+  (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 272ms), (TPS: 11.95),
+  (Plib: false), (Async: false), (Online: 23), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.986361974144257)]'
+(40)[2020/03/29 17:02:15]: '[Spartan Build 310-17220/-2124123065] UKF failed MorePackets
+  (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 234ms), (TPS: 18.28),
+  (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 7.054510994711378)]'
+(41)[2020/03/29 17:02:29]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  UKF failed MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping:
+  234ms), (TPS: 20.0), (Plib: false), (Async: false), (Online: 21), (t: instant, a:
+  20)]'
+(42)[2020/03/29 17:02:58]: '[Spartan Build 310-17220/-2124123065] CubedSkyblock failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 75ms), (TPS:
+  8.765), (Plib: false), (Async: false), (Online: 21), (t: overall, diff: 1.7976931348623157E308,
+  d: 12.955714657130484)]'
+(43)[2020/03/29 17:03:23]: '[Spartan Build 310-17220/-2124123065] UKF failed MorePackets
+  (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 197ms), (TPS: 16.82),
+  (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.325834152258212)]'
+(44)[2020/03/29 17:03:51]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  OllieTheYTKid failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 186ms), (TPS: 8.939), (Plib: false), (Async: false), (Online: 22), (t: ypos,
+  d: 0.5279272920230108, dm: 0.68, dm_s: 0.68)]'
+(45)[2020/03/29 17:03:52]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 186ms), (TPS:
+  8.517), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 6.705389332879016)]'
+(46)[2020/03/29 17:04:19]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  OllieTheYTKid failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 186ms), (TPS: 5.704), (Plib: false), (Async: false), (Online: 24), (t: ypos,
+  d: 0.5667530723123395, dm: 0.68, dm_s: 0.68)]'
+(47)[2020/03/29 17:04:20]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  UKF failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 165ms),
+  (TPS: 6.148), (Plib: false), (Async: false), (Online: 24), (t: ypos, d: 0.5066116679111643,
+  dm: 0.68, dm_s: 0.68)]'
+(48)[2020/03/29 17:04:21]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 186ms), (TPS:
+  6.726), (Plib: false), (Async: false), (Online: 24), (t: ypos, d: 0.4775191405858696,
+  dm: 0.68, dm_s: 0.68)]'
+(49)[2020/03/29 17:04:23]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 186ms), (TPS:
+  7.365), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 9.36472052486306)]'
+(50)[2020/03/29 17:04:23]: '[Spartan Build 310-17220/-2124123065] ItsMeBen2010 failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 1343ms), (TPS:
+  7.416), (Plib: false), (Async: false), (Online: 24), (t: ypos, d: 0.5706121412615438,
+  dm: 0.68, dm_s: 0.68)]'
+(51)[2020/03/29 17:04:25]: '[Spartan Build 310-17220/-2124123065] ItsMeBen2010 failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 1343ms), (TPS:
+  8.509), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 10.014505313719226)]'
+(52)[2020/03/29 17:04:26]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 186ms), (TPS:
+  9.734), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 12.955153012758513)]'
+(53)[2020/03/29 17:04:43]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 4) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 203ms), (TPS:
+  11.59), (Plib: false), (Async: false), (Online: 25), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.262319673858741)]'
+(54)[2020/03/29 17:04:52]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 5) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 203ms), (TPS:
+  18.69), (Plib: false), (Async: false), (Online: 25), (t: difference, c: 12.85186862825101,
+  n: 6.760970989524389, d: 6.090897638726621, t: 23, l: 1.5, p: false)]'
+(55)[2020/03/29 17:05:03]: '[Spartan Build 310-17220/-2124123065] 78zs failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 298ms), (TPS: 10.92),
+  (Plib: false), (Async: false), (Online: 25), (t: ypos, d: 0.6122004617612379, dm:
+  0.68, dm_s: 0.68)]'
+(56)[2020/03/29 17:05:14]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 6) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 222ms), (TPS:
+  7.114), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 11.597094597291042)]'
+(57)[2020/03/29 17:05:14]: '[Spartan Build 310-17220/-2124123065] 78zs failed MorePackets
+  (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 298ms), (TPS: 7.154),
+  (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 12.282803548217263)]'
+(58)[2020/03/29 17:05:19]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 7) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 222ms), (TPS:
+  7.289), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 7.2757459800367865)]'
+(59)[2020/03/29 17:05:25]: '[Spartan Build 310-17220/-2124123065] MysticPotatoo failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 399ms), (TPS:
+  7.304), (Plib: false), (Async: false), (Online: 24), (t: ypos, d: 0.6080607571423944,
+  dm: 0.68, dm_s: 0.68)]'
+(60)[2020/03/29 17:06:31]: '[Spartan Build 310-17220/-2124123065] ___Misha___ failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 320ms), (TPS:
+  19.84), (Plib: false), (Async: false), (Online: 24), (t: undetected movement, ms:
+  25249, d: 0.0)]'
+(61)[2020/03/29 17:06:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  ImpossibleActions (VL: 1) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 186ms),
+  (TPS: 19.77), (Plib: false), (Async: false), (Online: 24), (t: cactus)]'
+(62)[2020/03/29 17:07:01]: '[Spartan Build 310-17220/-2124123065] IWzllFollowYou failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 73ms), (TPS: 9.399),
+  (Plib: false), (Async: false), (Online: 23), (t: ypos, d: 0.5739001261218502, dm:
+  0.68, dm_s: 0.68)]'
+(63)[2020/03/29 17:07:01]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  OllieTheYTKid failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 194ms), (TPS: 9.341), (Plib: false), (Async: false), (Online: 23), (t: ypos,
+  d: 0.5341177739268674, dm: 0.68, dm_s: 0.68)]'
+(64)[2020/03/29 17:07:05]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 152ms), (TPS:
+  9.397), (Plib: false), (Async: false), (Online: 23), (t: overall, diff: 1.7976931348623157E308,
+  d: 11.528502309044715)]'
+(65)[2020/03/29 17:07:29]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 541ms), (TPS: 10.16),
+  (Plib: false), (Async: false), (Online: 22), (t: neutral, d: 0.0, r: 0.9375, od:
+  0.0, ds: 0.0, a: 22, i: false, c: 3)]'
+(66)[2020/03/29 17:07:29]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 541ms), (TPS: 10.11),
+  (Plib: false), (Async: false), (Online: 22), (t: neutral, d: 0.0, r: 0.9375, od:
+  0.0, ds: 0.0, a: 22, i: false, c: 3)]'
+(67)[2020/03/29 17:07:30]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 466ms), (TPS: 9.740),
+  (Plib: false), (Async: false), (Online: 22), (t: neutral, d: 0.0, r: 0.9375, od:
+  0.0, ds: 0.0, a: 26, i: false, c: 3)]'
+(68)[2020/03/29 17:07:30]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 466ms), (TPS: 9.704),
+  (Plib: false), (Async: false), (Online: 22), (t: neutral, d: 0.41999998688697815,
+  r: 0.35749998688697815, od: 0.0, ds: 0.41999998688697815, a: 27, i: false, c: 2)]'
+(69)[2020/03/29 17:07:43]: '[Spartan Build 310-17220/-2124123065] CubedSkyblock failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 240ms), (TPS:
+  6.872), (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.6024909914564786,
+  dm: 0.68, dm_s: 0.68)]'
+(70)[2020/03/29 17:07:56]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  MysticPotatoo failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 186ms), (TPS: 6.523), (Plib: false), (Async: false), (Online: 22), (t: ypos,
+  d: 0.5450183631129388, dm: 0.68, dm_s: 0.68)]'
+(71)[2020/03/29 17:08:03]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 160ms), (TPS:
+  10.08), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 10.494022238904872)]'
+(72)[2020/03/29 17:08:04]: '[Spartan Build 310-17220/-2124123065] 78zs failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 260ms), (TPS: 9.967),
+  (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.6116176822515526, dm:
+  0.68, dm_s: 0.68)]'
+(73)[2020/03/29 17:08:28]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 160ms), (TPS:
+  13.48), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 12.266086291155256)]'
+(74)[2020/03/29 17:08:37]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 160ms), (TPS:
+  18.69), (Plib: false), (Async: false), (Online: 22), (t: difference, c: 18.957159232722013,
+  n: 10.908089041113225, d: 8.049070191608788, t: 25, l: 1.5, p: false)]'
+(75)[2020/03/29 17:08:57]: '[Spartan Build 310-17220/-2124123065] CuzImHerper failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 123ms), (TPS:
+  18.37), (Plib: false), (Async: false), (Online: 22), (t: difference, c: 9.733937667144728,
+  n: 7.973427337396844, d: 1.7605103297478841, t: 24, l: 1.5, p: false)]'
+(76)[2020/03/29 17:08:57]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 138ms), (TPS:
+  18.62), (Plib: false), (Async: false), (Online: 22), (t: difference, c: 11.392805940874277,
+  n: 7.857107545968691, d: 3.5356983949055865, t: 26, l: 1.5, p: false)]'
+(77)[2020/03/29 17:08:58]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 173ms), (TPS:
+  17.54), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.248896677253912)]'
+(78)[2020/03/29 17:09:15]: '[Spartan Build 310-17220/-2124123065] Marius_t_h failed
+  MorePackets (VL: 4) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 132ms), (TPS:
+  9.293), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 14.250517107506518)]'
+(79)[2020/03/29 17:09:25]: '[Spartan Build 310-17220/-2124123065] CubedSkyblock failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 165ms), (TPS:
+  6.929), (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.6053347074735398,
+  dm: 0.68, dm_s: 0.68)]'
+(80)[2020/03/29 17:09:44]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  OllieTheYTKid failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 164ms), (TPS: 4.961), (Plib: false), (Async: false), (Online: 22), (t: ypos,
+  d: 0.5403413562282882, dm: 0.68, dm_s: 0.68)]'
+(81)[2020/03/29 17:09:45]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 164ms), (TPS:
+  4.989), (Plib: false), (Async: false), (Online: 22), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.047451917230081)]'
+(82)[2020/03/29 17:09:46]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 164ms), (TPS:
+  4.953), (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.5397352810124911,
+  dm: 0.68, dm_s: 0.68)]'
+(83)[2020/03/29 17:09:49]: '[Spartan Build 310-17220/-2124123065] IWzllFollowYou failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 140ms), (TPS:
+  5.231), (Plib: false), (Async: false), (Online: 22), (t: ypos, d: 0.6009957270128357,
+  dm: 0.68, dm_s: 0.68)]'
+(84)[2020/03/29 17:09:53]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 164ms), (TPS:
+  7.410), (Plib: false), (Async: false), (Online: 23), (t: overall, diff: 1.7976931348623157E308,
+  d: 9.215109277506965)]'
+(85)[2020/03/29 17:10:00]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell failed
+  IrregularMovements (VL: 1) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping: 463ms),
+  (TPS: 12.25), (Plib: false), (Async: false), (Online: 23), (t: step(high), d: 1.0,
+  dm: 0.601)]'
+(86)[2020/03/29 17:10:14]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  OllieTheYTKid failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 158ms), (TPS: 10.62), (Plib: false), (Async: false), (Online: 23), (t: ypos,
+  d: 0.5902384255748785, dm: 0.68, dm_s: 0.68)]'
+(87)[2020/03/29 17:10:37]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 19.44),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 30, r: 0.0)]'
+(88)[2020/03/29 17:10:38]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 19.48),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 31, r: 0.0)]'
+(89)[2020/03/29 17:10:38]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 19.53),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 32, r: 0.0)]'
+(90)[2020/03/29 17:10:38]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 19.44),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 33, r: 0.0)]'
+(91)[2020/03/29 17:10:39]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 5) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 17.70),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 12, r: 0.0)]'
+(92)[2020/03/29 17:10:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 6) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 17.73),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 12, r: 0.0)]'
+(93)[2020/03/29 17:10:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 7) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 17.70),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 13, r: 0.0)]'
+(94)[2020/03/29 17:10:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 8) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 17.71),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 13, r: 0.0)]'
+(95)[2020/03/29 17:10:40]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 154ms), (TPS:
+  17.21), (Plib: false), (Async: false), (Online: 23), (t: overall, diff: 1.7976931348623157E308,
+  d: 9.917689473619255)]'
+(96)[2020/03/29 17:10:47]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 154ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: difference, c: 17.525258865184675,
+  n: 12.669671142548264, d: 4.855587722636411, t: 23, l: 1.5, p: false)]'
+(97)[2020/03/29 17:10:49]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 9) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 254ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 14, r: 0.0)]'
+(98)[2020/03/29 17:10:56]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 154ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: instant, a: 20)]'
+(99)[2020/03/29 17:10:57]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 4) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 180ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 23), (t: difference, c: 12.857384197875867,
+  n: 5.601810065251288, d: 7.255574132624578, t: 29, l: 1.5, p: false)]'
+(100)[2020/03/29 17:10:57]: '[Spartan Build 310-17220/-2124123065] CuzImHerper failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 138ms), (TPS:
+  19.82), (Plib: false), (Async: false), (Online: 23), (t: difference, c: 9.319882155439776,
+  n: 6.325073186749152, d: 2.9948089686906245, t: 31, l: 1.5, p: false)]'
+(101)[2020/03/29 17:11:30]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 20, r: 0.0)]'
+(102)[2020/03/29 17:11:30]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 22, r: 0.0)]'
+(103)[2020/03/29 17:11:30]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 24, r: 0.0)]'
+(104)[2020/03/29 17:11:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 25, r: 0.0)]'
+(105)[2020/03/29 17:11:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 5) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 27, r: 0.0)]'
+(106)[2020/03/29 17:11:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 6) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 28, r: 0.0)]'
+(107)[2020/03/29 17:11:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 7) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 29, r: 0.0)]'
+(108)[2020/03/29 17:11:31]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 8) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 240ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 23), (t: stable, d: 0.0, a: 43, r: 0.0)]'
+(109)[2020/03/29 17:11:47]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 190ms),
+  (TPS: 18.61), (Plib: false), (Async: false), (Online: 23), (t: difference, c: 9.878135042645926,
+  n: 6.750948949115733, d: 3.1271860935301934, t: 23, l: 1.5, p: false)]'
+(110)[2020/03/29 17:12:37]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.74),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 40, r: 0.0)]'
+(111)[2020/03/29 17:12:37]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.74),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 41, r: 0.0)]'
+(112)[2020/03/29 17:12:37]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.74),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 42, r: 0.0)]'
+(113)[2020/03/29 17:12:38]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 4) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 45, r: 0.0)]'
+(114)[2020/03/29 17:12:39]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 5) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.57),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 64, r: 0.0)]'
+(115)[2020/03/29 17:12:39]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 6) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.50),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 80, r: 0.0)]'
+(116)[2020/03/29 17:12:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 7) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.54),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 81, r: 0.0)]'
+(117)[2020/03/29 17:12:40]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 8) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 193ms), (TPS: 19.55),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 82, r: 0.0)]'
+(118)[2020/03/29 17:14:34]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 190ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 42, r: 0.0)]'
+(119)[2020/03/29 17:14:34]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 2) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 190ms), (TPS: 19.73),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 45, r: 0.0)]'
+(120)[2020/03/29 17:14:34]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Fly (VL: 3) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 190ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 21), (t: stable, d: 0.0, a: 46, r: 0.0)]'
+(121)[2020/03/29 17:15:08]: '[Spartan Build 310-17220/-2124123065] MagicPotatoooo
+  failed MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 207ms),
+  (TPS: 13.86), (Plib: false), (Async: false), (Online: 20), (t: overall, diff: 1.7976931348623157E308,
+  d: 9.688008745944032)]'
+(122)[2020/03/29 17:15:57]: '[Spartan Build 310-17220/-2124123065] Danne1732Alt1 failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 128ms), (TPS:
+  12.18), (Plib: false), (Async: false), (Online: 21), (t: hop(motion), d: 0.3572706003311368,
+  dm: 0.39)]'
+(123)[2020/03/29 17:15:57]: '[Spartan Build 310-17220/-2124123065] Danne1732Alt1 failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 128ms), (TPS:
+  12.06), (Plib: false), (Async: false), (Online: 21), (t: overall, diff: 1.7976931348623157E308,
+  d: 12.747612716007378)]'
+(124)[2020/03/29 17:16:19]: '[Spartan Build 310-17220/-2124123065] BoblaOG failed
+  Nuker (VL: 1) [(Version: 1.12), (C-V: 1) (Silent: false), (Ping: 66ms), (TPS: 4.748),
+  (Plib: false), (Async: false), (Online: 21), (t: delay, ms: 25, l: 50, b: hopper)]'
+(125)[2020/03/29 17:16:31]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Porama6400 failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping:
+  398ms), (TPS: 8.097), (Plib: false), (Async: false), (Online: 21), (t: ypos, d:
+  0.43828447613003885, dm: 0.68, dm_s: 0.68)]'
+(126)[2020/03/29 17:17:48]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  MagicPotatoooo failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 125ms), (TPS: 5.743), (Plib: false), (Async: false), (Online: 21), (t: ypos,
+  d: 0.6073566846926376, dm: 0.68, dm_s: 0.68)]'
+(127)[2020/03/29 17:17:49]: '[Spartan Build 310-17220/-2124123065] MagicPotatoooo
+  failed Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 125ms),
+  (TPS: 6.166), (Plib: false), (Async: false), (Online: 21), (t: ypos, d: 0.5193706308864187,
+  dm: 0.68, dm_s: 0.68)]'
+(128)[2020/03/29 17:19:33]: '[Spartan Build 310-17220/-2124123065] ___Misha___ failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 274ms), (TPS: 11.03),
+  (Plib: false), (Async: false), (Online: 23), (t: pre, d: -0.5654551304719604, ds:
+  0.4002685937514059, a: 0, r: 0.875)]'
+(129)[2020/03/29 17:20:09]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 242ms), (TPS:
+  19.49), (Plib: false), (Async: false), (Online: 23), (t: difference, c: 9.79236948957991,
+  n: 6.002476211346392, d: 3.789893278233518, t: 25, l: 1.5, p: false)]'
+(130)[2020/03/29 17:22:19]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 254ms), (TPS:
+  19.14), (Plib: false), (Async: false), (Online: 25), (t: undetected movement, ms:
+  242, d: 0.0)]'
+(131)[2020/03/29 17:22:35]: '[Spartan Build 310-17220/-2124123065] Fatjoy failed Exploits
+  (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 69ms), (TPS: 19.71),
+  (Plib: false), (Async: false), (Online: 24), (t: undetected movement, ms: 234, d:
+  0.0)]'
+(132)[2020/03/29 17:22:39]: '[Spartan Build 310-17220/-2124123065] Fatjoy failed Exploits
+  (VL: 2) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 69ms), (TPS: 20.0), (Plib:
+  false), (Async: false), (Online: 25), (t: undetected movement, ms: 257, d: 0.0)]'
+(133)[2020/03/29 17:24:25]: '[Spartan Build 310-17220/-2124123065] zpownerx failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 177ms), (TPS:
+  19.80), (Plib: false), (Async: false), (Online: 24), (t: delay, ct: 19, ms: 1)]'
+(134)[2020/03/29 17:24:52]: '[Spartan Build 310-17220/-2124123065] BoblaOG failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 66ms), (TPS: 19.90),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: soul-sand, d: 0.19526781265757204,
+  dm: 0.18, dm_s: 0.18, a: 0)]'
+(135)[2020/03/29 17:24:52]: '[Spartan Build 310-17220/-2124123065] BoblaOG failed
+  Speed (VL: 2) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 66ms), (TPS: 19.90),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: soul-sand, d: 0.19549840822996203,
+  dm: 0.18, dm_s: 0.18, a: 0)]'
+(136)[2020/03/29 17:25:16]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  BlueKing360 failed Exploits (VL: 0) [(Version: 1.12), (C-V: 3) (Silent: false),
+  (Ping: 163ms), (TPS: 19.25), (Plib: false), (Async: false), (Online: 24), (t: undetected
+  movement, ms: 198, d: 0.0)]'
+(137)[2020/03/29 17:26:12]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  MagicPotatoooo failed Exploits (VL: 0) [(Version: 1.12), (C-V: 3) (Silent: false),
+  (Ping: 86ms), (TPS: 20.0), (Plib: false), (Async: false), (Online: 24), (t: undetected
+  movement, ms: 217, d: 0.0)]'
+(138)[2020/03/29 17:26:18]: '[Spartan Build 310-17220/-2124123065] OllieTheYTKid failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 315ms), (TPS:
+  13.90), (Plib: false), (Async: false), (Online: 24), (t: ypos, d: 0.5248737218135064,
+  dm: 0.68, dm_s: 0.68)]'
+(139)[2020/03/29 17:28:00]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  78zs failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 185ms),
+  (TPS: 20.0), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air,
+  d: 0.5254128295812148, dm: 0.39, dm_s: 0.39, a: 0)]'
+(140)[2020/03/29 17:28:00]: '[Spartan Build 310-17220/-2124123065] 78zs failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 185ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 24), (t: air(decreased), d: 0.4061489965885285)]'
+(141)[2020/03/29 17:31:24]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Fatjoy failed Fly (VL: 0) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 73ms),
+  (TPS: 19.80), (Plib: false), (Async: false), (Online: 23), (t: up, d: 0.07603999748945256,
+  ds: 0.04570358398851937, r: 0.43027721005368846, a: 14)]'
+(142)[2020/03/29 17:31:25]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Fatjoy failed Fly (VL: 0) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 73ms),
+  (TPS: 19.80), (Plib: false), (Async: false), (Online: 23), (t: up, d: 0.09963359900245905,
+  ds: 0.018841600335697706, r: 0.6107028077229089, a: 16)]'
+(143)[2020/03/29 17:31:25]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Fatjoy failed Fly (VL: 0) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 73ms),
+  (TPS: 19.81), (Plib: false), (Async: false), (Online: 23), (t: up, d: 0.13641240387296705,
+  ds: 0.009646899803129827, r: 0.9885875951613343, a: 18)]'
+(144)[2020/03/29 17:31:25]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Fatjoy failed Fly (VL: 0) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 73ms),
+  (TPS: 19.78), (Plib: false), (Async: false), (Online: 23), (t: up, d: 0.10412992472453197,
+  ds: 0.03228247914843507, r: 0.0927175198858663, a: 20)]'
+(145)[2020/03/29 17:32:11]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  BlueKing360 failed MorePackets (VL: 0) [(Version: 1.12), (C-V: 6) (Silent: true),
+  (Ping: 162ms), (TPS: 19.80), (Plib: false), (Async: false), (Online: 22), (t: instant,
+  a: 12)]'
+(146)[2020/03/29 17:32:39]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  BlueKing360 failed Exploits (VL: 0) [(Version: 1.12), (C-V: 3) (Silent: false),
+  (Ping: 161ms), (TPS: 19.70), (Plib: false), (Async: false), (Online: 22), (t: undetected
+  movement, ms: 253, d: 0.0)]'
+(147)[2020/03/29 17:32:43]: '[Spartan Build 310-17220/-2124123065] BlueKing360 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 161ms), (TPS:
+  19.72), (Plib: false), (Async: false), (Online: 22), (t: undetected movement, ms:
+  248, d: 0.0)]'
+(148)[2020/03/29 17:34:07]: '[Spartan Build 310-17220/-2124123065] 78zs failed Fly
+  (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 139ms), (TPS: 19.76),
+  (Plib: false), (Async: false), (Online: 27), (t: neutral, d: 0.0, r: 0.625, od:
+  -0.1413679939575161, ds: 0.1413679939575161, a: 605, i: true, c: 1)]'
+(149)[2020/03/29 17:36:53]: '[Spartan Build 310-17220/-2124123065] MrBeanz05 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 155ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 26), (t: undetected movement, ms:
+  200, d: 0.0)]'
+(150)[2020/03/29 17:48:58]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Fatjoy failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping:
+  76ms), (TPS: 19.80), (Plib: false), (Async: false), (Online: 27), (t: normal, reason:
+  walking, d: 0.29363518979193753, dm: 0.292, dm_s: 0.292, a: 0)]'
+(151)[2020/03/29 17:50:10]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 70ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 24), (t: undetected movement, ms:
+  251, d: 0.0)]'
+(152)[2020/03/29 17:50:21]: '[Spartan Build 310-17220/-2124123065] Jeroeno_Boy failed
+  Fly (VL: 1) [(Version: 1.12), (C-V: 8) (Silent: false), (Ping: 57ms), (TPS: 20.0),
+  (Plib: false), (Async: false), (Online: 24), (t: neutral, d: 0.0, r: 0.625, od:
+  -0.1413679939575161, ds: 0.1413679939575161, a: 17, i: true, c: 1)]'
+(153)[2020/03/29 17:51:45]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 65ms), (TPS:
+  19.65), (Plib: false), (Async: false), (Online: 24), (t: undetected movement, ms:
+  401, d: 0.0)]'
+(154)[2020/03/29 18:01:10]: '[Spartan Build 310-17220/-2124123065] Xx_NoHax_xX failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 50ms), (TPS:
+  10.08), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 11.136509473903091)]'
+(155)[2020/03/29 18:02:10]: '[Spartan Build 310-17220/-2124123065] Postulation failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 957ms), (TPS:
+  13.08), (Plib: false), (Async: false), (Online: 26), (t: overall, diff: 1.7976931348623157E308,
+  d: 6.672877916262303)]'
+(156)[2020/03/29 18:02:12]: '[Spartan Build 310-17220/-2124123065] Postulation failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 957ms), (TPS:
+  13.03), (Plib: false), (Async: false), (Online: 26), (t: normal, reason: ground,
+  d: 0.4540655377435188, dm: 0.39, dm_s: 0.39, a: 0)]'
+(157)[2020/03/29 18:03:08]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  _UniqueFestell failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false),
+  (Ping: 84ms), (TPS: 6.048), (Plib: false), (Async: false), (Online: 25), (t: ypos,
+  d: 0.48577570890784333, dm: 0.68, dm_s: 0.68)]'
+(158)[2020/03/29 18:03:10]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 84ms),
+  (TPS: 6.263), (Plib: false), (Async: false), (Online: 25), (t: ypos, d: 0.6106901852404053,
+  dm: 0.68, dm_s: 0.68)]'
+(159)[2020/03/29 18:05:05]: '[Spartan Build 310-17220/-2124123065] Elb_jaeger46 failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 771ms), (TPS:
+  8.053), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air, d:
+  0.6218055603585015, dm: 0.39, dm_s: 0.48750000000000004, a: 0)]'
+(160)[2020/03/29 18:05:17]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  YoloBoys360 failed Nuker (VL: 0) [(Version: 1.12), (C-V: 1) (Silent: false), (Ping:
+  114ms), (TPS: 8.036), (Plib: false), (Async: false), (Online: 24), (t: delay, ms:
+  39, l: 50, b: stone)]'
+(161)[2020/03/29 18:05:36]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Elb_jaeger46 failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping:
+  613ms), (TPS: 6.204), (Plib: false), (Async: false), (Online: 25), (t: ypos, d:
+  0.5867242125870277, dm: 0.68, dm_s: 0.68)]'
+(162)[2020/03/29 18:07:34]: '[Spartan Build 310-17220/-2124123065] Xx_NoHax_xX failed
+  BlockReach (VL: 1) [(Version: 1.12), (C-V: 2) (Silent: false), (Ping: 69ms), (TPS:
+  6.563), (Plib: false), (Async: false), (Online: 24), (t: break, d: 14.740821265690297)]'
+(163)[2020/03/29 18:10:30]: '[Spartan Build 310-17220/-2124123065] MagicPotatoooo
+  failed MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 187ms),
+  (TPS: 14.50), (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 7.356942547947909)]'
+(164)[2020/03/29 18:10:51]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  YoloBoys360 failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping:
+  105ms), (TPS: 20.0), (Plib: false), (Async: false), (Online: 24), (t: normal, reason:
+  air, d: 0.5316292561289301, dm: 0.525, dm_s: 0.525, a: 0)]'
+(165)[2020/03/29 18:10:54]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 105ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 24), (t: instant, a: 10)]'
+(166)[2020/03/29 18:10:54]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  MorePackets (VL: 2) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 105ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 24), (t: instant, a: 20)]'
+(167)[2020/03/29 18:11:37]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  MorePackets (VL: 3) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 83ms), (TPS:
+  19.03), (Plib: false), (Async: false), (Online: 24), (t: instant, a: 20)]'
+(168)[2020/03/29 18:12:01]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  BlueKing360 failed Exploits (VL: 0) [(Version: 1.12), (C-V: 3) (Silent: false),
+  (Ping: 176ms), (TPS: 19.84), (Plib: false), (Async: false), (Online: 24), (t: undetected
+  movement, ms: 245, d: 0.0)]'
+(169)[2020/03/29 18:12:23]: '[Spartan Build 310-17220/-2124123065] MagicPotatoooo
+  failed Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 110ms),
+  (TPS: 19.96), (Plib: false), (Async: false), (Online: 24), (t: undetected movement,
+  ms: 36414, d: 0.0)]'
+(170)[2020/03/29 18:13:27]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  BlueKing360 failed Exploits (VL: 0) [(Version: 1.12), (C-V: 3) (Silent: false),
+  (Ping: 167ms), (TPS: 19.76), (Plib: false), (Async: false), (Online: 24), (t: undetected
+  movement, ms: 294, d: 0.0)]'
+(171)[2020/03/29 18:13:40]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  YoloBoys360 failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping:
+  79ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 24), (t: normal, reason:
+  air, d: 0.5187435511420344, dm: 0.46, dm_s: 0.46, a: 0)]'
+(172)[2020/03/29 18:13:42]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 79ms), (TPS: 19.95),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air, d: 0.48024785544251464,
+  dm: 0.39, dm_s: 0.39, a: 0)]'
+(173)[2020/03/29 18:13:42]: '[Spartan Build 310-17220/-2124123065] YoloBoys360 failed
+  Speed (VL: 2) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 79ms), (TPS: 19.95),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air, d: 0.5573154217661748,
+  dm: 0.46, dm_s: 0.46, a: 0)]'
+(174)[2020/03/29 18:17:12]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  78zs failed Speed (VL: 0) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 115ms),
+  (TPS: 19.64), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: ground,
+  d: 0.3367263980407272, dm: 0.325, dm_s: 0.325, a: 0)]'
+(175)[2020/03/29 18:17:18]: '[Spartan Build 310-17220/-2124123065] 78zs failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 106ms), (TPS: 19.73),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air, d: 0.5860182189866461,
+  dm: 0.39, dm_s: 0.39, a: 0)]'
+(176)[2020/03/29 18:18:43]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  20.0), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.30216732822912673, dm: 0.292, dm_s: 0.292, a: 0)]'
+(177)[2020/03/29 18:18:43]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 2) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  19.99), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.3021760225087823, dm: 0.292, dm_s: 0.292, a: 0)]'
+(178)[2020/03/29 18:18:43]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 3) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  19.90), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.3021807695843566, dm: 0.292, dm_s: 0.292, a: 0)]'
+(179)[2020/03/29 18:18:43]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 4) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  19.90), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.30218336149248126, dm: 0.292, dm_s: 0.292, a: 0)]'
+(180)[2020/03/29 18:18:44]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 5) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  19.88), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.30218477666875887, dm: 0.292, dm_s: 0.292, a: 0)]'
+(181)[2020/03/29 18:18:44]: '[Spartan Build 310-17220/-2124123065] Porama6400 failed
+  Speed (VL: 6) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 474ms), (TPS:
+  19.87), (Plib: false), (Async: false), (Online: 24), (t: normal, reason: walking,
+  d: 0.30218554935764036, dm: 0.292, dm_s: 0.292, a: 0)]'
+(182)[2020/03/29 18:19:00]: '[Spartan Build 310-17220/-2124123065] 78zs failed MorePackets
+  (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping: 106ms), (TPS: 16.11),
+  (Plib: false), (Async: false), (Online: 24), (t: overall, diff: 1.7976931348623157E308,
+  d: 8.624044767279957)]'
+(183)[2020/03/29 18:19:03]: '[Spartan Build 310-17220/-2124123065] 78zs failed Speed
+  (VL: 1) [(Version: 1.12), (C-V: 13) (Silent: false), (Ping: 106ms), (TPS: 13.96),
+  (Plib: false), (Async: false), (Online: 24), (t: normal, reason: air, d: 0.5970193087690596,
+  dm: 0.39, dm_s: 0.39, a: 0)]'
+(184)[2020/03/29 18:19:33]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  78zs failed MorePackets (VL: 1) [(Version: 1.12), (C-V: 6) (Silent: true), (Ping:
+  107ms), (TPS: 18.10), (Plib: false), (Async: false), (Online: 24), (t: difference,
+  c: 26.32128752903576, n: 19.82713709386282, d: 6.494150435172941, t: 27, l: 1.5,
+  p: false)]'
+(185)[2020/03/29 18:19:47]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  Marius_t_h failed ImpossibleActions (VL: 0) [(Version: 1.12), (C-V: 2) (Silent:
+  false), (Ping: 545ms), (TPS: 20.0), (Plib: false), (Async: false), (Online: 23),
+  (t: tower(constant), b: dirt)]'
+(186)[2020/03/29 18:25:52]: '[Spartan Build 310-17220/-2124123065] MagicPotatoooo
+  failed Exploits (VL: 1) [(Version: 1.12), (C-V: 3) (Silent: false), (Ping: 68ms),
+  (TPS: 19.56), (Plib: false), (Async: false), (Online: 24), (t: undetected movement,
+  ms: 228, d: 0.0)]'
+(187)[2020/03/29 18:28:25]: '(False Positive) [Spartan Build 310-17220/-2124123065]
+  _UniqueFestell failed IrregularMovements (VL: 0) [(Version: 1.12), (C-V: 5) (Silent:
+  true), (Ping: 55ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 24),
+  (t: step(high), d: 1.0, dm: 0.601)]'
+(188)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 1) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(189)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 2) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(190)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 3) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.94), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(191)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 4) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.83), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(192)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 5) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.93), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(193)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 6) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.80), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(194)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 7) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.91), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(195)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 8) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.91), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(196)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 9) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.91), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(197)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 10) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.91), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(198)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 11) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.91), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(199)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 12) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.81), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'
+(200)[2020/03/29 18:28:26]: '[Spartan Build 310-17220/-2124123065] _UniqueFestell
+  failed IrregularMovements (VL: 13) [(Version: 1.12), (C-V: 5) (Silent: true), (Ping:
+  55ms), (TPS: 19.89), (Plib: false), (Async: false), (Online: 24), (t: step(high),
+  d: 1.0, dm: 0.601)]'

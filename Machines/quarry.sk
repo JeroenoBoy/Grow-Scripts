@@ -1,0 +1,517 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+# Upgrade speed
+# Upgrade ore gen shit
+# dispenser
+# spits out in direction
+
+
+#	# Hologram cheat sheet
+# 
+#	# Deletes hologram if it already exists, makes sure duplicates don't come into creation.
+# 	set {_holo} to {_loc}
+# 	add 1.65 to y-loc of {_holo}
+# 	if {-Quarry::hologram::%{_loc}%} is set:
+# 		delete hologram {-Quarry::hologram::%{_loc}%}
+#
+# 	# Creates the hologram.
+# 	create a new hologram with lines "&cFuel Required" at {_holo} and store in {-Quarry::hologram::%{_loc}%}
+# ---------------------------------------^ simplistic and sexy and thicc ^---------------------------------------#
+
+
+on load:
+	delete {-Quarry::openUI::*}
+
+	set {-quarry::level::1} to "10.cobble//8.stone//5.sandstone"
+	set {-quarry::level::2} to "10.cobble//8.stone//5.sandstone//3.coal_ore"
+	set {-quarry::level::3} to "28.cobble//25.stone//15.sandstone//18.coal_ore//12.iron_ore"
+	set {-quarry::level::4} to "30.stone//20.sandstone//13.coal_ore//9.iron_ore//5.gold_ore"
+	set {-quarry::level::5} to "15.stone//10.sandstone//22.coal_ore//20.iron_ore//10.gold_ore//2.diamond_ore"
+	set {-quarry::level::6} to "10.sandstone//22.coal_ore//20.iron_ore//10.gold_ore//2.diamond_ore"
+	set {-quarry::level::7} to "30.coal_ore//52.iron_ore//23.gold_ore//3.diamond_ore"
+	set {-quarry::level::8} to "50.coal_ore//3.diamond_ore//5.emerald_ore"
+
+	set {-quarry::fueldrain::2} to 1
+	set {-quarry::fueldrain::3} to 2
+	set {-quarry::fueldrain::4} to 3
+	set {-quarry::fueldrain::5} to 4
+	set {-quarry::fueldrain::6} to 5
+	set {-quarry::fueldrain::7} to 6
+	set {-quarry::fueldrain::8} to 7
+	set {-quarry::fueldrain::9} to 8
+	set {-quarry::fueldrain::10} to 9
+
+	set {-quarry::fuelDrain::addLevel} to 5
+	set {-quarry::fuelDrain::addRange} to 2
+	set {-quarry::fuelDrain::addSpeed} to 1
+	
+	#range = +3
+	#Level = +5
+	#Speed = +1
+	#Total 123
+
+	set {-quarry::leveldata::1::*} to Quarry_parseData(1)
+	set {-quarry::leveldata::2::*} to Quarry_parseData(2)
+	set {-quarry::leveldata::3::*} to Quarry_parseData(3)
+	set {-quarry::leveldata::4::*} to Quarry_parseData(4)
+	set {-quarry::leveldata::5::*} to Quarry_parseData(5)
+	set {-quarry::leveldata::6::*} to Quarry_parseData(6)
+	set {-quarry::leveldata::7::*} to Quarry_parseData(7)
+	set {-quarry::leveldata::8::*} to Quarry_parseData(8)
+
+	set {-quarry::prices::range::2} to 10000
+	set {-quarry::prices::range::3} to 50000
+	set {-quarry::prices::range::4} to 120000
+	set {-quarry::prices::range::4} to 380000
+
+	set {-quarry::prices::level::2} to 50
+	set {-quarry::prices::level::3} to 100
+	set {-quarry::prices::level::4} to 1500
+	set {-quarry::prices::level::5} to 50000
+	set {-quarry::prices::level::6} to 80000
+	set {-quarry::prices::level::7} to 250000
+	set {-quarry::prices::level::8} to 500000
+	# Total of $881.650,- of levels
+
+	set {-quarry::prices::speed::2} to 150
+	set {-quarry::prices::speed::3} to 500
+	set {-quarry::prices::speed::4} to 1300
+	set {-quarry::prices::speed::5} to 4000
+	set {-quarry::prices::speed::6} to 7500
+	set {-quarry::prices::speed::7} to 15000
+	set {-quarry::prices::speed::8} to 35000
+	set {-quarry::prices::speed::9} to 50000
+
+	set {-quarry::prices::fuelLevel::2} to 150
+	set {-quarry::prices::fuelLevel::3} to 500
+	set {-quarry::prices::fuelLevel::4} to 750
+	set {-quarry::prices::fuelLevel::5} to 800
+	set {-quarry::prices::fuelLevel::6} to 1000
+	set {-quarry::prices::fuelLevel::7} to 1200
+	set {-quarry::prices::fuelLevel::8} to 2000
+	set {-quarry::prices::fuelLevel::9} to 3500
+	set {-quarry::prices::fuelLevel::10} to 5000
+
+
+
+on block place:
+	name of player's tool = "&e&lOre Quarry"
+	player's tool is a dropper
+
+	if {Quarry::players::%player's uuid%::placed} >= 20:
+		message "&4(&c&l*&4) &7You can't place more then 20 quarries." # learn how to use full stops bitch.
+		cancel event 
+		stop
+	
+	add location of event-block to {Quarry::placedList::*}
+	add 1 to {Quarry::players::%player's uuid%::placed}
+
+	set {_loc} to location of event-block
+
+	set {_v::*} to lore_extract(lore of player's tool)
+	set {_spd::*} to {_v::4} split at " "
+
+	if {-Quarry::hologram::%{_loc}%} is not set:
+		create a new hologram with lines "&cNo Fuel!" at location 1.3 meters above {_loc} and store in {-Quarry::hologram::%{_loc}%}
+
+	# Sets basic quarry data.
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("owner", player's uuid)
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("speed", {_spd::1}, {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("level", "%{_v::1}%", {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("range", "%{_v::2}%", {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("direction", "%data of event-block%", {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("last", "0", {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuel", "0", {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelLevel", {_v::3}, {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelDrain", {_v::5}, {Quarry::placed::%{_loc}%})
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("active", "1", {Quarry::placed::%{_loc}%})
+
+
+
+# Handles quarry GUI.
+on right click:
+	if {Quarry::placed::%location of clicked block%} is set:
+		cancel event
+		wait 1 tick
+		Quarry_OpenGUI(player, location of clicked block)
+
+
+
+on block break:
+	{Quarry::placed::%location of event-block%} is set
+	set {_loc} to location of event-block
+
+	drop all items in inventory of event-block at {_loc}
+
+	cancel event
+	set block at {_loc} to air
+
+	set {_speed} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "speed") parsed as a integer
+	set {_level} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "level") parsed as a number
+	set {_range} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "range") parsed as a number
+	set {_fuelDrain} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelDrain") parsed as a number
+	set {_fuelLevel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelLevel") parsed as a number
+
+	set {_owner} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "owner")
+	remove 1 from {Quarry::players::%{_owner}%::placed}
+	delete {Quarry::placed::%{_loc}%}
+	remove {_loc} from {Quarry::placedList::*}
+
+	if {-Quarry::hologram::%{_loc}%} is set:
+		delete hologram {-Quarry::hologram::%{_loc}%}
+		delete {-Quarry::hologram::%{_loc}%}
+
+	drop 1 of Quarry_get({_level}, {_speed}, {_range}, {_fuelDrain}, {_fuelLevel}) at {_loc}
+
+
+
+#updating
+every 3 seconds:
+	set {_i} to 0
+	loop {Quarry::placedList::*}:
+		add 1 to {_i}
+		if {_i} mod 15 = 0:
+			wait 1 tick
+		Quarry_Update(loop-value)
+
+
+
+# Get the quarry item
+#@params:
+# - level: number, Level of the quarry
+# - cooldown: number, Speed of the quarry
+# - range: number, range of the quarry
+function Quarry_get(level: number, cooldown: number, range: number, fuelDrain: number, fuelLevel: number) :: item:	
+	return 1 dropper named "&e&lOre Quarry" with lore " &f&oCollect minerals from the|| &f&oground, and bring them to|| &f&othe surface.  ||||&6&l* &eLevel: &f%{_level}%||&6&l* &eRange: &f%{_range}%||&6&l* &eFuel Level: &f%{_fuelLevel}%||&6&l* &eCooldown: &f%{_cooldown}% seconds||&6&l* &eFuel Drain: &f%{_fuelDrain}%||&2&l* &aOres:||%Quarry_parseLore({_level})%"
+
+
+
+# Parses the ore lore to be pretty
+#@params:
+# - level: number, Level of the quarry
+function Quarry_parseLore(level: number) :: string:
+	set {_val::*} to {-quarry::level::%{_level}%} split at "//"
+	set {_length} to amount of {-quarry::leveldata::%{_level}%::*}
+	loop {_val::*}:
+		set {_i::*} to loop-value split at "."
+		set {_num} to (round ({_i::1} parsed as a integer)/{_length}*1000)/10
+		add "&f&l* &7- &7%{_num}%%% &f%{_i::2}%" to {_ores::*}
+	return join {_ores::*} with "||"
+
+
+#Update the quarry
+#@params:
+# - loc: location, location of the block
+function Quarry_Update(loc: location):
+	set {_last} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "last") parsed as a integer
+	set {_speed} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "speed") parsed as a integer
+	wait "%random integer between 1 and (20*{_speed}*0.9)% ticks" parsed as a timespan
+
+	# removing cause of worldedit
+	if block at location of {_loc} != dropper:
+		set {_owner} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "owner")
+		remove 1 from {Quarry::players::%{_owner}%::placed}
+		remove {_loc} from {Quarry::placedList::*}
+		delete {Quarry::placed::%{_loc}%}
+
+		if {-Quarry::hologram::%{_loc}%} is set:
+			delete hologram {-Quarry::hologram::%{_loc}%}
+			delete {-Quarry::hologram::%{_loc}%}
+
+		stop
+
+
+	set {_active} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "active")
+	{_active} = "1"
+
+	set {_fuel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuel") parsed as a number
+	if {_fuel} <= 9000:
+		if inventory of block at {_loc} contains a lava bucket:
+			set {_false} to true
+			while {_false}:
+				if {_fuel} >= 9000:
+					stop loop
+				if inventory of block at {_loc} contains a lava bucket:
+					remove 1 lava bucket from inventory of block at {_loc}
+					add 1000 to {_fuel}
+				else:
+					set {_false} to false
+
+		set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuel", "%{_fuel}%", {Quarry::placed::%{_loc}%})
+		Quarry_GUI_updateAll({_loc})
+
+	set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("last", "1", {Quarry::placed::%{_loc}%})
+
+	if {_last}*3 >= {_speed}:
+
+		set {_fuel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuel") parsed as a number
+		
+		set {_fuelDrain} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelDrain") parsed as a number
+
+
+		# Fuel Checks
+		if {_fuel} - {_fuelDrain} < 0:
+			if {-Quarry::hologram::%{_loc}%} is not set:
+				create a new hologram with lines "&cNo Fuel!" at location 1.3 meters above {_loc} and store in {-Quarry::hologram::%{_loc}%}
+			else:
+				set line 1 of {-Quarry::hologram::%{_loc}%} to "&cNo Fuel!"
+				delete line 2 of {-Quarry::hologram::%{_loc}%}
+			stop
+
+		# If fuel is not empty
+		else if {_fuel} <= 100:	
+			if {-Quarry::hologram::%{_loc}%} is not set:
+				create a new hologram with lines "&cFuel low" at location 1.3 meters above {_loc} and store in {-Quarry::hologram::%{_loc}%}
+			set line 1 of {-Quarry::hologram::%{_loc}%} to "&cFuel low"
+			set line 2 of {-Quarry::hologram::%{_loc}%} to "&7(&e%{_fuel}%&8/&610k&7)"
+
+		# Remove a fuel needed hologram if it exists and is un-needed.
+		else:
+			if {-Quarry::hologram::%{_loc}%} is set:			
+				delete hologram {-Quarry::hologram::%{_loc}%}
+				delete {-Quarry::hologram::%{_loc}%}
+
+		set {_level} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "level") parsed as a number
+		set {_range} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "range") parsed as a number
+		set {_dir} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "direction") parsed as a integer
+
+		# location stuff
+		set {_loc} to {_loc}
+		set {_x} to x loc of {_loc}
+		set {_y} to y loc of {_loc}
+		set {_z} to z loc of {_loc}
+		
+		# Translating direction
+		set {_xx} to 0
+		set {_yx} to 0
+		set {_zx} to 0
+		if {_dir} = 0:
+			set {_yx} to -1
+		else if {_dir} = 1:
+			set {_yx} to 1
+		else if {_dir} = 2:
+			set {_zx} to -1
+		else if {_dir} = 3:
+			set {_zx} to 1
+		else if {_dir} = 4:
+			set {_xx} to -1
+		else if {_dir} = 5:
+			set {_xx} to 1
+
+		#Placing blocks
+		wait 1 tick
+		
+		set {_val} to 0
+		loop {_range} times:
+			add 1 to {_val}
+			if {_fuel} - {_fuelDrain} < 0:
+				stop loop
+
+			set {_loc2} to location at {_x}+{_val}*{_xx}, {_y}+{_val}*{_yx}, {_z}+{_val}*{_zx} in world of {_loc}
+			set {_r} to Quarry_setBlock({_loc2}, {_level})
+
+			if {_r} = false:
+				stop loop
+			remove {_fuelDrain} from {_fuel}
+		
+		Quarry_GUI_updateAll({_loc})
+		set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuel", "%{_fuel}%", {Quarry::placed::%{_loc}%})
+
+	else:
+		set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("last", "%{_last}+1%", {Quarry::placed::%{_loc}%})
+
+
+
+
+#Set the block for a quarry according to its level
+#@params:
+# - loc: location, location of the block
+# - lvl: string, the level of the quarry
+function Quarry_setBlock(loc: location, lvl: number) :: boolean:
+	if block at {_loc} is not air:
+		return false
+
+	set {_x} to {_loc}'s x-loc
+	set {_z} to {_loc}'s z-loc
+
+	if block at location at {_x}, 64, {_z} in world of {_loc} = bedrock:
+		return false
+
+	set {_random} to random integer between 1 and amount of {-quarry::leveldata::%{_lvl}%::*}
+	set block at {_loc} to {-quarry::leveldata::%{_lvl}%::%{_random}%}
+	return true
+
+
+
+#Open the gui for the player
+#@params:
+# - P: player, the player
+# - loc: location, the location of the machine
+function Quarry_OpenGUI(P: player, loc: location, reload: boolean = true):
+	if {_reload} = true:
+		set {_uuid} to {_P}'s uuid
+		set {-Quarry::openUI::pl::%{_uuid}%} to {_loc}
+		add {_uuid} to {-Quarry::openUI::%{_loc}%::*}
+		open virtual chest inventory with size 3 named "Ore Quarry" to {_P}
+		fillmachine({_P})
+		format gui slot 0 of {_P} with 1 blue stained glass pane named " &a " with lore "&0&kY you lookin|| &0&kat me bruh"
+
+
+	set {_speed} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "speed") parsed as a number
+	set {_range} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "range") parsed as a number
+	set {_level} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "level") parsed as a number
+	set {_fuel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuel") parsed as a number
+	set {_fuelDrain} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelDrain") parsed as a number
+	set {_fuelLevel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelLevel") parsed as a number
+	set {_active} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "active")
+	
+	
+
+	set {_s2} to 5-({_speed}-18)/3
+	if {-quarry::prices::speed::%{_s2}%} is set:
+		format gui slot 21 of {_P} with 1 feather named "&cSpeed" with lore " &f&oIncrease the speed||&f&oe of the quarry.||||&8> &fPrice: &e$%easyRead({-quarry::prices::speed::%{_s2}%})%||||&e&lEffects:||&4&l* &cCooldown:&f %{_speed}% > %{_speed}-3% seconds" to run:
+			if {_p}'s balance >= {-quarry::prices::speed::%{_s2}%}:
+				play sound "block.note.harp" with volume 1 at {_P} for {_P}
+				remove {-quarry::prices::speed::%{_s2}%} from {_p}'s balance
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("speed", "%{_speed}-3%", {Quarry::placed::%{_loc}%})
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelDrain", "%{_fuelDrain}+{-quarry::fuelDrain::addSpeed}%", {Quarry::placed::%{_loc}%})
+				Quarry_GUI_updateAll({_loc})
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+	else:
+		format gui slot 21 of {_P} with 1 feather named "&cSpeed" with lore " &f&oIncrease the speed||&f&o of the quarry.||||&e&lEffects:||&4&l* &cCooldown: &f&lMAX SPEED"
+
+
+
+	set {_r2} to {_range}+1
+	if {-quarry::prices::range::%{_r2}%} is set:
+		format gui slot 23 of {_P} with 1 bow named "&eRange" with lore " &f&oIncreases the range||&f&o of the quarry.||||&8> &fPrice: &e$%easyRead({-quarry::prices::range::%{_r2}%})%||||&e&lEffects:||&6&l* &eRange:&f %{_range}% > %{_range}+1% blocks" to run:
+			if {_p}'s balance >= {-quarry::prices::range::%{_r2}%}:
+				play sound "block.note.harp" with volume 1 at {_P} for {_P}
+				remove {-quarry::prices::range::%{_r2}%} from {_p}'s balance
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("range", "%{_range}+1%", {Quarry::placed::%{_loc}%})
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelDrain", "%{_fuelDrain}+{-quarry::fuelDrain::addRange}%", {Quarry::placed::%{_loc}%})
+				Quarry_GUI_updateAll({_loc})
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+	else:
+		format gui slot 23 of {_P} with 1 bow named "&eRange" with lore " &f&oIncreases the range||&f&o of the quarry.||||&e&lEffects:||&6&l* &eRange: &f&lMAX RANGE"
+
+
+
+	set {_l2} to {_level}+1
+	if {-quarry::prices::level::%{_l2}%} is set:
+		format gui slot 15 of {_P} with 1 exp bottle named "&eLevel" with lore " &f&oIncrease the level||&f&o of the quarry.||||&8> &fPrice: &e$%easyRead({-quarry::prices::level::%{_l2}%})%||||&e&lEffects:||&6&l* &eLevel:&f %{_level}% > %{_level}+1%||&2&l* &aOres:||%Quarry_parseLore({_l2})%" to run:
+			if {_p}'s balance >= {-quarry::prices::level::%{_l2}%}:
+				play sound "block.note.harp" with volume 1 at {_P} for {_P}
+				remove {-quarry::prices::level::%{_l2}%} from {_p}'s balance
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("level", "%{_l2}%", {Quarry::placed::%{_loc}%})
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelDrain", "%{_fuelDrain}+{-quarry::fuelDrain::addLevel}%", {Quarry::placed::%{_loc}%})
+				Quarry_GUI_updateAll({_loc})
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+	else:
+		format gui slot 15 of {_P} with 1 exp bottle named "&eLevel" with lore " &f&oIncrease the level||&f&o of the quarry.||||&e&lEffects:||&6&l* &eLevel: &f&lMAX LEVEL"
+
+
+
+	set {_f2} to {_fuelLevel}+1
+	if {-quarry::prices::fuelLevel::%{_f2}%} is set:
+		format gui slot 12 of {_P} with 1 flint and steel named "&eFuel Level" with lore " &f&oIncrease the fuel||&f&o efficiency of the quarry.||||&8> &fPrice: &e$%easyRead({-quarry::prices::fuelLevel::%{_f2}%})%||||&e&lEffects:||&6&l* &eFuel Level:&f %{_fuelLevel}% > %{_fuelLevel}+1%||&6&l* &eFuel Drain: &f%{_fuelDrain}% > %{_fuelDrain} - {-quarry::fueldrain::%{_f2}%}%" to run:
+			if {_fuelDrain}-{-quarry::fueldrain::%{_f2}%} <= 0:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+				message "&4(&c&l*&4) &7You can't upgrade this yet." to {_p}
+			else if {_p}'s balance >= {-quarry::prices::fuelLevel::%{_f2}%}:
+				play sound "block.note.harp" with volume 1 at {_P} for {_P}
+				remove {-quarry::prices::fuelLevel::%{_f2}%} from {_p}'s balance
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelLevel", "%{_fuelLevel}+1%", {Quarry::placed::%{_loc}%})
+				set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("fuelDrain", "%{_fuelDrain}-{-quarry::fueldrain::%{_f2}%}%", {Quarry::placed::%{_loc}%})
+				Quarry_GUI_updateAll({_loc})
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+	else:
+		format gui slot 12 of {_P} with 1 flint and steel named "&eFuel Level" with lore " &f&oIncrease the fuel||&f&o efficiency of the quarry.||||&e&lEffects:||&6&l* &eFuel Level: &f&lMAX LEVEL"
+
+
+
+	if {_fuel} <= 100:
+		set {_item} to empty bucket
+	else:
+		set {_item} to lava bucket
+
+
+
+	if {_active} = "1":
+		format gui slot 4 of {_P} with 1 light green dye named "&a&lActive" with lore " &f&oToggle the machine between || &f&oactive and inactive. ||||&2&l* &aActive: &fYes" to run:
+			set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("active", "0", {Quarry::placed::%{_loc}%})
+			Quarry_OpenGUI({_p}, {_loc}, false)
+	
+	else:
+		format gui slot 4 of {_P} with 1 gray dye named "&7Inactive" with lore " &f&oToggle the machine between || &f&oactive and inactive. ||||&2&l* &aActive: &fNo" to run:
+			set {Quarry::placed::%{_loc}%} to stringDatasAPI_setData("active", "1", {Quarry::placed::%{_loc}%})
+			Quarry_OpenGUI({_p}, {_loc}, false)
+		
+
+
+	format gui slot 11 of {_p} with {_item} named "&6Fuel" with lore " &f&oQuarries can't run|| &f&oforever, They need fuel|| &f&oto propperly function.||||&4&l* &cFuel: %{_fuel}%/10000 mb||&71 lava bucket = 1000 mb" to run:
+		close player's inventory
+		open inventory of block at {_loc} for {_p}
+
+	format gui slot 13 of {_P} with Quarry_get({_level}, {_speed}, {_range}, {_fuelDrain}, {_fuelLevel})
+
+
+
+
+on inventory close:
+	set {_loc} to {-Quarry::openUI::pl::%player's uuid%}
+	delete {-Quarry::openUI::pl::%player's uuid%}
+	remove player's uuid from {-Quarry::openUI::%{_loc}%::*}
+
+
+#Returns the objects it drops
+#@params:
+# - loc: location, Location of the target quarry
+function Quarry_GUI_updateAll(loc: location):
+	loop {-Quarry::openUI::%{_loc}%::*}:
+		set {_p} to loop-value parsed as a player
+		set {_item::*} to all items in {_p}'s current inventory
+		if {_item::1} = blue stained glass pane named " &a " with lore "&0&kY you lookin|| &0&kat me bruh":
+			Quarry_OpenGUI({_P}, {_loc}, false)
+		else:
+			remove loop-value from {-Quarry::openUI::%{_loc}%::*}
+
+
+#Returns the objects it drops
+#@params:
+# - P: player, the player
+function Quarry_parseData(level: number) :: objects:
+	set {_p::*} to {-quarry::level::%{_level}%} split at "//"
+	set {_total} to 0
+	loop {_p::*}:
+		set {_split::*} to loop-value split at "."
+		set {_item} to {_split::2} parsed as a item
+		{_item} is set
+
+		loop {_split::1} parsed as a number times:
+			add {_item} to {_rtr::*}
+	return {_rtr::*}

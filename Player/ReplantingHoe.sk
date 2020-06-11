@@ -1,0 +1,590 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on block flow:
+	loop all blocks in radius 1 around event-block:
+		set {_loc} to location of loop-block
+		if {ccrop::placedCrops::%{_loc}%::crop} is set:
+			plantBreak({_loc})
+
+on load:
+
+	delete {-Crops::*}
+	delete {-Harvestable::*}
+	
+	#crop adding
+	delete {-crook::*}
+
+	# Crook 1 ================
+	add wheat to {-crook::minable::1::*}
+
+	add daisy to {-crook::minable::1::*}
+	add red_flower to {-crook::minable::1::*}
+
+	# Crook 2 ================
+	add wheat to {-crook::minable::2::*}
+	add carrot_plant to {-crook::minable::2::*}
+	add potato_plant to {-crook::minable::2::*}
+
+	add daisy to {-crook::minable::2::*}
+	add red_flower to {-crook::minable::2::*}
+	add dandelion to {-crook::minable::2::*}
+	add blue_orchid to {-crook::minable::2::*}
+	add allium to {-crook::minable::2::*}
+
+	# Crook 3 ================
+	add wheat to {-crook::minable::3::*}
+	add carrot_plant to {-crook::minable::3::*}
+	add potato_plant to {-crook::minable::3::*}
+	add nether_wart to {-crook::minable::3::*}
+
+	add daisy to {-crook::minable::3::*}
+	add red_flower to {-crook::minable::3::*}
+	add dandelion to {-crook::minable::3::*}
+	add blue_orchid to {-crook::minable::3::*}
+	add allium to {-crook::minable::3::*}
+	add azure_bluet to {-crook::minable::3::*}
+	add red_tulip to {-crook::minable::3::*}
+	add orange_tulip to {-crook::minable::3::*}
+	add white_tulip to {-crook::minable::3::*}
+	add pink_tulip to {-crook::minable::3::*}
+	
+
+	#I need a way to check if the crop is minable but I think that requires another list to be made...
+
+	add wheat to {-crook::crops::*}
+	add carrot_plant to {-crook::crops::*}
+	add potato_plant to {-crook::crops::*}
+	add nether_wart to {-crook::crops::*}
+
+	#Custom crops
+	add daisy to {-crook::crops::*}
+	add red_flower to {-crook::crops::*}
+	add dandelion to {-crook::crops::*}
+	add blue_orchid to {-crook::crops::*}
+	add allium to {-crook::crops::*}
+	add azure_bluet to {-crook::crops::*}
+	add red_tulip to {-crook::crops::*}
+	add orange_tulip to {-crook::crops::*}
+	add white_tulip to {-crook::crops::*}
+	add pink_tulip to {-crook::crops::*}
+
+
+command /givecrook [<player>] [<number>] [<text>]:
+	trigger:
+		if executor has permission "core.admin":
+			if arg 1 is set:
+				if arg 2 = 1:
+					give arg-1 1 of wooden hoe named "&6Crook &7(Tier 1)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f%arg-3%"
+				else if arg 2 = 2:
+					give arg-1 1 of iron hoe named "&6Crook &7(Tier 2)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f%arg-3%"
+				else if arg 2 = 3:
+					give arg-1 1 of diamond hoe named "&6Crook &7(Tier 3)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f%arg-3%"
+				else:
+					send "&cInvalid tier"
+			else:
+				send "&cUsage: /givecrook <player> <tier> <range>."
+		else:
+			send "&cYou are lacking the required permissions to execute this command."				
+
+
+
+on right click:
+	if player's tool is a hoe:
+		name of player's tool contains "&6Crook"
+
+
+#================= [ Break event ] =================# open
+on break:
+	player isn't sneaking
+	
+	if player's tool is not a hoe:
+		plantBreak(location of event-block)
+		stop
+	
+	set {_name} to name of player's tool
+	set {_lore} to lore of player's tool
+
+	#Checking if the tool of the player is actually a crook
+
+	if {_name} does not contain "&6Crook":
+		plantBreak(location of event-block)
+		stop
+
+	cancel event
+
+	set {_lines::*} to {_lore} split by "||"
+
+	{_lines::1} = "&r &f&oEfficiently harvest your crops. "
+	{_lines::3} contains "&6&l* &eRange: "
+
+	#Taking the level out of the name of the tool
+
+	set {_rawlevel} to last 2 characters of {_name} 
+	set {_level} to (first character of {_rawlevel}) parsed as a number
+
+	set {_settings::*} to lore_extract({_lore})
+
+	#Checking if the event block is breakable by the crook
+	# broadcast "&9[&fDebug&9] &eEvent block &7>> &6%event-block%"
+	# broadcast "&9[&fDebug&9] &eData &7>> &6%data of event-block%"
+
+	if {-crook::crops::*} contains event-block:
+		
+		#Testing it its fully grown
+		# broadcast "%event-block == ripe nether wart%"
+		if {ccrop::placedCrops::%location of event-block%::crop} is set:
+			event-block != {ccrop::placedCrops::%location of event-block%::crop} parsed as a item
+			stop
+
+		else if event-block = nether_wart:
+			data of event-block != 3
+			stop
+		else:
+			data of event-block != 7
+			stop
+
+		#Sending all the information to a function so it can handle the replacing 
+		if crook_main({_level}, {_settings::*}, event-block, location of event-block, player) = false:
+			message "&4(&c&l*&4) &7You can't break this crop with your current crook."
+
+
+
+function crook_main(level: number, range: string, crop: item, loc: location, p: player) :: boolean:
+	if {-crook::minable::%{_level}%::*} does not contain {_crop}:
+		return false
+
+	if {_range} parsed as a number > 3:
+		return false
+
+	#Wheat
+	set {_range} to {_range} parsed as a number
+	set {_range} to {_range} - 0.9
+	if {_crop} = wheat:
+		if {_range} > 0:	
+			loop all blocks in radius {_range} around {_loc}:
+				if loop-block = wheat:7:
+					crops_shrink(loop-block's location, 7)
+					add 1 to {_P}'s xp
+					drop (a random integer between 1 and 3) of wheat at location of loop-block
+					chance of 25%:
+						drop 1 of seeds at location of loop-block
+					chance of 10%:
+						drop 3 of seeds at location of loop-block
+		return true
+
+	# Custom plants
+	if {ccrop::placedCrops::%{_loc}%::crop} is set:
+		set {_plant} to {ccrop::placedCrops::%{_loc}%::crop} parsed as a item
+		set {_r} to random integer between 1 and 5
+
+		if {_plant} = daisy:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = daisy
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				set block at loop-block to melon stem
+				crops_shrink(loop-block's location, 7)
+				add 1 to {_P}'s xp
+
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("daisy") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("daisy") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("daisy") at location of loop-block
+				
+				chance of 40%:
+					drop (a random integer between 2 and 3) of daisy at location of loop-block
+				drop 1 daisy at location of loop-block
+			return true
+
+
+		else if {_plant} = red_flower:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = red_flower
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add 1 to {_P}'s xp
+
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("red_flower") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("red_flower") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("red_flower") at location of loop-block
+
+				chance of 40%:
+					drop (a random integer between 2 and 3) of red_flower at location of loop-block
+				drop 1 red_flower at location of loop-block
+			return true
+
+		else if {_plant} = dandelion:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = dandelion
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 2) to {_P}'s xp
+
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("dandelion") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("dandelion") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("dandelion") at location of loop-block
+
+				chance of 40%:
+					drop (a random integer between 2 and 3) of dandelion at location of loop-block
+				drop 1 dandelion at location of loop-block	
+			return true
+		
+		else if {_plant} = blue_orchid:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = blue_orchid
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 2) to {_P}'s xp
+
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("blue_orchid") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("blue_orchid") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("blue_orchid") at location of loop-block
+			
+				chance of 30%:
+					drop (a random integer between 2 and 3) of blue_orchid at location of loop-block
+				drop 1 blue_orchid at location of loop-block	
+			return true
+		
+		else if {_plant} = allium:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = allium
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 2) to {_P}'s xp
+				
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("allium") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("allium") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("allium") at location of loop-block
+				
+				chance of 40%:
+					drop (a random integer between 2 and 3) of allium at location of loop-block
+				drop 1 allium at location of loop-block	
+			return true
+		
+		else if {_plant} = azure_bluet:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = azure_bluet
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 2) to {_P}'s xp
+
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("azure_bluet") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("azure_bluet") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("azure_bluet") at location of loop-block
+
+				chance of 40%:
+					drop (a random integer between 2 and 3) of azure_bluet at location of loop-block
+				drop 1 azure_bluet at location of loop-block	
+			return true
+		
+		else if {_plant} = red_tulip:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = red_tulip
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 5) to {_P}'s xp
+				
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("red_tulip") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("red_tulip") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("red_tulip") at location of loop-block
+			
+				chance of 40%:
+					drop (a random integer between 2 and 3) of red_tulip at location of loop-block
+				drop 1 red_tulip at location of loop-block
+			return true
+		
+		else if {_plant} = orange_tulip:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = orange_tulip
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 5) to {_P}'s xp
+		
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("orange_tulip") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("orange_tulip") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("orange_tulip") at location of loop-block
+			
+				chance of 40%:
+					drop (a random integer between 2 and 3) of orange_tulip at location of loop-block
+				drop 1 orange_tulip at location of loop-block	
+			return true
+		
+		if {_plant} = white_tulip:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = white_tulip
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 5) to {_P}'s xp
+		
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("white_tulip") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("white_tulip") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("white_tulip") at location of loop-block
+		
+				chance of 40%:
+					drop (a random integer between 2 and 3) of white_tulip at location of loop-block
+				drop 1 white_tulip at location of loop-block	
+			return true
+		
+		if {_plant} = pink_tulip:
+			{_range} > 0
+			loop all blocks in radius {_range} around {_loc}:
+				
+				loop-block = pink_tulip
+				{ccrop::placedCrops::%location of loop-block%::crop} = {ccrop::placedCrops::%{_loc}%::crop}
+
+				crops_shrink(loop-block's location, 7)
+				add (random integer between 1 and 5) to {_P}'s xp
+			
+				if {_r} = 5:
+					drop (a random integer between 1 and 2) of getFlowerSeed("pink_tulip") at location of loop-block
+				if {_r} < 2:
+					drop 1 of getFlowerSeed("pink_tulip") at location of loop-block
+				chance of 50%:
+					drop 1 of getFlowerSeed("pink_tulip") at location of loop-block
+				
+				chance of 40%:
+					drop (a random integer between 2 and 3) of pink_tulip at location of loop-block
+				drop 1 pink_tulip at location of loop-block	
+			return true
+
+	#Potatoes
+	if {_crop} = potato_plant:
+		if {_range} > 0:
+			loop all blocks in radius {_range} around {_loc}:
+				if loop-block = potato_plant:7:
+					add (random integer between 1 and 3) to {_P}'s xp
+					crops_shrink(location of loop-block, 7)
+					drop ( a random integer between 1 and 3) of potato at location of loop-block
+		return true
+
+	#Carrots
+	if {_crop} = carrot_plant:
+		if {_range} > 0:
+			loop all blocks in radius {_range} around {_loc}:
+				if loop-block = carrot_plant:7:
+					add (random integer between 1 and 3) to {_P}'s xp
+					crops_shrink(location of loop-block, 7)
+					drop (a random integer between 1 and 3) of 391 at location of loop-block
+		return true
+
+	#Nether Wart
+	if {_crop} = nether_wart:
+		if {_range} > 0:
+			loop all blocks in radius {_range} around {_loc}:
+				if loop-block = nether_wart:3:
+					add (random integer between 5 and 10) to {_P}'s xp
+					crops_shrink(location of loop-block, 3)
+					drop ( a random integer between 1 and 3) of nether_wart at location of loop-block
+		return true
+
+	return false
+#================= [ Break event ] =================# close
+
+#====
+#Function to make crops shrink nicer maybe?
+function crops_shrink(loc: location, data: number):
+	loop {_data}+1 times:
+		if block at {_loc} is a flower:
+			set block at {_loc} to a melon stem
+		set data of block at {_loc} to {_data}-loop-value
+		wait 1 tick
+
+
+#==================== [ Upgrading the crook ] ================
+
+on right click with any hoe: # <-- tf was the condition?  
+
+	set {_lore} to lore of player's tool
+	set {_lines::*} to {_lore} split by "||"
+
+	{_lines::1} = "&r &f&oEfficiently harvest your crops. "
+	{_lines::3} contains "&6&l* &eRange: "
+
+	# broadcast "%{_lines::*}%"
+
+	#Taking the level out of the name of the tool
+	set {_lore} to lore of player's tool
+	set {_name} to name of player's tool
+
+	set {_rawlevel} to last 2 characters of {_name} 
+	set {_level} to (first character of {_rawlevel}) parsed as a number
+
+	set {_settings::*} to lore_extract({_lore})
+
+	set {_range} to {_settings::1} parsed as a number
+	set {_tool} to player's tool
+
+	cancel event
+	crook_Upgrades(player, {_level}, {_range}, {_tool}, {_name}, {_lore})
+	# broadcast "&ePlayer: &r%player%"
+	# broadcast "&eLevel: &r%{_level}%"
+	# broadcast "&eRange: &r%{_range}%"
+	# broadcast "&eTool: &r%player's tool%"
+	# broadcast "&eToolName: &r%{_name}%"
+	# broadcast "&eToolLore: &r%{_lore}%"
+
+function crook_Upgrades(p: Player, level: Integer, range: Integer, tool: item, toolName: String, toolLore: String):
+	#Checking the next level
+	if ({_level} + 1) > 3:
+		set {_level} to "Not upgradable"
+		set {_price1} to "infinite"
+	else:
+		set {_level} to ({_level} + 1)
+	
+	
+	if {_level} = 2:
+		set {_price1} to 1000
+	if {_level} = 3:
+		set {_price1} to 15000
+	
+	set {_range1} to "%{_range}%"
+	if ({_range} + 1) > 3:
+		set {_range} to "Not upgradable"
+		set {_price2} to "infinite"
+	else:
+		set {_range} to ({_range} + 1)
+	
+	if {_range} = 2:
+		set {_price2} to 2750
+	if {_range} = 3:
+		set {_price2} to 10000
+
+
+	open virtual chest inventory with 3 rows named "&8Crook upgrades" to {_p}
+
+	fillinventory({_p})
+	
+	set {_level} to "%{_level}%"
+	set {_range} to "%{_range}%"
+
+	format gui slot 13 of {_p} with {_tool} named "&6Current tool: %{_toolname}%" with lore "%{_toollore}%" to do nothing
+
+	format gui slot 11 of {_p} with experience_bottle named "&bUpgrade level" with lore "&r &f&oThis will increase the level||&r &f&oof your crook so you can harvest||&r &f&omore crops with it||&r||&r &6&l* &eNext: &f%{_level}%||&r &6&l* &ePrice: &f$%easyRead({_price1})%" to close then run function crook_upgradeLevel({_p}, {_level}, {_price1}, {_range1})
+	format gui slot 15 of {_p} with arrow named "&bUpgrade range" with lore "&r &f&oThis will increase the range of your crook||&r &f&oSo you can harvest more crops||&r &f&oat once!||&r||&r &6&l* &eNext: &f%{_range}%||&r &6&l* &ePrice: &f$%easyRead({_price2})%" to close then run function crook_upgradeRange({_p}, {_range1}, {_price2})
+
+
+
+function crook_upgradeLevel(p: player, level: String, price: integer, range: string):
+	if {_level} = "Not upgradable":
+		message "&4(&c&l*&4) &7You can't upgrade this anymore!" to {_p}
+		play sound "entity.villager.no" with volume 0.5 at {_p} for {_p}
+		stop
+	
+	else: 
+		set {_level1} to {_level} parsed as an integer
+
+	if {_p}'s balance >= {_price}:
+		message "&2(&a&l*&2) &7You bought the crook tier %{_level1}%!" to {_p}
+
+		if {_level1} is 2:
+			set {_p}'s tool to 1 iron hoe named "&6Crook &7(Tier 2)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f%{_range}%"
+
+		if {_level1} is 3:
+			set {_p}'s tool to 1 diamond hoe named "&6Crook &7(Tier 3)" with lore "&r &f&oEfficiently harvest your crops. ||&r||&6&l* &eRange: &f%{_range}%" 
+		play sound "entity.player.levelup" with volume 0.5 at {_p} for {_p}
+		remove {_price} from {_p}'s balance
+		stop
+	
+	else:
+		message "&4(&c&l*&4) &7You can't afford this upgrade!" to {_p}
+		play sound "entity.villager.no" with volume 0.5 at {_p} for {_p}
+		stop
+
+function crook_upgradeRange(p: player, range: String, price: integer):
+	if {_range} = "Not upgradable":
+		message "&4(&c&l*&4) &7You can't upgrade this anymore!" to {_p}
+		play sound "entity.villager.no" with volume 0.5 at {_p} for {_p}
+		stop
+	
+	else:
+		set {_range} to {_range} parsed as an integer
+		set {_range} to ({_range} + 1)
+
+		if {_p}'s balance >= {_price}:
+			message "&2(&a&l*&2) &7You bought the range upgrade tier %{_range}%!" to {_p}
+
+			set line 3 of the lore of {_p}'s tool to "&6&l* &eRange: &f%{_range}%"
+			play sound "entity.player.levelup" with volume 0.5 at {_p} for {_p}
+			remove {_price} from {_p}'s balance
+			stop
+		
+		else:
+			message "&4(&c&l*&4) &7You can't afford this upgrade!" to {_p}
+			play sound "entity.villager.no" with volume 0.5 at {_p} for {_p}
+			stop
+
+on inventory click:
+	if name of player's current inventory = "&8Crook upgrades":
+		cancel event

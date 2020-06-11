@@ -1,0 +1,209 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on join:
+	if {tag::selected::%player's uuid%} is not set:
+		set {tag::selected::%player's uuid%} to "None"
+
+
+on load:
+
+	delete {-tags::*}
+	addTag("Booster", "&7[&dBooster&7]")
+	addTag("Tester", "&7[&5Beta Tester&7]")
+	addTag("Season1", "&7[&6Season 1&7]")
+	addTag("Bughunter", "&7[&dBug Hunter&7]")
+	addTag("Thinker", "&7[&bThinker&7]")
+
+
+command /tags [<string>]:
+	trigger:
+		tagsMenu(player)
+
+# id: Identification
+# desc: Description
+# tag: the actual tag lul
+
+function tagsMenu(p: Player, page: number = 0):
+	set {_u} to {_p}'s uuid
+	open virtual chest inventory with 6 rows named "Tags" to {_p} 
+	
+	# tf u saying i dont use spaces
+	if size of {-tags::*} > 21:
+		format gui slot 39 of {_P} with 1 arrow named "&3&lPrevious page" with lore "&8&m                        ||&7Click to go to||&7the previous page||&8> &fCurrent: &e%{_page}+1%||&8&m                        " to run:
+			if {_page} > 0:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				tagsMenu({_P}, {_page}-1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+		format gui slot 41 of {_P} with 1 arrow named "&3&lNext page" with lore "&8&m                        ||&7Click to go to||&7the next page||&8> &fCurrent: &e%{_page}+1%||&8&m                        " to run:
+			if size of {-tags::*} > ({_page}+1)*21:
+				play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+				tagsMenu({_P}, {_page}+1)
+			else:
+				play sound "entity.villager.hurt" with volume 1 at {_P} for {_P}
+
+
+	set {_i} to 9
+	set {_min} to {_page}*21
+	set {_checker} to 0
+	loop {-tags::*}:
+		add 1 to {_checker}
+
+		{_checker} > {_min}
+		if {_checker} > {_min}+21:
+			stop loop
+
+
+		set {_tag::*} to loop-index
+		set {_tag::*} to capitalizeFirst({_tag::*})
+		
+		add 1 to {_i}
+		if {_i} = 17 or 26:
+			add 2 to {_i}
+
+		if {_p} has permission "core.tags.%loop-index%":
+			if {tag::selected::%{_u}%} is not "%loop-value%":
+				format gui slot {_i} of {_p} with name tag named "&e&n%{_tag::*}%&e tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&aClick to select." to run function selectTag({_p}, loop-value, {_tag::*})
+			else:				
+				format gui slot {_i} of {_p} with name tag named "&a&n%{_tag::*}%&a tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&aTag selected." to run function selectTag({_p}, loop-value, {_tag::*})
+		else:
+			format gui slot {_i} of {_p} with name tag named "&c&n%{_tag::*}%&c tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&cYou don't own this tag!"				
+
+	format gui slot 40 of {_p} with barrier named "&cRemove Tag" with lore "&7Click to remove your current tag." to run function removeTag({_p})			
+
+
+
+function selectTag(p: Player, tag: String, id: String):
+	close {_p}'s inventory
+	set {_u} to {_p}'s uuid
+	
+	set {tag::selected::%{_u}%} to colored "%{_tag}%"
+	send "&eYou have selected the &6%{_id}% &etag." to {_p}
+
+function removeTag(p: Player):
+	close {_p}'s inventory
+	set {_u} to {_p}'s uuid
+
+	set {tag::selected::%{_u}%} to "None"
+	send "&eYou have unselected all your tags." to {_p}	
+
+function addTag(id: String, tag: String):
+	set {-tags::%{_id}%} to {_tag}
+
+# some random api because im stupid.
+function capitalizeFirst(text: texts) :: texts:
+
+	loop {_text::*}:
+		set {_first-char} to first character of loop-value
+		set {_remaining} to last (length of loop-value - 1) characters of loop-value
+
+		set {_output::%loop-index%} to "%{_first-char} in upper case%%{_remaining}%"
+
+	return {_output::*}	
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+# on join:
+#	 if {tag::selected::%player's uuid%} is not set:
+#		 set {tag::selected::%player's uuid%} to "None"
+
+# on unload:
+#	 delete {-tags::*}
+
+# on load:
+#	 addTag("Booster", "&7[&dBooster&7]")
+#	 addTag("Tester", "&7[&5Beta Tester&7]")
+#	 addTag("Season-1", "&7[&6Season 1&7]")
+#	 addTag("Influencer", "&7[&9&oInfluencer&7]")
+
+# command /tags [<string>]:
+#	 trigger:
+#		 tagsMenu(player)
+
+# # id: Identification
+# # desc: Description
+# # tag: the actual tag lul
+
+# function tagsMenu(p: Player):
+#	 set {_u} to {_p}'s uuid
+#	 open virtual chest inventory with 6 rows named "Tags" to {_p} 
+#	 set {_i} to 9
+#	 loop {-tags::*}:
+#		 set {_tag::*} to loop-index
+#		 set {_tag::*} to capitalizeFirst({_tag::*})
+		
+#		 #ima try anyway cux fuck you :)
+#		 # save the shit atleast
+#		 add 1 to {_i}
+#		 if {_i} = 17 or 26:
+#			 add 2 to {_i}
+
+#		 if {_p} has permission "core.tags.%loop-index%":
+#			 if {tag::selected::%{_u}%} is not "%loop-value%":
+#				 format gui slot {_i} of {_p} with name tag named "&e&n%{_tag::*}%&e tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&aClick to select." to run function selectTag({_p}, loop-value, {_tag::*})
+#			 else:				
+#				 format gui slot {_i} of {_p} with name tag named "&a&n%{_tag::*}%&a tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&aTag selected." to run function selectTag({_p}, loop-value, {_tag::*})
+#		 else:
+#			 format gui slot {_i} of {_p} with name tag named "&c&n%{_tag::*}%&c tag" with lore "&7This tag will display as:||&r%{_p}'s prefix%%{_p}% &r%loop-value%||&r||&cYou don't own this tag!"				
+
+#	 format gui slot 40 of {_p} with barrier named "&cRemove Tag" with lore "&7Click to remove your current tag." to run function removeTag({_p})			
+
+# function selectTag(p: Player, tag: String, id: String):
+#	 close {_p}'s inventory
+#	 set {_u} to {_p}'s uuid
+	
+#	 set {tag::selected::%{_u}%} to colored "%{_tag}%"
+#	 send "&eYou have selected the &6%{_id}% &etag." to {_p}
+
+# function removeTag(p: Player):
+#	 close {_p}'s inventory
+#	 set {_u} to {_p}'s uuid
+
+#	 set {tag::selected::%{_u}%} to "None"
+#	 send "&eYou have unselected all your tags." to {_p}	
+
+# function addTag(id: String, tag: String):
+#	 set {-tags::%{_id}%} to {_tag}
+
+# # some random api because im stupid.
+# function capitalizeFirst(text: texts) :: texts:
+
+#   loop {_text::*}:
+#	 set {_first-char} to first character of loop-value
+#	 set {_remaining} to last (length of loop-value - 1) characters of loop-value
+
+#	 set {_output::%loop-index%} to "%{_first-char} in upper case%%{_remaining}%"
+
+#   return {_output::*}	  

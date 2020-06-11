@@ -1,0 +1,46 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /help [<string>]:
+    trigger:
+        helpMenu(player)
+
+function helpMenu(p: Player):
+    open virtual chest inventory with 3 rows named "Help" to {_p}
+    loop 3*9 times:
+        format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+    format gui slot 13 of {_p} with diamond hoe named "&aHow to get started?" with lore "&7Click this to get a basic||&7guide on how to begin." to run function giveHelp({_p}, 1)
+
+function giveHelp(p: Player, t: Number):
+    close {_p}'s inventory
+    if {_t} is 1:
+        send "&eHelp &7[1/6]&e: &eTo get started use &6/plot auto &eto claim a plot for yourself." to {_p}
+        wait 2.25 seconds
+        send "&eHelp &7[2/6]&e: &eIf you would like to play with friends you can use &6/plot add <player> &eto add them to your plot." to {_p}
+        wait 2.25 seconds
+        send "&eHelp &7[3/6]&e: &eOr if your friends plot is next to yours you can use &6/plot merge <player> &eor look at your friends plot and use &6/plot merge &eto send a request to them." to {_p}
+        wait 3.25 seconds
+        send "&eHelp &7[4/6]&e: &eOnce you've done all that you can use your &6Hoe &eto till land and place your seeds down to grow." to {_p}
+        wait 2.25 seconds
+        send "&eHelp &7[5/6]&e: &eUse your &6Crook &eto automatically replant seeds and collect the crops you have planted." to {_p}
+        wait 2.25 seconds
+        send "&eHelp &7[6/6]&e: &eUse &6/shop &eor &6/sell hand &eto sell all your crops for money then view the shop to purchase more crops to plant or make a spawner farm." to {_p}

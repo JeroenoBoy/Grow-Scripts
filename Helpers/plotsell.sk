@@ -1,0 +1,42 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /sellplot [<number>]:
+    trigger:
+        send "&cThis feature has been disabled."
+        stop
+        if arg-1 is set:
+            if arg-1 is an number:
+                make player execute "plot flag set price &e$%arg-1%"
+                send "&eYou are now selling this plot for &e$%arg-1%&e."
+            else:
+                send "&cPlease enter a valid integer."
+        else:
+            send "&cUsage: /sellplot <money>."       
+
+command /sellcancel [<string>]: 
+    aliases: /unsellplot
+    trigger:
+        send "&cThis feature has been disabled."
+        stop
+        make player execute "plot flag remove price"                     
+        send "&eYou are no longer selling this plot."

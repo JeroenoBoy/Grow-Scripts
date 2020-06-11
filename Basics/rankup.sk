@@ -1,0 +1,78 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /rankup [<string>]:
+    trigger:    
+        if player's group is "Newbie":
+            if player's balance is greater than or equal to 350000:
+                make console execute "lp user %player% parent add Rookie"
+                send "&aYou have ranked up to &a&lRookie&a!"
+                broadcast "&f%player% &ehas ranked up to &aRookie&e!"
+                remove 350000 from player's balance
+            else:
+                send "&cYou need &e$350,000 &cto purchase this rank."      
+        else if player's group is "Rookie":
+            if player's balance is greater than or equal to 2500000:
+                make console execute "lp user %player% parent add Tiller"
+                send "&aYou have ranked up to &2&lTiller&a!"
+                broadcast "&f%player% &ehas ranked up to &2Tiller&e!"
+                remove 2500000 from player's balance
+            else:
+                send "&cYou need &e$2,500,000 &cto purchase this rank."    
+        else if player's group is "Tiller":
+            if player's balance is greater than or equal to 5000000:
+                make console execute "lp user %player% parent add Agriculturist"
+                send "&aYou have ranked up to &c&lAgriculturist&a!"
+                broadcast "&f%player% &ehas ranked up to &cAgriculturist&e!"
+                remove 5000000 from player's balance
+            else:
+                send "&cYou need &e$5,000,000 &cto purchase this rank." 
+        else if player's group is "Agriculturist":
+            if player's balance is greater than or equal to 8500000:
+                make console execute "lp user %player% parent add Farmer"
+                send "&aYou have ranked up to &e&lFarmer&a!"
+                broadcast "&f%player% &ehas ranked up to &eFarmer&e!"
+                remove 8500000 from player's balance
+            else:
+                send "&cYou need &e$8,500,000 &cto purchase this rank."  
+        else if player's group is "Farmer":
+            if player's balance is greater than or equal to 17500000:
+                make console execute "lp user %player% parent add Veteran"
+                send "&aYou have ranked up to &6&lVeteran&a!"
+                broadcast "&f%player% &ehas ranked up to &6Veteran&e!"
+                remove 17500000 from player's balance
+            else:
+                send "&cYou need &e$17,500,000 &cto purchase this rank."   
+        else:
+            send "&cYou are currently at the &c&lmax &crank."                                                                                                            
+
+command /ranks [<string>]:
+    trigger:
+        # send "&bList of ranks:%nl%&7[&aRookie&7] &7&m--&7> &e$350,000&7.%nl%&7[&2Tiller&7] &7&m--&7> &e$1,250,000&7.%nl%&7[&cAgriculturist&7] &7&m--&7> &e$3,500,000&7.%nl%&7[&eFarmer&7] &7&m--&7> &e$5,000,000&7.%nl%&7[&6Veteran&7] &7&m--&7> &e$10,000,000&7."            
+        open virtual chest inventory with 3 rows named "Ranks" to player
+        loop 3*9 times:
+            format gui slot (loop-number - 1) of player with light gray stained glass pane named "&f" to do nothing
+        format gui slot 9 of player with paper named "&aRookie &fRank" with lore "&7Price: &e$350,000&7.||&r||&ePerks:||&7- &f2 Claimable Plots||&r||&4&l(!) &cIf you are already merged with other||&cplots that will count towards your||&coverall claimed plots."
+        format gui slot 11 of player with paper named "&2Tiller &fRank" with lore "&7Price: &e$2,500,000&7.||&r||&ePerks:||&7- &f4 Claimable Plots||&r||&4&l(!) &cIf you are already merged with other||&cplots that will count towards your||&coverall claimed plots."
+        format gui slot 13 of player with paper named "&cAgriculturist &fRank" with lore "&7Price: &e$5,000,000&7.||&r||&ePerks:||&7- &f5 Claimable Plots||&r||&4&l(!) &cIf you are already merged with other||&cplots that will count towards your||&coverall claimed plots."
+        format gui slot 15 of player with paper named "&eFarmer &fRank" with lore "&7Price: &e$8,500,000&7.||&r||&ePerks:||&7- &f8 Claimable Plots||&r||&4&l(!) &cIf you are already merged with other||&cplots that will count towards your||&coverall claimed plots."
+        format gui slot 17 of player with paper named "&6Veteran &fRank" with lore "&7Price: &e$17,500,000&7.||&r||&ePerks:||&7- &f12 Claimable Plots||&r||&4&l(!) &cIf you are already merged with other||&cplots that will count towards your||&coverall claimed plots."

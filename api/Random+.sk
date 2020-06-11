@@ -1,0 +1,53 @@
+#	:::::::::      :::     ::::    ::: :::::::::   ::::::::  ::::    ::::
+#	:+:    :+:   :+: :+:   :+:+:   :+: :+:    :+: :+:    :+: +:+:+: :+:+:+      :+:
+#	+:+    +:+  +:+   +:+  :+:+:+  +:+ +:+    +:+ +:+    +:+ +:+ +:+:+ +:+      +:+
+#	+#++:++#:  +#++:++#++: +#+ +:+ +#+ +#+    +:+ +#+    +:+ +#+  +:+  +#+ +#++:++#++:++
+#	+#+    +#+ +#+     +#+ +#+  +#+#+# +#+    +#+ +#+    +#+ +#+       +#+      +#+
+#	#+#    #+# #+#     #+# #+#   #+#+# #+#    #+# #+#    #+# #+#       #+#      #+#
+#	###    ### ###     ### ###    #### #########   ########  ###       ###
+#	===========[By: Jeroeno_Boy, inspired by Stevecv]===================================
+#
+#
+#	Terms of usage:
+#		1. Do not copy!
+#		2. Do not claim as yours
+#		3. Do not remove ANY credits
+#		4. Please do not edit the code, if you edit it. you can't repost it.
+#
+#
+#
+#	Api:
+#		Usage: (in {} is unnecesary, it is default set to 5)
+#			1: Rand(Min, Max{, Loop times})
+#			2: Random(Min, Max{, Loop times})
+#			(i know these are the same but some may prefer rand and others random ¯\_(ツ)_/¯)
+#		Example:
+#			on join:
+#				set {_MSG} to rand(1, 2)
+#				if {_MSG} = 1:
+#					message "&8[&cHypercraft&8] &7Welcome &c%Player% &7to the Hypercraft network"
+#				else if {_MSG} = 2:
+#					message "&8[&cHypercraft&8] &7Boot up your hyperdrive, its time to play!"
+
+
+
+#==============================================
+#				Super duper long code
+#==============================================
+function Rand(min: integer, max: integer, Times: integer = 5) :: integer:
+	if {_times} is less than 1:
+		set {_times} to 5
+	set {_Int} to 0
+	loop {_Times} times:
+		add random integer between {_min} and {_max} to {_Int}
+	return rounded ({_Int}/{_Times})
+
+
+
+function Random(min: integer, max: integer, Times: integer = 5) :: integer:
+	if {_times} is less than 1:
+		set {_times} to 5
+	set {_Int} to 0
+	loop {_Times} times:
+		add random integer between {_min} and {_max} to {_Int}
+	return rounded ({_Int}/{_Times})

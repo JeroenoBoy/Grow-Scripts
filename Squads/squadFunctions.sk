@@ -1,0 +1,680 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on join:
+	wait 2 ticks
+	if {player::squad::%player's uuid%} is "None":
+		set {player::tag::%player's uuid%} to ""
+		set {player::tag_color::%player's uuid%} to colored "&7"
+	else:
+		if {squad::tag::%{player::squad::%player's uuid%}%} is not "None":
+			set {player::tag::%player's uuid%} to " [%{squad::tag::%{player::squad::%player's uuid%}%}%]"		
+			set {player::tag_color::%player's uuid%} to colored "%{squad::tag_color::%{player::squad::%player's uuid%}%}%"
+		else:
+			set {player::tag::%player's uuid%} to ""
+			set {player::tag_color::%player's uuid%} to colored "&7"	
+
+		set {_squad} to {player::squad::%player's uuid%}
+
+		if {squad::leader::%{_squad}%} is player's uuid:
+			if {squad::leader_name::%{_squad}%} is not player:
+				send "[Squads Log]: Updated %player%'s name from %{squad::leader_name::%{_squad}%}% in %{_squad}%." to console
+				set {squad::leader_name::%{_squad}%} to player
+
+		if {squad::members::%{_squad}%::%player's uuid%} is not player:
+			send "[Squads Log]: Updated %player%'s member list name from %{squad::members::%{_squad}%::%player's uuid%}% in %{_squad}%." to console
+			set {squad::members::%{_squad}%::%player's uuid%} to player
+
+# opens some squad menu or somethin
+function squad_openSquadMenu(p: Player, squad: String):
+    set {_u} to {_p}'s uuid
+    open virtual chest inventory with 5 rows named "&8Squad" to {_p}
+    if {squad::leader_name::%{_squad}%} is online:
+        set {_leaderOnline} to colored "&aYes"
+    else:
+        set {_leaderOnline} to colored "&cNo"		
+    format gui slot 3 of {_p} with {squad::leader_name::%{_squad}%}'s skull named "&6%{squad::leader_name::%{_squad}%}%" with lore "&7Role: &fLeader&7.||&7Online: %{_leaderOnline}%&7.||&7Votes: &f%{votes::%{squad::leader::%{_squad}%}%}%&7."
+    format gui slot 4 of {_p} with paper named "&6%{_squad}% &eInformation" with lore "&7Slots: &f%{squad::current_capacity::%{_squad}%}%&7/&f%{squad::capacity::%{_squad}%}%&7.||&7Squad Tag: &f%{squad::tag::%{_squad}%}%&7.||&7Creation Date: &f%{squad::creation::%{_squad}%}%&7.||&r||&7Description:||&f%{squad::description::%{_squad}%}%"
+    format gui slot 5 of {_p} with gold ingot named "&eBank" with lore "&6%{_squad}% &7currently has &2$&a%easyRead({squad::balance::%{_squad}%})% &7in it's bank."
+    if {player::role::%{_u}%} is "Leader" or "Officier":
+        format gui slot 11 of {_p} with emerald named "&6Squad Upgrades" with lore "&7Upgrade your Squad to hold||&7more members and unlock new perks!" to run function squad_squadUpgrades({_p}, {_squad})
+    else:    
+        format gui slot 11 of {_p} with emerald named "&cSquad Upgrades" with lore "&7You are not allowed to upgrade||&7your Squad." to do nothing        
+    set {_dyeint} to a random integer between 1 and 15
+    if {squad::upgrades::%{_squad}%::*} contains "squad_tag":
+        format gui slot 12 of {_p} with "351:%{_dyeint}%" parsed as an item named "&6Squad Tag Color" with lore "&7Update your Squad tag to show||&7off who you are!" to run function squad_editSquadTag({_p}, {_squad})
+    else:
+        format gui slot 12 of {_p} with "351:%{_dyeint}%" parsed as an item named "&cSquad Tag Color" with lore "&7Update your Squad tag to show||&7off who you are!||&r||&cNot Unlocked." to do nothing		
+    format gui slot 13 of {_p} with sign_item named "&6Squad Information" with lore "&7Get all the members of your Squad||&7and some basic information." to run function squad_listMenu({_p}, {_squad})
+    if {player::role::%{_u}%} is "Leader" or "Officier":
+        format gui slot 14 of {_p} with book and quill named "&6Invite Players" with lore "&7Invite some new players||&7to your Squad and watch it grow." to run function squad_listallPlayers({_p}, {_squad})
+    else:
+        format gui slot 14 of {_p} with book and quill named "&cInvite Players" with lore "&7You are not allowed to invite||&7other players to the Squad." to do nothing        
+
+    if {player::role::%{_u}%} is "Leader" or "Officier":
+        format gui slot 15 of {_p} with 404 named "&6Squad Settings" with lore "&7View all the settings that||&7can be edited in the Squad." to run function squad_squadSettings({_p}, {_squad})
+    else:
+        format gui slot 15 of {_p} with 404 named "&cSquad Settings" with lore "&7You are not allowed to edit||&7any settings for your Squad." to do nothing	
+
+    set {_filler} to 17
+    loop 1*9 times:
+        add 1 to {_filler}
+        format gui slot {_filler} of {_p} with gray stained glass pane named "" to do nothing
+
+        set {_playersint} to 26
+        loop {squad::members::%{_squad}%::*}:
+            add 1 to {_playersint}
+            if {_playersint} is 40:
+                add 1 to {_playersint}
+            if loop-value-2's balance is set:
+                format gui slot {_playersint} of {_p} with loop-value-2's skull named "%{rank::color::%loop-value-2%}%%loop-value-2%" with lore "&7Joined at: &f%{player::joined::%loop-index%}%&7.||&7Role: &f%{player::role::%loop-index%}%&7.||&7Balance: &2$&a%easyRead(loop-value-2's balance)%&7."               
+            else:
+                format gui slot {_playersint} of {_p} with loop-value-2's skull named "%{rank::color::%loop-value-2%}%%loop-value-2%" with lore "&7Joined at: &f%{player::joined::%loop-index%}%&7.||&7Role: &f%{player::role::%loop-index%}%&7."        
+
+        # loop {squad::members::%{_squad}%::*}:
+            # broadcast "%loop-value%"
+            # add 1 to {_playersint}
+            # if {_playersint} is 40:
+                # add 1 to {_playersint}
+            # set {_u} to loop-index                
+            # if loop-value's balance is set:
+                # format gui slot {_playersint} of {_p} with loop-value's skull named "%{rank::color::%loop-value%}%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7.||&7Balance: &2$&a%easyRead(loop-value's balance)%&7."
+            # else:			
+                # format gui slot {_playersint} of {_p} with loop-value's skull named "%{rank::color::%loop-value%}%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7."
+    format gui slot 40 of {_p} with barrier named "&c&lExit" to run function squad_closeMenu({_p})
+
+# edit sum squad taggggzzzz
+function squad_editSquadTag(p: Player, squad: String):
+	open virtual chest inventory with 5 rows named "Squad Tag Color" to {_p}
+	loop 5*9 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+
+	# Light red.		
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_LIGHT-RED":
+		format gui slot 11 of {_p} with 351:1 named "&cLight Red" with lore "&7Display your Squad Tag as:||&c[This]||||&cNot Purchased."
+	else:
+		format gui slot 11 of {_p} with 351:1 named "&cLight Red" with lore "&7Display your Squad Tag as:||&c[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&c")	
+
+	# Dark Green
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_DARK-GREEN":
+		format gui slot 12 of {_p} with 351:2 named "&2Dark Green" with lore "&7Display your Squad Tag as:||&2[This]||||&cNot Purchased."
+	else:
+		format gui slot 12 of {_p} with 351:2 named "&2Dark Green" with lore "&7Display your Squad Tag as:||&2[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&2") 		
+
+	# Blue
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_BLUE":
+		format gui slot 13 of {_p} with 351:4 named "&9Blue" with lore "&7Display your Squad Tag as:||&9[This]||||&cNot Purchased."
+	else:
+		format gui slot 13 of {_p} with 351:4 named "&9Blue" with lore "&7Display your Squad Tag as:||&9[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&9")
+
+	# Purple
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_PURPLE":
+		format gui slot 14 of {_p} with 351:5 named "&5Purple" with lore "&7Display your Squad Tag as:||&5[This]||||&cNot Purchased."
+	else:
+		format gui slot 14 of {_p} with 351:5 named "&5Purple" with lore "&7Display your Squad Tag as:||&5[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&5")
+
+	# Cyan
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_CYAN":
+		format gui slot 15 of {_p} with 351:6 named "&3Cyan" with lore "&7Display your Squad Tag as:||&3[This]||||&cNot Purchased."
+	else:
+		format gui slot 15 of {_p} with 351:6 named "&3Cyan" with lore "&7Display your Squad Tag as:||&3[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&3")		
+
+	# Pink
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_PINK":
+		format gui slot 20 of {_p} with 351:9 named "&dPink" with lore "&7Display your Squad Tag as:||&d[This]||||&cNot Purchased."
+	else:
+		format gui slot 20 of {_p} with 351:9 named "&dPink" with lore "&7Display your Squad Tag as:||&d[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&d")
+
+	# Lime
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_LIME-GREEN":
+		format gui slot 21 of {_p} with 351:10 named "&aLime Green" with lore "&7Display your Squad Tag as:||&a[This]||||&cNot Purchased."
+	else:
+		format gui slot 21 of {_p} with 351:10 named "&aLime Green" with lore "&7Display your Squad Tag as:||&a[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&a")
+
+	# Yellow
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_YELLOW":
+		format gui slot 22 of {_p} with 351:11 named "&eYellow" with lore "&7Display your Squad Tag as:||&e[This]||||&cNot Purchased."
+	else:
+		format gui slot 22 of {_p} with 351:11 named "&eYellow" with lore "&7Display your Squad Tag as:||&e[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&e")
+
+	# Aqua
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_AQUA":
+		format gui slot 23 of {_p} with 351:12 named "&bAqua" with lore "&7Display your Squad Tag as:||&b[This]||||&cNot Purchased."
+	else:
+		format gui slot 23 of {_p} with 351:12 named "&bAqua" with lore "&7Display your Squad Tag as:||&b[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&b")
+
+	# Orange
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_Gold":
+		format gui slot 24 of {_p} with 351:14 named "&6Gold" with lore "&7Display your Squad Tag as:||&6[This]||||&cNot Purchased."
+	else:
+		format gui slot 24 of {_p} with 351:14 named "&6Orange" with lore "&7Display your Squad Tag as:||&6[This]||||&aPurchased." to run function squad_setSquadTagColor({_p}, {_squad}, "&6")
+
+	format gui slot 36 of {_p} with arrow named "&c&lReset Tag" with lore "&7Reset your Squad Tag to:||&7[This]" to run function squad_setSquadTagColor({_p}, {_squad}, "&7")
+	format gui slot 40 of {_p} with barrier named "&c&lExit" to run function squad_openSquadMenu({_p}, {_squad})	
+
+function squad_setSquadTagColor(p: Player, squad: String, color: String):
+	close {_p}'s inventory
+	set {squad::tag_color::%{_squad}%} to colored "%{_color}%"
+	send "&eYou have set the &6Squad Tag Color &eto %{_color}%[This]&e." to {_p}
+	squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas set the &6Squad Tag Color &eto %{_color}%[This]&e.")
+	loop {squad::members::%{_squad}%::*}:
+		if loop-value is online:
+			set {player::tag_color::%loop-index%} to colored "%{_color}%"
+
+# squad settingz
+function squad_squadSettings(p: Player, squad: String):
+	open virtual hopper inventory with 1 rows named "Squad Settings" to {_p}
+	loop 1*5 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+	set {_split::*} to {squad::settings::%{_squad}%} split by ":"
+
+	if {_split::1} is "true":
+		format gui slot 0 of {_p} with paper named "&aSquad Chat" with lore "&7Toggle the usage of the Squad Chat." to run function squad_toggleSquadSetting({_p}, {_squad}, "chat", "disable")	
+	else:
+		format gui slot 0 of {_p} with paper named "&cSquad Chat" with lore "&7Toggle the usage of the Squad Chat." to run function squad_toggleSquadSetting({_p}, {_squad}, "chat", "enable")	
+
+	format gui slot 2 of {_p} with barrier named "&c&lExit" to run function squad_openSquadMenu({_p}, {_squad})				
+
+	if {_split::2} is "true":
+		format gui slot 4 of {_p} with gold ingot named "&aSquad Bank" with lore "&7Toggle the usage of the Squad Bank." to run function squad_toggleSquadSetting({_p}, {_squad}, "bank", "disable")	
+	else:
+		format gui slot 4 of {_p} with gold ingot named "&cSquad Bank" with lore "&7Toggle the usage of the Squad Bank." to run function squad_toggleSquadSetting({_p}, {_squad}, "bank", "enable")		
+
+# toggles the shit
+function squad_toggleSquadSetting(p: Player, squad: String, type: String, status: String):
+	set {_split::*} to {squad::settings::%{_squad}%} split by ""
+	if {_type} is "chat":
+		if {_status} is "enable":
+			send "&eYou have &aenabled ðe &6Squad Chat&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas &aenabled ðe &6Squad Bank&e.")			
+			set {squad::settings::%{_squad}%} to "true:%{_split::2}%"
+		else:
+			send "&eYou have &cdisabled ðe &6Squad Chat&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas &cdisabled ðe &6Squad Chat&e.")			
+			set {squad::settings::%{_squad}%} to "false:%{_split::2}%"			
+	else if {_type} is "bank":			
+		if {_status} is "enable":
+			send "&eYou have &aenabled ðe &6Squad Bank&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas &aenabled ðe &6Squad Bank&e.")
+			set {squad::settings::%{_squad}%} to "%{_split::1}%:true"
+		else:
+			send "&eYou have &cdisabled ðe &6Squad Bank&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas &cdisabled ðe &6Squad Bank&e.")		
+			set {squad::settings::%{_squad}%} to "%{_split::1}%:false"	
+	squad_squadSettings({_p}, {_squad})
+
+function squad_createSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	broadcast "%{rank::color::%{_p}%}%%{_p}% &ehas created the squad &6%{_squad}%&e."
+	send "&eCongratulations! You are now the proud owner of &6%{_squad}%&e, use &f/squad help &efor a list of all the commands you can use." to {_p}
+
+	set {player::squad::%{_u}%} to {_squad}
+	set {player::role::%{_u}%} to "Leader"
+	set {player::joined::%{_u}%} to now
+
+	# Sets all values.
+	set {squad::leader::%{_squad}%} to {_u}
+	set {squad::leader_name::%{_squad}%} to {_p}
+
+	set {squad::members::%{_squad}%::%{_u}%} to {_p}
+
+	set {squad::capacity::%{_squad}%} to 5
+	set {squad::current_capacity::%{_squad}%} to 1
+
+	set {squad::tag::%{_squad}%} to "None"
+	set {squad::tag_color::%{_squad}%} to colored "&7"
+
+	set {squad::creation::%{_squad}%} to now
+
+	set {squad::balance::%{_squad}%} to 0
+
+	set {squad::description::%{_squad}%} to "A new Squad!"
+
+	if {squad::upgrades::%{_squad}%::*} is set:
+		delete {squad::upgrades::%{_squad}%::*}
+	add "" to {squad::upgrades::%{_squad}%::*}		
+
+	set {squad::settings::%{_squad}%} to "true:true"
+
+	add {_squad} to {squads::*}
+
+# list shit
+function squad_listMenu(p: Player, squad: String):
+	open virtual chest inventory with 4 rows named "&8Squad" to {_p}
+	loop 1*9 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+	set {_uwu} to 26
+	loop 1*9 times:
+		add 1 to {_uwu}
+		format gui slot {_uwu} of {_p} with gray stained glass pane named "" to do nothing
+	format gui slot 31 of {_p} with barrier named "&c&lExit" to run function squad_closeMenu({_p})
+	set {_leader} to {squad::leader_name::%{_squad}%}
+	format gui slot 1 of {_p} with {_leader}'s skull named "&eLeader Information" with lore "%{rank::color::%{_leader}%}%%{_leader}% &7created &6%{_squad}% &7at &f%{squad::creation::%{_squad}%}%&7."
+	format gui slot 4 of {_p} with paper named "&6%{_squad}% &eInformation" with lore "&7Slots: &f%{squad::current_capacity::%{_squad}%}%&7/&f%{squad::capacity::%{_squad}%}%&7.||&7Squad Tag: &f%{squad::tag::%{_squad}%}%&7.||&7Creation Date: &f%{squad::creation::%{_squad}%}%&7.||&r||&7Description:||&f%{squad::description::%{_squad}%}%"
+	format gui slot 7 of {_p} with gold ingot named "&eBank" with lore "&6%{_squad}% &7currently has &2$&a%easyRead({squad::balance::%{_squad}%})% &7in it's bank."
+
+	set {_int} to 8
+	loop {squad::members::%{_squad}%::*}:
+		add 1 to {_int}
+		set {_u} to loop-value's uuid
+		if loop-value's balance is set:
+			format gui slot {_int} of {_p} with loop-value's skull named "%{rank::color::%loop-value%}%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7.||&7Balance: &2$&a%easyRead(loop-value's balance)%&7."
+		else:			
+			format gui slot {_int} of {_p} with loop-value's skull named "%{rank::color::%loop-value%}%%loop-value%" with lore "&7Joined at: &f%{player::joined::%{_u}%}%&7.||&7Role: &f%{player::role::%{_u}%}%&7."		
+
+# closes menus
+function squad_closeMenu(p: Player):
+	close {_p}'s inventory			
+
+# invites a player to a farm.
+function squad_inviteMember(p: Player, p2: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+
+	send "&6&m----------------------------------------" to {_p}
+	send "&e<ttp:&eClick to join &6%{_squad}%&e.><cmd:/squad join %{_squad}%>You have been invited to join &6%{_squad}%&e!" to {_p}
+	send "&e<ttp:&eClick to join &6%{_squad}%&e.><cmd:/squad join %{_squad}%>Use &6/squad join %{_squad}% &eto accept." to {_p}
+	send "&6&m----------------------------------------" to {_p}
+
+	add {_squad} to {-player::invited_squads::%{_u}%::*} 
+
+	wait 30 seconds
+	if {-player::invited_squads::%{_u}%::*} contains {_squad}:
+		remove {_squad} from {-player::invited_squads::%{_u}%::*}
+		send "&cYour request to join &e%{_squad}% &chas expired." to {_p}
+		send "&cYour request for &e%{_p}% &cto join your squad has expired." to {_p2}		
+
+# join a farm
+function squad_joinSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	if {-player::invited_squads::%{_u}%::*} contains {_squad}:
+		if {squad::current_capacity::%{_squad}%} > {squad::capacity::%{_squad}%}:
+			send "&cSorry! This Squad is at it's max capacity." to {_p}
+			stop
+		set {player::squad::%{_u}%} to {_squad}
+		set {player::role::%{_u}%} to "Member"
+		set {player::joined::%{_u}%} to now
+
+		remove {_squad} from {-player::invited_squads::%{_u}%::*}
+
+		set {squad::members::%{_squad}%::%{_u}%} to {_p}
+		add 1 to {squad::current_capacity::%{_squad}%}
+
+		send "&eYou have joined the Squad &6%{_squad}%&e." to {_p}
+		loop {squad::members::%{_squad}%::*}:
+			if loop-value is online:
+				send "%{rank::color::%{_p}%}%%{_p}% &ehas joined the Squad!" to loop-value
+	else:
+		send "&cSorry! It seems you haven't been invited to &e%{_squad}%&c." to {_p}				
+
+# leave da farm
+function squad_leaveSquad(p: Player, squad: String):
+	set {_u} to {_p}'s uuid
+
+	send "&eYou have left &6%{_squad}%&e!" to {_p}
+	set {player::squad::%{_u}%} to "None"
+	set {player::role::%{_u}%} to "Member"
+
+	delete {squad::members::%{_squad}%::%{_u}%}
+	remove 1 from {squad::current_capacity::%{_squad}%}
+
+	set {player::tag::%{_u}%} to ""		
+	set {player::tag_color::%{_u}%} to colored "&7"
+
+	loop {squad::members::%{_squad}%::*}:
+		if loop-value is online:
+			send "%{rank::color::%{_p}%}%%{_p}% &ehas left the Squad!" to loop-value
+
+# sets some shit
+function squad_setSquadTag(p: Player, squad: String, tag: String):
+	if {squad::upgrades::%{_squad}%::*} contains "SQUAD_TAG":
+		if {_tag} is not "None":
+			if {squad::tag::%{_squad}%} is not "None":
+				remove {squad::tag::%{_squad}%} from {squadtags::*}
+			set {squad::tag::%{_squad}%} to {_tag}
+			add {_tag} to {squadtags::*}
+			send "&eYou have set the Squad tag to &6%{_tag}%&e." to {_p}
+
+			loop {squad::members::%{_squad}%::*}:
+				if loop-value is online:
+					set {player::tag::%loop-index%} to " [%{_tag}%]"
+					set {player::tag_color::%loop-index%} to colored "%{squad::tag_color::%{_squad}%}%"
+					send "%{rank::color::%{_p}%}%%{_p}% &ehas set the Squad tag to &6%{_tag}%&e." to loop-value
+		else:
+			if {squad::tag::%{_squad}%} is not "None":
+				remove {squad::tag::%{_squad}%} from {squadtags::*}
+			set {squad::tag::%{_squad}%} to "None"
+			send "&eYou have removed your Squad tag." to {_p}
+
+			loop {squad::members::%{_squad}%::*}:
+				if loop-value is online:
+					set {player::tag::%loop-index%} to ""
+					set {player::tag_color::%loop-index%} to colored "%{squad::tag_color::%{_squad}%}%"                
+					send "%{rank::color::%{_p}%}%%{_p}% &ehas removed the Squad tag." to loop-value         			               
+	else:
+		send "&cSorry! Your Squad doesn't have the &eSquad Tag &cupgrade, purchase it in &e/squad menu&c." to {_p}
+
+# sets some rank shit lol
+function squad_promotePlayer(p: Player, p2: Offline Player, squad: String):
+    set {_u} to {_p2}'s uuid
+    
+    if {player::role::%{_u}%} is "Officier" or "Leader":
+        send "%{rank::color::%{_p2}%}%%{_p2}% &eis already &6Officier &eor higher." to {_p}
+        stop
+
+    set {player::role::%{_u}%} to "Officier"
+    send "&eYou have promoted %{rank::color::%{_p2}%}%%{_p2}% &eto an &6Officier &eof &6%{_squad}%&e." to {_p}
+    loop {squad::members::%{_squad}%::*}:
+        if loop-value is online:
+            send "%{rank::color::%{_p}%}%%{_p}% &ehas promoted %{rank::color::%{_p2}%}%%{_p2}% &eto an &6Officier &eof the squad." to loop-value
+
+# revoke some rank shit lol
+function squad_demotePlayer(p: Player, p2: Offline Player, squad: String):
+    set {_u} to {_p2}'s uuid
+
+    if {player::role::%{_u}%} is "Leader" or "Member":
+        send "%{rank::color::%{_p2}%}%%{_p2}% &eis already &6Member &eor lower." to {_p}
+        stop
+
+    set {player::role::%{_u}%} to "Member"
+    send "&eYou have demoted %{rank::color::%{_p2}%}%%{_p2}% &eto a &6Member &eof &6%{_squad}%&e." to {_p}
+    loop {squad::members::%{_squad}%::*}:
+        if loop-value is online:
+            send "%{rank::color::%{_p}%}%%{_p}% &ehas demoted %{rank::color::%{_p2}%}%%{_p2}% &eto a &6Member &eof the squad." to loop-value    
+
+# kicks whores
+function squad_kickPlayer(p: Player, p2: Offline Player, squad: String):
+	set {_u} to {_p2}'s uuid
+
+	send "&eYou have kicked %{rank::color::%{_p2}%}%%{_p2}% &efrom the Squad." to {_p}
+	if {_p2} is online:
+		send "&eYou have been kicked out from the Squad &6%{_squad}%&e." to {_p2}
+
+	set {player::squad::%{_u}%} to "None"
+	set {player::role::%{_u}%} to "Member"
+
+	delete {squad::members::%{_squad}%::%{_u}%}
+	remove 1 from {squad::current_capacity::%{_squad}%}
+
+	set {player::tag::%{_u}%} to ""		
+	set {player::tag_color::%{_u}%} to colored "&7"
+
+	loop {squad::members::%{_squad}%::*}:
+		if loop-value is online:
+			send "%{rank::color::%{_p}%}%%{_p}% &ehas kicked %{rank::color::%{_p2}%}%%{_p2}% &efrom the Squad!" to loop-value         
+
+# deposit de monez
+function squad_depositBank(p: Player, squad: String, i: Integer):
+    if {_p}'s balance is greater than or equal to {_i}:
+        if {squad::balance::%{_squad}%} is less than 25000000:
+            remove {_i} from {_p}'s balance
+
+            add {_i} to {squad::balance::%{_squad}%}
+            send "&eYou have deposited &2$&a%easyRead({_i})% &einto the Squad bank." to {_p}
+
+            loop {squad::members::%{_squad}%::*}:
+                if loop-value is online:
+                    send "%{rank::color::%{_p}%}%%{_p}% &ehas deposited &2$&a%easyRead({_i})% &einto the Squad bank." to loop-value
+        else:
+            send "&cYour Squad is at the maximum amount of money allowed in a Squad." to {_p}            
+    else:
+        send "&cYou don't have enough to deposit." to {_p}  
+
+# gib the mone
+function squad_withdrawBank(p: Player, squad: String, i: Integer):
+	if {squad::balance::%{_squad}%} is greater than or equal to {_i}:
+		remove {_i} from {squad::balance::%{_squad}%}
+
+		add {_i} to {_p}'s balance
+		send "&eYou have withdrawn &2$&a%easyRead({_i})% &efrom the Squad bank." to {_p}
+
+		loop {squad::members::%{_squad}%::*}:
+			if loop-value is online:
+				send "%{rank::color::%{_p}%}%%{_p}% &ehas withdrawn &2$&a%easyRead({_i})% &efrom the Squad bank." to loop-value              
+	else:
+		send "&cYour Squad doesn't have &2$&a%easyRead({_i})% &cin their bank." to {_p}
+
+# squad upgrades menuz.
+function squad_squadUpgrades(p: Player, squad: String):
+	open virtual chest inventory with 3 rows named "Squad Upgrades" to {_p}
+	loop 3*9 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+	# Squad capacity.
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_CAPACITY_8":
+		format gui slot 11 of {_p} with emerald named "&6Capacity Upgrade ##1" with lore "&7Allow &f8 &7players to join your Squad.||&r||&7Price: &2$&a500,000&7." to run function squad_purchaseSquadUpgrade({_p}, {_squad}, "SQUAD_CAPACITY_8") 
+	else if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_CAPACITY_10":
+		format gui slot 11 of {_p} with emerald named "&6Capacity Upgrade ##2" with lore "&7Allow &f10 &7players to join your Squad.||&r||&7Price: &2$&a1,250,000&7." to run function squad_purchaseSquadUpgrade({_p}, {_squad}, "SQUAD_CAPACITY_10") 
+	else if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_CAPACITY_12":
+		format gui slot 11 of {_p} with emerald named "&6Capacity Upgrade ##3" with lore "&7Allow &f12 &7players to join your Squad.||&r||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadUpgrade({_p}, {_squad}, "SQUAD_CAPACITY_12") 
+	else if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_CAPACITY_15":
+		format gui slot 11 of {_p} with emerald named "&6Capacity Upgrade ##4" with lore "&7Allow &f15 &7players to join your Squad.||&r||&7Price: &2$&a5,000,000&7." to run function squad_purchaseSquadUpgrade({_p}, {_squad}, "SQUAD_CAPACITY_15") 
+	else:
+		format gui slot 11 of {_p} with emerald named "&6Capacity Upgrade" with lore "&7Your Squad has maxed this upgrade." to do nothing
+
+	# Squad Tag
+	set {_dyeint} to a random integer between 1 and 15
+
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG":
+		format gui slot 13 of {_p} with "351:%{_dyeint}%" parsed as an item named "&6Squad Tag Upgrade" with lore "&7Show off who you are with a||&7customizable Squad Tag.||&r||&7Price: &2$&a6,500,000&7." to run function squad_purchaseSquadUpgrade({_p}, {_squad}, "SQUAD_TAG") 
+	else:
+		format gui slot 13 of {_p} with "351:%{_dyeint}%" parsed as an item named "&6Squad Tag Upgrade" with lore "&7Your squad has purchased this upgrade." to do nothing
+
+	# Squad Tag Colors
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG":
+		format gui slot 15 of {_p} with painting named "&cSquad Tag Colors" with lore "&7You can't purchase a Tag Color||&7without unlocking Squad Tags." to do nothing
+	else:		
+		format gui slot 15 of {_p} with painting named "&6Squad Tag Colors" with lore "&7Tired of having dull colors?||&7Purchase a new Squad Tag Color." to run function squad_purchaseSquadTagColors({_p}, {_squad})                
+
+	format gui slot 22 of {_p} with barrier named "&c&lExit" to run function squad_openSquadMenu({_p}, {_squad})
+
+function squad_purchaseSquadUpgrade(p: Player, squad: String, upgrade: String): 
+	if {_upgrade} is "SQUAD_CAPACITY_8":
+		if {squad::balance::%{_squad}%} is greater than or equal to 500000:
+			remove 500000 from {squad::balance::%{_squad}%}
+
+			set {squad::capacity::%{_squad}%} to 8
+
+			add "SQUAD_CAPACITY_8" to {squad::upgrades::%{_squad}%::*}
+			send "&eYou have purchased the &6Squad Capacity Upgrade ##1 &efor &2$&a500,000&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased the &6Squad Capacity Upgrade ##1 &efor &2$&a500,000&e.")
+		else:
+			send "&cSorry! Your Squad doesn't have &2$&a500,000 &cin it's bank." to {_p}
+
+	else if {_upgrade} is "SQUAD_CAPACITY_10":
+		if {squad::balance::%{_squad}%} is greater than or equal to 1250000:
+			remove 1250000 from {squad::balance::%{_squad}%}
+
+			set {squad::capacity::%{_squad}%} to 10
+
+			add "SQUAD_CAPACITY_10" to {squad::upgrades::%{_squad}%::*}
+			send "&eYou have purchased the &6Squad Capacity Upgrade ##2 &efor &2$&a1,250,000&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased the &6Squad Capacity Upgrade ##2 &efor &2$&a1,250,000&e.")
+		else:
+			send "&cSorry! Your Squad doesn't have &2$&a1,250,000 &cin it's bank." to {_p}
+
+	else if {_upgrade} is "SQUAD_CAPACITY_12":
+		if {squad::balance::%{_squad}%} is greater than or equal to 2500000:
+			remove 2500000 from {squad::balance::%{_squad}%}
+
+			set {squad::capacity::%{_squad}%} to 12
+
+			add "SQUAD_CAPACITY_12" to {squad::upgrades::%{_squad}%::*}
+			send "&eYou have purchased the &6Squad Capacity Upgrade ##3 &efor &2$&a2,500,000&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased the &6Squad Capacity Upgrade ##3 &efor &2$&a2,500,000&e.")
+		else:
+			send "&cSorry! Your Squad doesn't have &2$&a2,500,000 &cin it's bank." to {_p}  
+
+	else if {_upgrade} is "SQUAD_CAPACITY_15":
+		if {squad::balance::%{_squad}%} is greater than or equal to 5000000:
+			remove 5000000 from {squad::balance::%{_squad}%}
+
+			set {squad::capacity::%{_squad}%} to 15
+
+			add "SQUAD_CAPACITY_15" to {squad::upgrades::%{_squad}%::*}
+			send "&eYou have purchased the &6Squad Capacity Upgrade ##4 &efor &2$&a5,000,000&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased the &6Squad Capacity Upgrade ##4 &efor &2$&a5,000,000&e.")
+		else:
+			send "&cSorry! Your Squad doesn't have &2$&a5,000,000 &cin it's bank." to {_p}    
+
+	else if {_upgrade} is "SQUAD_TAG":
+		if {squad::balance::%{_squad}%} is greater than or equal to 6500000:
+			remove 6500000 from {squad::balance::%{_squad}%}
+
+			add "SQUAD_TAG" to {squad::upgrades::%{_squad}%::*}
+			send "&eYou have purchased a &6Squad Tag &efor &2$&a6,500,000&e." to {_p}
+			squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased a &6Squad Tag &efor &2$&a6,500,000&e.")
+		else:
+			send "&cSorry! Your Squad doesn't have &2$&a6,500,000 &cin it's bank." to {_p}            
+
+	squad_squadUpgrades({_p}, {_squad})
+
+# squad tagz colorzzzz
+function squad_purchaseSquadTagColors(p: Player, squad: String):
+	open virtual chest inventory with 5 rows named "Squad Tag Colors" to {_p}
+	loop 5*9 times:
+		format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "" to do nothing
+
+	# Light red.		
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_LIGHT-RED":
+		format gui slot 11 of {_p} with 351:1 named "&cLight Red" with lore "&7Display your Squad Tag as:||&c[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "LIGHT-RED", "&cLight Red")
+	else:
+		format gui slot 11 of {_p} with 351:1 named "&cLight Red" with lore "&7Display your Squad Tag as:||&c[This]||||&7Your Squad has purchased this color."		
+
+	# Dark Green
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_DARK-GREEN":
+		format gui slot 12 of {_p} with 351:2 named "&2Dark Green" with lore "&7Display your Squad Tag as:||&2[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "DARK-GREEN", "&2Dark Green") 
+	else:
+		format gui slot 12 of {_p} with 351:2 named "&2Dark Green" with lore "&7Display your Squad Tag as:||&2[This]||||&7Your Squad has purchased this color."			
+
+	# Blue
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_BLUE":
+		format gui slot 13 of {_p} with 351:4 named "&9Blue" with lore "&7Display your Squad Tag as:||&9[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "BLUE", "&9Blue")
+	else:
+		format gui slot 13 of {_p} with 351:4 named "&9Blue" with lore "&7Display your Squad Tag as:||&9[This]||||&7Your Squad has purchased this color."
+
+	# Purple
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_PURPLE":
+		format gui slot 14 of {_p} with 351:5 named "&5Purple" with lore "&7Display your Squad Tag as:||&5[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "PURPLE", "&5Purple")
+	else:
+		format gui slot 14 of {_p} with 351:5 named "&5Purple" with lore "&7Display your Squad Tag as:||&5[This]||||&7Your Squad has purchased this color."
+
+	# Cyan
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_CYAN":
+		format gui slot 15 of {_p} with 351:6 named "&3Cyan" with lore "&7Display your Squad Tag as:||&3[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "CYAN", "&3Cyan")
+	else:
+		format gui slot 15 of {_p} with 351:6 named "&3Cyan" with lore "&7Display your Squad Tag as:||&3[This]||||&7Your Squad has purchased this color."				
+
+	# Pink
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_PINK":
+		format gui slot 20 of {_p} with 351:9 named "&dPink" with lore "&7Display your Squad Tag as:||&d[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "PINK", "&dPink")
+	else:
+		format gui slot 20 of {_p} with 351:9 named "&dPink" with lore "&7Display your Squad Tag as:||&d[This]||||&7Your Squad has purchased this color."
+
+	# Lime
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_LIME-GREEN":
+		format gui slot 21 of {_p} with 351:10 named "&aLime Green" with lore "&7Display your Squad Tag as:||&a[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "LIME-GREEN", "&aLime Green")
+	else:
+		format gui slot 21 of {_p} with 351:10 named "&aLime Green" with lore "&7Display your Squad Tag as:||&a[This]||||&7Your Squad has purchased this color."
+
+	# Yellow
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_YELLOW":
+		format gui slot 22 of {_p} with 351:11 named "&eYellow" with lore "&7Display your Squad Tag as:||&e[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "YELLOW", "&eYellow")
+	else:
+		format gui slot 22 of {_p} with 351:11 named "&eYellow" with lore "&7Display your Squad Tag as:||&e[This]||||&7Your Squad has purchased this color."
+
+	# Aqua
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_AQUA":
+		format gui slot 23 of {_p} with 351:12 named "&bAqua" with lore "&7Display your Squad Tag as:||&b[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "AQUA", "&bAqua")
+	else:
+		format gui slot 23 of {_p} with 351:12 named "&bAqua" with lore "&7Display your Squad Tag as:||&b[This]||||&7Your Squad has purchased this color."
+
+	# Orange
+	if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_Gold":
+		format gui slot 24 of {_p} with 351:14 named "&6Gold" with lore "&7Display your Squad Tag as:||&6[This]||||&7Price: &2$&a2,500,000&7." to run function squad_purchaseSquadTag({_p}, {_squad}, "GOLD", "&6Gold")
+	else:
+		format gui slot 24 of {_p} with 351:14 named "&6Orange" with lore "&7Display your Squad Tag as:||&6[This]||||&7Your Squad has purchased this color."
+
+	format gui slot 40 of {_p} with barrier named "&c&lExit" to run function squad_squadUpgrades({_p}, {_squad})
+
+	# White was cut because GUIs are gay and i wanted to make the GUI look nice.
+
+	# # White
+	# if {squad::upgrades::%{_squad}%::*} doesn't contain "SQUAD_TAG_COLOR_WHITE":
+	# 	format gui slot 22 of {_p} with 351:15 named "&fWhite" with lore "&7Display your Squad Tag as:||&f[This]||||&7Price: &2$&a2,500,000&7."
+	# else:
+	# 	format gui slot 22 of {_p} with 351:15 named "&fWhite" with lore "&7Display your Squad Tag as:||&f[This]||||&7Your Squad has purchased this color."
+
+function squad_purchaseSquadTag(p: Player, squad: String, type: String, thing: String):
+	if {squad::balance::%{_squad}%} is greater than or equal to 2500000:
+		add "SQUAD_TAG_COLOR_%{_type}%" to {squad::upgrades::%{_squad}%::*}
+		send "&eYou have purchased the %colored {_thing}% &6Squad Tag Color&e." to {_p}
+		squad_sendSquadAlert({_squad}, "%{rank::color::%{_p}%}%%{_p}% &ehas purchased the %colored {_thing}% &6Squad Tag Color &efor &2$&a2,500,000&e.")
+		squad_purchaseSquadTagColors({_p}, {_squad})
+	else:
+		send "&cSorry! Your Squad doesn't have &2$&a2,500,000 &cin it's bank." to {_p}		
+
+# sends an alert to all online members
+function squad_sendSquadAlert(squad: String, msg: String):
+    loop {squad::members::%{_squad}%::*}:
+        if loop-value is online:
+            send "%colored {_msg}%" to loop-value
+
+# farmz chat uwu
+on chat:
+	if {-player::chat::%player's uuid%} is set:
+		if {player::squad::%player's uuid%} is not "None":
+			set {_c} to {punishments::mute::counter::%player's uuid%}
+
+			if {punishments::mute::muted::%{_c}%::%player's uuid%} is true:
+				send "&cYou can't use Squad Chat while muted." to player
+				cancel event
+			else:
+				cancel event
+				set {_split::*} to {squad::settings::%{player::squad::%player's uuid%}%} split by ":"
+				if {_split::1} is "true":
+					loop {squad::members::%{player::squad::%player's uuid%}%::*}:
+						if loop-value is online:
+							send "&6[Squad Chat] &7(%{player::role::%player's uuid%}%) %{rank::color::%player%}%%player%: &f%message%" to loop-value
+				else:
+					send "&cSorry! It seems your Squad currently has the &eSquad Chat &cdisabled." to player
+
+# send help msg
+function squad_squadHelp(p: Player):
+	send centered "&6&lSquad Help" to {_p}					
+	send "" to {_p}
+	send "&e/squad create <squad> &7- Creates a Squad." to {_p}
+	send "&e/squad disband <confirm> &7- Disbands your Squad." to {_p}
+	send "&e/squad leave &7- Leave the current Squad you're in." to {_p}
+	send "&e/squad info <squad> &7- Get some basic information on another Squad." to {_p}
+	send "&e/squad invite <player> &7- Invite a player to your Squad." to {_p}
+	send "&e/squad join <squad> &7- Join a Squad you have been invited too." to {_p}
+	send "&e/squad chat &7- Chat to everyone in your Squad." to {_p}
+	send "&e/squad tag <tag/remove> &7- Set the tag that will display in tab and in chat." to {_p}
+	send "&e/squad promote <player> &7- Promote a player to Squad Officier." to {_p}
+	send "&e/squad demote <player> &7- Demote a player from Squad Officier." to {_p}
+	send "&e/squad kick <player> &7- Kick a player from the Squad." to {_p}
+	send "&e/squad bank <deposit/withdraw/see> <money> &7- Access the Squad bank to purchase upgrades." to {_p}
+	send "&e/squad menu &7- Get the Squad menu for everything you need." to {_p}
+	send "&e/squad setdesc <description> &7- Set your Squad description." to {_p}
+	send "" to {_p}

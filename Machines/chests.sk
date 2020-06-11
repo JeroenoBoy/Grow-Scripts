@@ -1,0 +1,241 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on load:
+    if {voidchests::*} is not set:
+        add "" to {voidchests::*}
+    if {sellchests::*} is not set:
+        add "" to {sellchests::*}       
+
+command /chest [<player>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is set:
+                if arg-1 is an player:
+                    if arg-2 is "void":
+                        send "&eYou have given &f%arg-1% &ea &6Void Chest&e." to player
+                        giveChest(arg-1, "void")
+                    else if arg-2 is "sell":
+                        send "&eYou have given &f%arg-1% &ea &6Sell Chest&e." to player
+                        giveChest(arg-1, "sell")
+                    else:
+                        send "&cUsage: /chest (player) <void/sell>."
+                else:
+                    send "&cThat player is not currently online."
+            else:
+                send "&cUsage: /chest (player) <void/sell>."
+        else:
+            send "&cYou are lacking the required permissions to execute this command."                        
+
+function giveChest(p: Player, t: String):
+    if {_t} is "void":
+        give {_p} 1 chest named "&5&lVoid Chest" with lore " &f&oRemove any unnecessary items  ||&r &f&ofrom farms, grinders and more.  ||&r||&d&l* &5Cooldown: &f25 seconds"
+    else if {_t} is "sell":
+        give {_p} 1 chest named "&c&lSell Chest" with lore " &f&oSell any and all items  ||&r &f&othat are in /shop.  ||&r||&4&l* &cCooldown: &f45 seconds"        
+
+on block place:
+    if event-block is a chest:
+        if name of player's tool is "&5&lVoid Chest":
+            if lore of player's tool is " &f&oRemove any unnecessary items  ||&r &f&ofrom farms, grinders and more.  ||&r||&d&l* &5Cooldown: &f25 seconds":
+                if {voidchests::*} contains event-block's location:
+                    send "&cThere was an error while placing this chest down, Contact administration. &7(INVALID_LOC)" to player
+                    cancel event
+                else:
+                    set {_vl} to -1
+                    loop all blocks in radius 1 of event-block's location:
+                        if loop-block is a chest or trapped_chest or ender_chest:
+                            add 1 to {_vl}
+                    # It also loops the placed chest.
+                    if {_vl} is greater than or equal to 1:
+                        cancel event
+                        send "&cYou can't place this chest so close to another."
+                        play sound "entity.villager.no" with volume 0.5 at player for player
+                        stop                
+                    add event-block's location to {voidchests::*}
+                    send "&eYou have placed a &5&lVoid Chest &eat &f%event-block's location%&e." to player
+                    play sound "block.anvil.land" with volume 0.5 at player for player
+                    set {chest::info::void::%event-block's location%} to "%player's uuid%"
+        else if name of player's tool is "&c&lSell Chest":
+            if lore of player's tool is " &f&oSell any and all items  ||&r &f&othat are in /shop.  ||&r||&4&l* &cCooldown: &f45 seconds":
+                if {sellchests::*} contains event-block's location:
+                    send "&cThere was an error while placing this chest down, Contact administration. &7(INVALID_LOC)" to player
+                    cancel event
+                else:
+                    set {_vl} to -1
+                    loop all blocks in radius 1 of event-block's location:
+                        if loop-block is a chest or trapped_chest or ender_chest:
+                            add 1 to {_vl}
+                    # It also loops the placed chest.
+                    if {_vl} is greater than or equal to 1:
+                        cancel event
+                        send "&cYou can't place this chest so close to another."
+                        play sound "entity.villager.no" with volume 0.5 at player for player
+                        stop
+                    add event-block's location to {sellchests::*}
+                    send "&eYou have placed a &c&lSell Chest &eat &f%event-block's location%&e." to player
+                    play sound "block.anvil.land" with volume 0.5 at player for player
+                    set {chest::info::sell::%event-block's location%} to "%player's uuid%:sell:0"    
+        else:
+            set {_vl} to -1
+            loop all blocks in radius 1 of event-block's location:
+                if loop-block is a chest or trapped_chest or ender_chest:
+                    if name of loop-block's inventory is "&c&lSell Chest" or "&5&lVoid Chest":
+                        add 1 to {_vl}
+            # It also loops the placed chest.
+            if {_vl} is greater than or equal to 1:
+                cancel event
+                send "&cYou can't place this chest so close to another."
+
+on right click:
+    if event-block is a chest:
+        if {sellchests::*} contains event-block's location:
+            set {_split::*} to {chest::info::sell::%event-block's location%} split by ":"
+            if {_split::1} is "%player's uuid%":
+                set {_money} to {_split::3} parsed as number
+                sellChestMenu(player, event-block's location, {_money})
+            else if player has permission "core.admin":
+                set {_money} to {_split::3} parsed as number
+                sellChestMenu(player, event-block's location, {_money})
+            else:
+                send "&cYou don't own this chest!" to player
+            cancel event     
+        else if {voidchests::*} contains event-block's location:
+            if {chest::info::void::%event-block's location%} contains "%player's uuid%":
+                voidChestMenu(player, event-block's location)                       
+            else:
+                send "&cYou don't own this chest!" to player   
+            cancel event                           
+
+on block break:
+    if event-block is a chest:
+        if {sellchests::*} contains event-block's location:
+            if player has permission "core.admin":
+                remove event-block's location from {sellchests::*}
+                delete {chest::info::sell::%event-block's location%}
+                send "&eYou have removed the &c&lSell Chest &eat &f%event-block's location%&e."   
+            else:
+                cancel event   
+        else if {voidchests::*} contains event-block's location:
+            if player has permission "core.admin":
+                remove event-block's location from {voidchests::*}
+                delete {chest::info::void::%event-block's location%}
+                send "&eYou have removed the &5&lVoid Chest &eat &f%event-block's location%&e."    
+            else:
+                cancel event
+
+# Void Chest main menu.
+function voidChestMenu(p: Player, loc: Location):
+    play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+    open virtual hopper inventory with 1 rows named "Void Chest" to {_p}
+    loop 1*5 times:
+        format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "&f" to do nothing
+    format gui slot 1 of {_p} with chest named "&aOpen Chest" with lore " &f&oView the contents of this chest.  " to run function openChestInventory({_p}, {_loc})            
+    format gui slot 3 of {_p} with barrier named "&aRemove Chest" with lore " &f&oRemove this chest and get it's contents.  ||&r||&4&l(!) &cAll contents will be dropped on the floor." to run function removeChest({_p}, {_loc}, "void")
+
+# Sell Chest main menu.
+function sellChestMenu(p: Player, loc: Location, money: Number):
+    play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+    open virtual hopper inventory with 1 rows named "Sell Chest" to {_p}
+    loop 1*5 times:
+        format gui slot (loop-number - 1) of {_p} with gray stained glass pane named "&f" to do nothing
+    format gui slot 0 of {_p} with chest named "&aOpen Chest" with lore " &f&oView the contents of this chest  " to run function openChestInventory({_p}, {_loc})
+    format gui slot 2 of {_p} with paper named "&aCollect Cash" with lore " &f&oCollect &e$%easyRead({_money})% &f&ofrom this chest.  " to run function collectMoney({_p}, {_loc})
+    format gui slot 4 of {_p} with barrier named "&aRemove Chest" with lore " &f&oRemove this chest and get it's contents.  ||&r||&4&l(!) &cAll contents will be dropped on the floor." to run function removeChest({_p}, {_loc}, "sell")
+
+# Collect all money in a Sell Chest.
+function collectMoney(p: Player, loc: Location):
+    set {_u} to {_p}'s uuid
+    set {_split::*} to {chest::info::sell::%{_loc}%} split by ":"
+    set {_money} to {_split::3} parsed as number
+    if {_money} is not 0:
+        send "&eYou have collected &e$%easyRead({_money})% &efrom this chest." to {_p}
+        add {_money} to {_p}'s balance
+        set {chest::info::sell::%{_loc}%} to "%{_u}%:sell:0"
+        play sound "entity.player.levelup" with volume 0.5 at {_p} for {_p}
+        format gui slot 2 of {_p} with paper named "&aCollect Cash" with lore " &f&oCollect &2&o$&a0 &f&ofrom this chest.  " to run function collectMoney({_p}, {_loc})
+    else:
+        send "&cThis chest doesn't have anything to collect." to {_p}
+        play sound "entity.villager.no" with volume 0.5 at {_p} for {_p}
+
+# Opens a chest inventory.
+function openChestInventory(p: Player, loc: Location):
+    close {_p}'s inventory
+    open inventory of block at {_loc} to {_p}
+
+function removeChest(p: Player, loc: Location, t: String):
+    set block at {_loc} to air
+    close {_p}'s inventory
+    if {_t} is "sell":
+        giveChest({_p}, "sell")                  
+        remove {_loc} from {sellchests::*}              
+        collectMoney({_p}, {_loc})
+        delete {chest::info::sell::%{_loc}%}
+        send "&eYou have removed a &c&lSell Chest &eat &f%{_loc}%&e." to {_p}
+        play sound "block.anvil.destroy" with volume 0.5 at {_p} for {_p}
+    else if {_t} is "void":
+        giveChest({_p}, "void")
+        remove {_loc} from {voidchests::*}
+        delete {chest::info::void::%{_loc}%}
+        send "&eYou have removed a &5&lVoid Chest &eat &f%{_loc}%&e." to {_p}
+        play sound "block.anvil.destroy" with volume 0.5 at {_p} for {_p}
+
+# Sells all sell chests every minute.
+every 45 seconds:
+    loop {sellchests::*}:
+        wait 1 ticks
+        # Gets all the sellchest stored data.
+        set {_loc} to location of loop-value
+        set {_split::*} to {chest::info::sell::%loop-value-1%} split by ":"
+        set {_storedamount} to {_split::3} parsed as number
+        loop all items in (block at loop-value)'s inventory:
+            # Checks if the item in the sell chest has value/is sellable.
+            set {_id} to item_getID(1 of loop-item) # Gets id
+            set {_sell} to item_getSellPrice({_id}) # Gets sell price
+
+            if {_sell} is not -1:
+
+                if {_sell} is set:
+
+                    # Gets the amount of the item so the system can multiply it depending on the value.
+                    set {_amt} to item amount of loop-item
+                    # Removes the item from the chest.
+                    remove loop-item from inventory of block at loop-value-1
+                    
+                    set {_sell} to {_sell} * {_amt}
+                    add sell({_sell}) to {_storedamount}
+                    # Updates the data of the sell chest.
+
+            delete {_sell}
+            delete {_id}
+        
+        set {chest::info::sell::%loop-value-1%} to "%{_split::1}%:%{_split::2}%:%{_storedamount}%"
+
+function testFunc(p: Player):
+    loop {sellchests::*}:
+        send "%{chest::info::sell::%loop-value%}%" to {_p}
+
+# Deletes all chest contents every 25 seconds.
+every 25 seconds:
+    loop {voidchests::*}:
+        wait 1 ticks
+        loop all items in inventory of block at loop-value-1:
+            remove loop-item from inventory of block at loop-value-1

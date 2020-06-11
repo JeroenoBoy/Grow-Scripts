@@ -1,0 +1,95 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+#
+# THIS SCRIPT IS UNFINISHED AND NEVER USED FOR PRODUCTION
+#
+
+on load:
+	delete {-philmsg::*}
+	add "Do you want to buy some rare items?" to {-philmsg::*}
+	add "Don't tell anyone im here." to {-philmsg::*}
+	add "Don't let the staff know about me" to {-philmsg::*}
+	add "Do you want some illegal items?" to {-philmsg::*}
+	add "Hey, these are the items i offer today." to {-philmsg::*}
+	add "Psst... I have some special items today." to {-philmsg::*}
+	add "Do you want a rare ""cookie""?" to {-philmsg::*}
+
+	loop 6*9 times:
+		set {-bm::ui::%loop-value%} to a random integer between 0 and 1
+
+
+
+npc right click:
+	name of target entity = "Phil"
+	
+	blackMarket_openGUI(player)
+
+	set {_r} to random integer between 1 and size of {-philmsg::*}
+	message "&7[&8Black Market&7] &fPhil&7: &e%{-philmsg::%{_r}%}%"
+
+	play sound "block.chest.open" with volume 0.5 at player for player
+	play sound "block.piston.extend" with volume 0.3 with pitch 0.4 at player for player
+	wait 2 ticks
+	play sound "block.piston.extend" with volume 0.3 with pitch 1 at player for player
+
+
+
+function blackMarket_openGUI(P: player, update: boolean = true):
+
+	if {_update} = true:
+		open virtual chest inventory with size 6 named "&8Black market" to {_p}
+		add {_p} to {-bm::openMarket::*}
+		
+	set {_S} to rows of {_P}'s current inventory
+	loop {_S}*9 times:
+		if {-bm::ui::%loop-value%} = 0:
+			format gui slot loop-value -1 of {_P} with black stained glass pane named " &a "
+		else:
+			format gui slot loop-value -1 of {_P} with gray stained glass pane named " &a "
+
+	format gui slot 40 of {_P} with 1 barrier named "&cExit" with lore "&7Click to exit" to run:
+		close player's inventory
+
+	
+
+on inventory close:
+	{-bm::openMarket::*} contains player:
+
+		remove player from {-bm::openMarket::*}
+		play sound "block.chest.close" at player for player
+		play sound "block.piston.contract" with volume 0.3 with pitch 0.3 at player for player
+		wait 2 ticks
+		play sound "block.piston.contract" with volume 0.3 with pitch 1 at player for player
+
+
+
+function blackMarket_updateGUI():
+	loop {-bm::openMarket::*}:
+		blackMarket_openGUI(loop-value, false)
+
+
+
+function addMarket(item: item, amount: number, price: number):
+	set {_id} to generateID(10)
+	broadcast "%{_id}%"
+
+

@@ -1,0 +1,165 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /squadadmin [<string>] [<string>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is "force-join":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        squadForceJoin(player, arg-2)                 
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin force-join <squad>."
+            else if arg-1 is "upgrades-set":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        if arg-3 is set:
+                            if {squad::upgrades::%arg-2%::*} doesn't contain arg-3:
+                                add arg-3 to {squad::upgrades::%arg-2%::*}
+                                send "&eYou have added the upgrade &6%arg-3% &eto &6%arg-2%&e." 
+                            else:
+                                send "&e%arg-2% &calready has the upgrade &e%arg-3%&c."
+                        else:
+                            send "&cUsage: /squadadmin upgrades-set <squad> <upgrade>."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin upgrades-set <squad> <upgrade>."                                
+            else if arg-1 is "upgrades-remove":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        if arg-3 is set:
+                            if {squad::upgrades::%arg-2%::*} contains arg-3:
+                                remove arg-3 from {squad::upgrades::%arg-2%::*}
+                                send "&eYou have removed the upgrade &6%arg-3% &efrom &6%arg-2%&e." 
+                            else:
+                                send "&e%arg-2% &cdoesn't have the upgrade &e%arg-3%&c."
+                        else:
+                            send "&cUsage: /squadadmin upgrades-remove <squad> <upgrade>."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin upgrades-remove <squad> <upgrade>."  
+            else if arg-1 is "upgrades-view":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        send "&6%arg-2%&e's upgrades:%nl%&6%{squad::upgrades::%arg-2%::*}%&e."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin upgrades-view <squad>."                                      
+            else if arg-1 is "force-setleader":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        if {player::squad::%player's uuid%} is arg-2:
+                            set {player::role::%{squad::leader::%arg-2%}%} to "Member"
+
+                            set {player::role::%player's uuid%} to "Leader"
+                            set {squad::leader::%arg-2%} to player's uuid
+                            set {squad::leader_name::%arg-2%} to player
+                            send "&eYou are now the leader of &6%arg-2%&e."
+                        else:
+                            send "&cYou must join the Squad before promoting yourself to leader."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin force-setleader <squad>."
+            else if arg-1 is "disband":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        send "&eYou have disbanded &6%arg-2%&e."
+
+                        remove arg-2 from {squads::*}
+                        loop {squad::members;:%arg-2%::*}:
+                            set {player::squad::%loop-index%} to "None"
+                            set {player::tag::%loop-index%} to ""
+                            set {player::tag_color::%loop-index%} to colored "&7"
+                        delete {squad::members::%arg-2%::*}
+                        if {squad::tag::%arg-2%} is not "None":
+                            remove {squad::tag::%arg-2%} from {squadtags::*}                            
+
+                            broadcast "%{rank::color::%player%}%%player% &ehas disbanded the Squad &6%{_squad}%&e."
+                            send "&eYou have disbanded the Squad &6%{_squad}%&e."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin disband <squad>."                                                
+            else if arg-1 is "settag":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        if arg-3 is set:
+                            send "&eYou have set &6%arg-2% &eSquad tag to &6%arg-3%&e."
+                            set {squad::tag::%arg-2%} to arg-3
+                            loop {squad::members::%arg-2%::*}:
+                                if loop-value is online:
+                                    set {player::tag::%loop-index%} to {squad::tag::%arg-2%}
+                        else:
+                            send "&cUsage: /squadadmin settag <squad> <tag>."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin settag <squad> <tag>."  
+            else if arg-1 is "setdescription" or "setdesc":
+                if arg-2 is set:
+                    if {squads::*} contains arg-2:
+                        if arg-3 is set:
+                            send "&eYou have set &6%arg-2% &eSquad description to &6%arg-3%&e."
+                            set {squad::description::%arg-2%} to arg-3
+                        else:
+                            send "&cUsage: /squadadmin setdesc <squad> <tag>."
+                    else:
+                        send "&e%arg-2% &cdoesn't exist."
+                else:
+                    send "&cUsage: /squadadmin setdesc <squad> <tag>."                                               
+            else:
+                send centered "&6&lSquad Admin Help" to player
+                send ""
+                send "&4&l* &e/squadadmin force-join <squad> &7- Forcefully join a Squad, makes you leave your current Squad."                        
+                send "&4&l* &e/squadadmin upgrades-set <squad> <upgrade> &7- Add a upgrade to a list of upgrades a Squad has."
+                send "&4&l* &e/squadadmin upgrades-remove <squad> <upgrade> &7- Remove a upgrade from a list of upgrades a Squad has."
+                send "&4&l* &e/squadadmin upgrades-view <squad> &7- View all upgrades a Squad has."
+                send "&4&l* &e/squadadmin force-setleader <squad> <upgrade> &7- Make yourself the leader of any Squad."
+                send "&4&l* &e/squadadmin disband <squad> &7- Disband a Squad."
+                send "&4&l* &e/squadadmin settag <squad> <tag> &7- Set a Squad tag."
+                send "&4&l* &e/squadadmin setdesc <squad> <description> &7- Set a Squad description.."
+                send ""
+                send "&7&o(Abuse of this system will result in a demotion.)"
+        else:
+            send "&cYou are lacking the required permissions to execute this command."
+
+function squadForceJoin(p: Player, squad: String):
+    set {_u} to {_p}'s uuid            
+
+    if {player::squad::%{_u}%} is not "None":
+        send "&eYou were removed from your previous Squad &6%{player::squad::%{_u}%}%&e." to {_p}
+        squad_leaveSquad({_p}, {_squad})
+
+    set {player::squad::%{_u}%} to {_squad}
+    set {player::role::%{_u}%} to "Member"
+    set {player::joined::%{_u}%} to now
+
+    set {squad::members::%{_squad}%::%{_u}%} to {_p}
+    add 1 to {squad::current_capacity::%{_squad}%}
+
+    send "&eYou have force-joined &6%{_squad}%&e." to {_p}        

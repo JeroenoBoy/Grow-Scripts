@@ -1,0 +1,98 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+#
+# SPECIAL NOTE: THIS SCRIPT IS MADE TO REFUND QUARRIES IF THEY GET EXTREMELY LAGGY
+#
+
+command /deletequarry:
+	trigger:
+		if player has permission "quarry.delete":
+			broadcast "&4(&c&l*&4) &fStarting quarry deleting process...."
+			set {_total} to 0
+			loop {Quarry::placedList::*}:
+				set {_loc} to loop-value
+				set {_owner} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "owner") parsed as a offline player
+
+				set {_speed} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "speed") parsed as a integer
+				set {_level} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "level") parsed as a number
+				set {_range} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "range") parsed as a number
+				set {_fuelLevel} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "fuelLevel") parsed as a number
+
+				add 5000 to {_owner}'s balance
+				set {_currentTotal} to 5000
+				add 5000 to {_total}
+
+				if {_level}-1 > 0:
+					loop {_level}-1 times:
+						set {_val} to 1 + loop-value-2
+						set {_val} to {-quarry::prices::level::%{_val}%}
+						add {_val} to {_owner}'s balance
+						add {_val} to {_total}
+						add {_val} to {_currentTotal}
+
+				if 4-({_speed}-18)/3 > 0:
+					loop 4-({_speed}-18)/3 times:
+						set {_val} to 1 + loop-value-2
+						set {_val} to {-quarry::prices::speed::%{_val}%}
+						add {_val} to {_owner}'s balance
+						add {_val} to {_total}
+						add {_val} to {_currentTotal}
+
+				if {_range}-1 > 0:
+					loop {_range}-1 times:
+						set {_val} to 1 + loop-value-2
+						set {_val} to {-quarry::prices::range::%{_val}%}
+						add {_val} to {_owner}'s balance
+						add {_val} to {_total}
+						add {_val} to {_currentTotal}
+
+				if {_fuelLevel}-1 > 0:
+					loop {_fuelLevel}-1 times:
+						set {_val} to 1 + loop-value-2
+						set {_val} to {-quarry::prices::fuelLevel::%{_val}%}
+						add {_val} to {_owner}'s balance
+						add {_val} to {_total}
+						add {_val} to {_currentTotal}
+
+
+				message "&e(&6&l*&e) &7You have been refunded: &e$%easyRead({_currentTotal})%" to {_owner}
+
+				set {_id} to stringDatasAPI_getData({Quarry::placed::%{_loc}%}, "owner")
+				remove 1 from {Quarry::players::%{_id}%::placed}
+				delete {Quarry::placed::%{_loc}%}
+				remove {_loc} from {Quarry::placedList::*}
+
+				if {-Quarry::hologram::%{_loc}%} is set:
+					delete hologram {-Quarry::hologram::%{_loc}%}
+					delete {-Quarry::hologram::%{_loc}%}
+
+				set block at {_loc} to air
+				wait 2 ticks
+
+				add 1 to {_quarries}
+
+			delete {-quarry::*}
+			delete {quarry::*}
+			
+			broadcast "&4(&c&l*&4) &fDeleted all quarries"
+			broadcast "&e(&6&l*&e) &fDeleted a total of &c%{_quarries}% &fQuarries"
+			broadcast "&e(&6&l*&e) &fTotal worth of &e$%easyRead({_total})%"

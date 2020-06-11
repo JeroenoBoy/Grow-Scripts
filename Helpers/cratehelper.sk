@@ -1,0 +1,81 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /givet1hoppers [<offline player>]:
+    trigger:
+        if executor is console:
+            loop 32 times:
+                make console execute "eh give %arg-1% 1"
+
+command /givet2hoppers [<offline player>]:
+    trigger:
+        if executor is console:
+            loop 16 times:
+                make console execute "eh give %arg-1% 2"                
+
+command /givet3hoppers [<offline player>]:
+    trigger:
+        if executor is console:
+            loop 8 times:
+                make console execute "eh give %arg-1% 3"
+
+command /givet4hoppers [<offline player>]:
+    trigger:
+        if executor is console:
+            loop 2 times:
+                make console execute "eh give %arg-1% 4"                
+
+on join:
+    if {votes::%player's uuid%} is not set:
+        set {votes::%player's uuid%} to 0
+
+on load:
+    if {votes::server} is not set:
+        set {votes::server} to 0        
+
+on load:
+    if {queuedVotes::*} is not set:
+        add "" to {queuedVotes::*}
+
+command /showvote [<offline player>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            if arg-1 is set:
+                # add arg-1 to {queuedVotes::*}
+                # send "" to arg-1
+                # send "&cWe are so sorry, due to Mojangs EULA we are unable to give rewards to voters at this time." to arg-1
+                # send "&cThank you for understanding, sorry if you wasted your vote today. :(" to arg-1
+                # send "" to arg-1
+                # stop
+                #
+                broadcast "&f&n%arg-1%&r &ahas voted for &a&lGr&2&low&r &aand got a &fVote Key&a."                
+                send "&aYou can redeem this key with &f/crate&a." to arg-1
+                make console execute "crate give virtual Vote 1 %arg-1%"
+                add 1 to {votes::%arg-1's uuid%}
+                add 1 to {votes::server}
+
+command /playersyncedaccount [<offline player>] [<string>]:
+    trigger:
+        if executor has permission "core.admin":
+            broadcast "&f&n%arg-1%&r &bhas synced their account to our discord.%nl%&7&o(( &f&o/link &7&oto get free rewards. &7&o))"
+            make console execute "crate give v Vote 1 %arg-1%"
+            add 10000 to arg-1's balance

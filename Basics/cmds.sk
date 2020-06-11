@@ -1,0 +1,149 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+on damage:
+	if victim is a player:
+		cancel event
+
+on anvil rename:
+	cancel event
+
+on command:
+	if command = "afk":
+		set {_time} to now
+		if {-lastAFK::%player's uuid%} is not set:
+			set {-lastAFK::%player's uuid%} to now
+		else if difference between {_time} and {-lastAFK::%player's uuid%} < 5 seconds:
+			message "&4(&c&l*&4) &7Please wait up 5 seconds before executing this again"
+			cancel event
+		cancel event
+
+	if command contains "pay":
+		if player's name = "Xx_NoHax_xX":
+			message "&4(&c&l*&4) &7Nice try doe"
+			cancel event
+
+command /evote [<string>]:
+	trigger:
+		message "<ttp:&7Click to go><url:https://playerservers.com/server/Grow/vote>&e(&6&l*&e) &7Click &6&l[HERE] &7to vote."
+
+
+command /estore [<text>]:
+	trigger:
+		message "<ttp:&7Click to go><url:https://growshop.buycraft.net>&e(&6&l*&e) &7Click &6&l[HERE] &7to go to our webstore."
+
+command /link [<string>]:
+	trigger:
+		make player execute "discord link"
+
+on craft of hopper:
+	cancel event
+
+on craft of dispenser:
+	cancel event
+
+on craft of dropper:
+	cancel event
+
+on craft of piston:
+	cancel event
+
+on craft of sticky piston:
+	cancel event
+
+command /rename [<string>]:
+	trigger:
+		if player does not have permission "cmd.rename":
+			message "&7&cPlease buy this command in /shop!"
+			stop
+
+		if arg 1 is not set:
+			message "&7&8[&a&lUSAGE&8] &e&l/rename &e[name] &8- &7Rename an item"
+			stop
+
+		if player's tool is air:
+			message "&7&cPlease hold an item"
+			stop
+
+		if length of arg-1 > 24:
+			message "&cYou can only use &e24 characters &cwhile renaming an item."
+			stop
+
+		else:
+			set {_var::*} to arg split at " "
+
+			name of player's tool != "&6Crook &7(Tier 1)"
+			name of player's tool != "&6Crook &7(Tier 2)"
+			name of player's tool != "&6Crook &7(Tier 3)"
+			name of player's tool != "&8[&a&lSell&2&lWand&8]"
+			name of player's tool != "&eSell Chest"
+			name of player's tool != "&eVoid Chest"
+			name of player's tool != "&eOre Quarry"
+			name of player's tool != "&eCheese"
+			name of player's tool != "&dBug Hunter"
+
+			name of player's tool contains "&bCreative Thinker":
+				message "&7&cYou can't rename this item!"
+				stop
+				
+			player's tool isn't a spawner
+
+
+			if colored {_var::1} = "&2&lCrook":
+				message "&7&cYou can't rename a item to %arg 1%"
+			else if colored {_var::1} = "&8[&a&lSell&2&lWand&8]":
+				message "&7&cYou can't rename a item to %arg 1%"
+			else if colored {_var::1} = "&eSell":
+				message "&7&cYou can't rename a item to %arg 1%"
+			else if colored {_var::1} = "&eVoid":
+				message "&7&cYou can't rename a item to %arg 1%"
+			else if colored {_var::1} = "&eOre":
+				message "&7&cYou can't rename a item to %arg 1%"
+			else:
+				set name of player's tool to "&f%colored arg 1%"
+				message "&7&aRenamed your tool to %arg 1%"
+			stop
+
+		message "&7&cYou can't rename this item!"
+
+command /shrug [<string>]:
+	trigger:
+		if player has permission "cmd.shrug":
+			if arg 1 is set:	
+				if first character of arg-1 is "&":
+					if length of arg-1 is 2:
+						set {_message::*} to arg-1 split by "&"
+						if {_message::3} is set:
+							message "&4(&c&l*&4) &7Please enter a valid colorcode."		
+						else:
+							if length of {_message::2} is 1:							
+								make player say "%colored arg 1%¯\_(ツ)_/¯"
+							else:
+								message "&4(&c&l*&4) &7Please enter a valid colorcode."								
+					else:
+						message "&4(&c&l*&4) &7Please enter a valid colorcode."		
+				else:
+					message "&4(&c&l*&4) &7Please enter a valid colorcode."																
+			else:
+				make player say "&e¯\_(ツ)_/¯" #Remember the layout svp
+		else:
+			message "&4(&c&l*&4) &7Please buy this command in /shop!"

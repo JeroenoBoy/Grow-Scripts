@@ -1,0 +1,210 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+options:
+	sellwand: 1 blaze rod named "&8[&a&lSell&2&lWand&8]"
+
+on load:
+	delete {-ShopCommands::*}
+	#addShopCommand(name, item, effect, permission, price)
+	addShopCommand("/Fly", feather, "Fly thru the air like an angel", "essentials.fly", 50000)
+	addShopCommand("/Hat", pumpkin, "Put any item as your hat", "essentials.hat", 100000)
+	addShopCommand("/Craft", workbench, "Pop up a magic crafting table", "essentials.workbench", 100000)
+	addShopCommand("/Rename", name tag, "Rename any item to your liking!", "cmd.rename", 100000)
+	addShopCommand("/Shrug", dropper, "Show dem who's bos with `¯\_(ツ)_/¯`", "cmd.shrug", 1000000)
+	addShopCommand("/Feed", cooked chicken, "Bon Appétit", "essentials.feed", 250000)
+	addShopCommand("/Heal", red apple, "Restore your health magically", "essentials.heal", 500000)
+	addShopCommand("/Enderchest", ender chest, "Put items in your enderchest", "essentials.enderchest", 250000)
+	addShopCommand("/repair", anvil, "Repair your broken tools", "essentials.repair", 200000)
+
+
+#Grow OpenShop
+#
+#
+function openSpecial(P: player, menu:string="MM"):
+	play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+	set {_r} to {_menu} == "MM" ? " " : "> %{_menu}%"
+	open virtual chest inventory with size 6 named "&8Shop > Special %{_r}%." to {_p}
+	fillinventory({_P})
+
+	if {_menu} = "MM":
+
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openShop({_P})
+
+		format gui slot 11 of {_p} with 1 command block named "&e&lCommands" with lore "&8&m                        ||&7Click to open||&8&m                        " to run function openSpecial({_p}, "Commands")
+		format gui slot 13 of {_p} with 1 dispenser named "&e&lMachines" with lore "&8&m                        ||&7Click to open||&8&m                        " to run function openSpecial({_p}, "Machines")
+		format gui slot 15 of {_p} with 1 name tag named "&e&lTags" with lore "&8&m                        ||&7Click to open ||&8&m                        " to run function tagsMenu({_p})
+		format gui slot 21 of {_p} with 1 diamond hoe named "&e&lCrooks" with lore "&8&m                        ||&7Click to open||&8&m                        " to run function openSpecial({_p}, "Crooks")
+		format gui slot 23 of {_p} with 1 blaze rod named "&e&lSell Wands" with lore "&8&m                        ||&7Click to open||&8&m                        " to run function openSpecial({_p}, "Sell Wands")
+		stop
+
+
+	if {_menu} = "Commands":
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openSpecial({_P})
+
+		set {_i} to 9
+		loop {-ShopCommands::cmds::*}:
+			add 1 to {_i}
+			if {_i} = 17 or 26:
+				add 2 to {_i}
+
+			if {_p} has permission loop-value:
+				format gui slot {_i} of {_p} with {-shopCommands::cmd::%loop-value%::item} named "&7Command &a&l%{-shopCommands::cmd::%loop-value%::name}%" with lore "&8&m                        ||&a&lBOUGHT||&e&lEFFECT: &7%{-shopCommands::cmd::%loop-value%::effect}%||&8&m                        " with hidden enchantments
+			else:
+				format gui slot {_i} of {_p} with {-shopCommands::cmd::%loop-value%::item} named "&7Command &e&l%{-shopCommands::cmd::%loop-value%::name}%" with lore "&8&m                        ||&7Click to buy||&e&lEFFECT: &7%{-shopCommands::cmd::%loop-value%::effect}%||&8> &fPrice: &e$%easyRead({-shopCommands::cmd::%loop-value%::price})%||&8&m                        " to run function buyPermission({_p}, loop-value, {-shopCommands::cmd::%loop-value%::price})
+		stop
+
+
+	if {_menu} = "sell wands":
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openSpecial({_P})
+
+		format gui slot 20 of {_p} with 1 blaze rod named "&e&lSellwand &71" with lore "&8&m                        ||&7Click to buy||&f&lDURABILITY: &e%easyRead(60000)%||&8> &fPrice: &e$%easyRead(65000)%||&8&m                        " to run function buySellWand({_p}, 1, 65000)
+		format gui slot 21 of {_p} with 1 blaze rod named "&e&lSellwand &22" with lore "&8&m                        ||&7Click to buy||&f&lDURABILITY: &e%easyRead(70000)%||&8> &fPrice: &e$%easyRead(80000)%||&8&m                        " to run function buySellWand({_p}, 2, 80000)
+		format gui slot 22 of {_p} with 1 blaze rod named "&e&lSellwand &a3" with lore "&8&m                        ||&7Click to buy||&f&lDURABILITY: &e%easyRead(140000)%||&8> &fPrice: &e$%easyRead(130000)%||&8&m                        " to run function buySellWand({_p}, 3, 130000)
+		format gui slot 23 of {_p} with 1 blaze rod named "&e&lSellwand &c4" with lore "&8&m                        ||&7Click to buy||&f&lDURABILITY: &e%easyRead(330000)%||&8> &fPrice: &e$%easyRead(250000)%||&8&m                        " to run function buySellWand({_p}, 4, 250000)
+		format gui slot 24 of {_p} with 1 blaze rod named "&e&lSellwand &6&l5" with lore "&8&m                        ||&7Click to buy||&f&lDURABILITY: &e%easyRead(700000)%||&8> &fPrice: &e$%easyRead(500000)%||&8&m                        " to run function buySellWand({_p}, 5, 500000)
+		stop
+
+
+	if {_menu} = "crooks":
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openSpecial({_P})
+
+		format gui slot 21 of {_p} with 1 diamond hoe named "&e&lCrook &71" with lore "&8&m                        ||&7Click to buy||&8> &fPrice: &e$%easyRead(250)%||&8&m                        " to run function buyCrook({_p}, 1, 250)
+		format gui slot 22 of {_p} with 1 diamond hoe named "&e&lCrook &a2" with lore "&8&m                        ||&7Click to buy||&8> &fPrice: &e$%easyRead(1000)%||&8&m                        " to run function buyCrook({_p}, 2, 1000)
+		format gui slot 23 of {_p} with 1 diamond hoe named "&e&lCrook &6&l3" with lore "&8&m                        ||&7Click to buy||&8> &fPrice: &e$%easyRead(15000)%||&8&m                        " to run function buyCrook({_p}, 3, 15000)
+		stop
+
+
+	if {_menu} = "machines":
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openSpecial({_P})
+
+		format gui slot 21 of {_p} with 1 chest named "&eSell Chest" with lore "&8&m                        || &7Automatically sells items.|| &7every 45 seconds||||&8> &fPrice: &e$%easyRead(750000)%||&8&m                        " to run function buyChest({_p}, "sell", 750000)
+		format gui slot 23 of {_p} with 1 ender chest named "&eVoid Chest" with lore "&8&m                        || &7Automatically voids all items|| &7in it every 25 seconds. ||||&8> &fPrice: &e$%easyRead(200000)%||&8&m                        " to run function buyChest({_p}, "void", 200000)
+		stop
+
+	if {_menu} = "tags":
+		format gui slot 40 of {_P} with 1 barrier named "&c&lGo Back" with lore "&8&m                        ||&7Click to go to||&7the main menu||&8&m                        " to run:
+			play sound "ui.button.click" with volume 0.5 at {_P} for {_P}
+			openSpecial({_P})
+		stop
+		
+
+
+function buyPermission(p: player, perm: string, price: number):
+	set {_uuid} to {_P}'s uuid
+	if {_p}'s balance >= {_price}:
+		remove {_price} from {_p}'s balance
+		execute console command "lp user %{_p}% permission set %{_perm}% true"
+		message "&2(&a&l*&2) &7Succesfully bought permission &e&l%{_perm}%." to {_p}
+		play sound "entity.player.levelup" with volume 1 at {_p} for {_p}
+
+		log "(LOG):PERMISSION_BUY:%{_uuid}%:%{_perm}%:%{_price}%" to "transactions.log"
+		log "(MSG):%{_P}% bought (PERMISSION_BUY) %{_perm}% for %{_price}%" to "transactions.log"
+
+		openSpecial({_p})
+	else:
+		message "&4(&c&l*&4) &7You can't buy this permission yet!." to {_p}
+		play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+
+
+function buySellWand(p: player, lvl: number, price: number):
+	set {_uuid} to {_P}'s uuid
+	if {_p}'s balance >= {_price}:
+		if {_p}'s inventory can hold 1 barrier:
+			remove {_price} from {_p}'s balance
+			give {_p} {@sellwand} with lore "&8&m                        ||&7Right click chests||&7to sell thier items||&8> &fLevel: &e%{_lvl}%||&8> &fDurability: &e%60000+10000*({_lvl}-1)^3%||&8&m                        " with hidden enchantments
+			message "&2(&a&l*&2) &7Succesfully bought sellwand level &e&l%{_lvl}%." to {_p}
+			play sound "entity.player.levelup" with volume 1 at {_p} for {_p}
+			log "(LOG):SELLWAND_BUY:%{_uuid}%:%{_lvl}%:%{_price}%" to "transactions.log"
+			log "(MSG):%{_P}% bought (SELLWAND_BUY) lvl %{_lvl}% for %{_price}%" to "transactions.log"
+			openSpecial({_p})
+		else:
+			message "&4(&c&l*&4) &7Please clear up some inventory space first!" to {_p}
+			play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+	else:
+		message "&4(&c&l*&4) &7You don't have enough money." to {_p}
+		play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+
+
+function buyCrook(p: player, lvl: number, price: number):
+	set {_uuid} to {_P}'s uuid
+	if {_p}'s balance >= {_price}:
+		if {_p}'s inventory can hold 1 barrier:
+			remove {_price} from {_p}'s balance
+			execute console command "/givecrook %{_p}% %{_lvl}% 1"
+			message "&2(&a&l*&2) &7Succesfully bought Crook Tier &e&l%{_lvl}%." to {_p}
+			play sound "entity.player.levelup" with volume 1 at {_p} for {_p}
+			log "(LOG):CROOK_BUY:%{_uuid}%:%{_lvl}%:%{_price}%" to "transactions.log"
+			log "(MSG):%{_P}% bought (CROOK_BUY) lvl %{_lvl}% for %{_price}%" to "transactions.log"
+			openSpecial({_p})
+		else:
+			message "&4(&c&l*&4) &7Please clear up some inventory space first!" to {_p}
+			play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+	else:
+		message "&4(&c&l*&4) &7You don't have enough money." to {_p}
+		play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+
+
+function buyChest(P: player, type: string, price: number):
+	set {_uuid} to {_P}'s uuid
+	if {_p}'s balance >= {_price}:
+		if {_p}'s inventory can hold 1 barrier:
+			remove {_price} from {_p}'s balance
+			giveChest({_p}, {_type})
+			message "&2(&a&l*&2) &7Succesfully bought a &e&l%{_type}% chest." to {_p}
+			play sound "entity.player.levelup" with volume 1 at {_p} for {_p}
+			log "(LOG):CHEST_BUY:%{_uuid}%:%{_type}%:%{_price}%" to "transactions.log"
+			log "(MSG):%{_P}% bought (CHEST_BUY) type %{_type}% for %{_price}%" to "transactions.log"
+			openSpecial({_p})
+		else:
+			message "&4(&c&l*&4) &7Please clear up some inventory space first!" to {_p}
+			play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+	else:
+		message "&4(&c&l*&4) &7You don't have enough money." to {_p}
+		play sound "entity.villager.hurt" with volume 1 at {_p} for {_p}
+
+
+# Add a command to the shop
+#
+#@params:
+# Name: string
+# Item: item
+# Effect: string
+# Permission: string
+# price: number
+#example: addShopCommand(name, item, effect, permission, price)
+function addShopCommand(name: string, item: item, effect: string, perm: string, price: number):
+	add {_perm} to {-ShopCommands::cmds::*}
+	set {-ShopCommands::cmd::%{_perm}%::name} to {_name}
+	set {-ShopCommands::cmd::%{_perm}%::item} to {_item}
+	set {-ShopCommands::cmd::%{_perm}%::price} to {_price}
+	set {-ShopCommands::cmd::%{_perm}%::effect} to {_effect}

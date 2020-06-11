@@ -1,0 +1,226 @@
+# =---------------= [ Grow ] =---------------=
+# This script is part of the Grow Project.
+# Originally made by:
+# - Jeroeno_Boy
+# - DebitCardz
+# - Supercrafter100
+# - PsekA_F
+# PLEASE DO NOT CLAIM THIS SCRIPT AS YOURS
+# NOR REMOVE CREDITS FROM THE ORIGINAL
+# AUTHOURS.
+# ALLOWED:
+# - You are allowed to edit the script.
+# - You are allowed to use the script for
+#   production and/or commercial uses.
+# YOU ARE NOT ALLOWED TO:
+# - Share an edited version of the script
+# - Remove this license text
+# - Use without giving credits to the
+#   original authors.
+# =---------------= [ Grow ] =---------------=
+
+
+command /broadcast [<string>]:
+	aliases: /bc, /broadcast
+	trigger:
+		if executor has permission "core.admin":		
+			if arg-1 is set:
+				broadcast "&7"
+				broadcast "&f&m----------------------&8[ &a&lGr&2&low &8]&f&m----------------------"
+				broadcast "&7"
+				broadcast "&e%colored arg 1%"
+				broadcast "&7"
+				broadcast "&f&m----------------------&8[ &a&lGr&2&low &8]&f&m----------------------"
+				broadcast "&7"
+			else:
+				send "&cUsage: /broadcast (message)."
+		else:
+			send "&cYou are lacking the required permissions to execute this command."
+
+on load:
+	if {broadcast::list::*} is not set:
+		add "" to {broadcast::list::*}
+#/create/setline/list/removeline/delet		
+command /broadcastedit [<string>] [<string>] [<string>] [<string>]:
+	aliases: /bce
+	trigger:
+		# Success Prefix: &2(&a&l*&2)
+		# Error Prefix: &4(&c&l*&4)
+		# Info Prefix: &e(&6&l*&e)
+
+		if executor has permission "core.admin":
+
+			if arg-1 = "create", "list", "setline", "removeline", "delete":
+			else:
+				send "&c/broadcastedit (create/delete/setline/removeline/list)"
+
+			if arg-1 = "delete":
+				if {broadcast::list::*} contains arg-2:
+					remove arg-2 from {broadcast::list::*}
+					send "&e(&6&l*&e) &eYou have removed the broadcast &6%arg-2%&e."
+					clear {broadcast::interval::%arg-2%} 
+				else:
+					send "&cPlease enter a valid broadcast name."
+
+			if arg-1 = "list":
+				send "&e(&6&l*&e)&e Broadcast list:"
+				loop {broadcast::list::*}:
+					if loop-value != "":
+						send "&c- &6%loop-value%"
+
+			if arg-1 = "create":
+				if arg-2 is set:
+					if {broadcast::list::*} contains arg-2:
+						send "&4(&c&l*&4) &e%arg-2% &calready exists!"
+					else:
+						add arg-2 to {broadcast::list::*}
+						send "&e(&6&l*&e) &eYou have created the broadcast &6%arg-2%&e."
+				else:
+					send "&cPlease enter a valid broadcast name."
+
+			if arg-1 = "setline":
+				#name of the broadcast
+				if arg-2 is set:
+					#line number
+					if arg-3 is set:
+						#the new message
+						if arg-4 is set:
+							if {broadcast::list::*} contains arg-2:
+								set {broadcast::%arg-2%::line::%arg-3%} to colored arg-4
+								send "&e(&6&l*&e) &eYou have changed line &6%arg-3% &eof &6%arg-2% &eto ""%{broadcast::%arg-2%::line::%arg-3%}%&e""."
+							else:
+								send "&e(&6&l*&e) &e%arg-2% &chasn't been created yet. /bce create <name of broadcast>"
+						else:
+							send "&cPlease enter a valid message."
+					else:
+						send "&cPlease enter a line number."						
+				else:
+					send "&cPlease enter a valid broadcast name."
+		else:
+			send "&cYou are lacking the required permissions to execute this command."
+
+every minute:
+	if {broadcast::betweentimee} isn't set:
+		set {broadcast::betweentimee} to unix timestamp of now
+	if {broadcast::thtime} isn't set:
+		set {broadcast::thtime} to 0
+
+	set {_now} to unix timestamp of now	
+	if difference between {_now} and {broadcast::betweentimee} >= 2:
+		set {broadcast::betweentimee} to unix timestamp of now
+
+		if {broadcast::thtime} >= size of {broadcast::list::*}:
+			set {broadcast::thtime} to 0
+		add 1 to {broadcast::thtime}
+
+		set {_name} to {broadcast::thtime}th element of {broadcast::list::*}
+
+		loop {broadcast::%{_name}%::line::*}:
+			broadcast "%loop-value%"
+
+# Because aliases on /bc don't work, Essentials Overwrite.
+on command:
+	if command is "bc":
+		if arguments are set:
+			make player execute "broadcast %arguments%"
+			cancel event
+		else:
+			make player execute "broadcast"			
+			cancel event
+
+# Sets the join message the player sees.
+command /setmotd [<string>]:
+	trigger:
+		if executor has permission "core.admin":
+			if arg-1 is set:
+				set {server::motd} to colored arg-1
+				send "&eYou have set the MOTD to &e""%colored arg-1%&e""."
+			else:
+				send "&cUsage: /setmotd <text>."
+		else:
+			send "&cYou are lacking the required permissions to execute this command."				
+
+# Join message.
+on join:
+	wait 2.5 seconds
+	send "&7&m-------------------------------------"
+	send "&aWelcome, &f%player%&a, to &a&lGr&2&low&a."
+	send ""
+	send "&f&o""%{server::motd}%"""
+	send ""
+	send "&r &aServer IP: &fgrow.playerservers.com"
+	send "&r &bDiscord: &fhttps://discord.gg/X56Uwna"
+	send "&7&m-------------------------------------"
+
+#------------------------------------#
+#		   old bc				   #
+#------------------------------------#
+#command /broadcast [<string>]:
+#	aliases: /bc
+#	trigger:
+#		if executor has permission "core.admin":
+#			if arg-1 is set:
+#				broadcast "&7"
+#				broadcast "&f&m----------------------&8[ &a&lGr&2&low &8]&f&m----------------------"
+#				broadcast "&7"
+#				broadcast "&e%colored arg 1%"
+#				broadcast "&7"
+#				broadcast "&f&m----------------------&8[ &a&lGr&2&low &8]&f&m----------------------"
+#				broadcast "&7"		
+#			else:
+#				send "&cUsage: /broadcast (message)."		
+#		else:
+#			send "&cYou are lacking the required permissions to execute this command."				
+#
+#on command:
+#	if command is "bc":
+#		cancel event
+#		if arguments are set:
+#			make player execute "broadcast %arguments%"
+#		else:
+#			make player execute "broadcast"
+#
+#on load:
+#	set {autobc::int} to 0	 
+#
+#every minute:
+#	add 1 to {autobc::int}
+#
+#	if {autobc::int} is 1:
+#		broadcast ""
+#		broadcast "&aWant to support the server?"
+#		broadcast "&7You can support the server by using &a/evote &7to vote for the server and gain &fFree Rewards&7."	
+#		broadcast ""
+#	else if {autobc::int} is 2:
+#		broadcast ""
+#		broadcast "&aUse Crooks!"
+#		broadcast "&7Consider purchasing crooks from &f/shop &7which give a boost when you break crops with them."	
+#		broadcast ""			
+#	else if {autobc::int} is 3:
+#		broadcast ""
+#		broadcast "&aSellhand."
+#		broadcast "&7Everybody has access to &f/sell hand &7to quickly and effectivly sell your crops."	
+#		broadcast ""   
+#	else if {autobc::int} is 4:
+#		broadcast ""
+#		broadcast "&aConsider joining our discord."
+#		broadcast "&7Want to stay informed on the latest server news? Consider joining us at &fhttps://discord.gg/X56Uwna&7."	
+#		broadcast "" 
+#	else if {autobc::int} is 5:
+#		broadcast ""
+#		broadcast "&aWant to play with friends?"
+#		broadcast "&7Use &f/plot merge &7to play with your friends."	
+#		broadcast ""												 
+#	else:
+#		set {autobc::int} to 0		
+#
+#on join:
+#	wait 3 seconds
+#	send "&7&m-------------------------------------"
+#	send "&aWelcome, &f%player%&a, &ato &a&lGr&2&low&a."
+#	send ""
+#	send "&f&o""Feel like playing with friends? Use &e&o/plot merge&f&o."""
+#	send ""
+#	send "&r &aServer IP: &fgrow.playerservers.com"
+#	send "&r &bDiscord: &fhttps://discord.gg/X56Uwna"
+#	send "&7&m-------------------------------------"
